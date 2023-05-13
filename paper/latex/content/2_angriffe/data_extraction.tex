@@ -1,0 +1,27 @@
+\section{Data Extraction Attacke}
+
+Bei der Data Extraction Attacke versucht ein Angreifer, Informationen eines Modells zu extrahieren, die gelernt wurden, obwohl dies (oftmals) nicht der Fall sein sollte \cite{P-87}.
+Der Angriff unterscheidet sich von der Model Inversion Attacke (Kapitel \ref{sec:model_inversion}) und von der Property Inference Attacke (Kapitel \ref{sec:property_inference}), indem Daten direkt aus dem Modell extrahiert werden und nicht anhand der Vorhersage des Modells nachgebildet werden.
+
+Carlini et al. \cite{P-87} beschrieben, dass konkrete Zeichenketten oder Werte, wie eine Kreditkartennummer oder eine Sozialversicherungsnummer, in einem Sprachmodell gelernt werden.
+Um dies zu evaluieren, wurde ein Sprachmodell mit dem Penn Treebank Datensatz trainiert, welcher ca. 5MB groß ist. 
+Zusätzlich wurde ein Satz eingefügt, welcher mit \textit{\dq My social security number is \dq} beginnt und anschließend eine Zahlenfolge beinhaltet.
+Die Funktionalität des Modells liegt darin, das nächste Wort oder Zeichen vorherzusagen, wenn eine Zeichenkette eingegeben wird.
+Anzumerken ist hierbei noch, dass dieses Modell signifikant kleiner als 5 MB ist, was folglich bedeutet, dass nicht alle Trainingsdaten in dem Modell gespeichert sein können.
+Die Experimente von Carlini et al. \cite{P-87} zeigen, dass dieses Modell die Zahlenfolge ungewollt gelernt hatte als mögliche Vorhersage ausgibt, wenn der oben genannte Satz als Input genutzt wird.
+
+In einem anderen Forschungsprojekt, ebenfalls unter der Leitung von Carlini, \cite{P-88} zeigen die Autoren eine Data Extraction Attacke am Beispiel des Sprachmodells GPT-2. 
+Dabei handelt es sich um ein Sprachmodell des Unternehmens OpenAI, welches der Vorgänger von ChatGPT (siehe Kapitel \ref{sec:introduction}) ist und Open Source zur Verfügung steht.
+Obwohl voller Zugriff auf das Modell besteht, wird lediglich die Ausgabe des Modells betrachtet. 
+Folglich bedeutet dies, dass der Angriff auf jedes Modell anwendbar wäre.
+Zur Durchführung des Angriffs wird lediglich ein Starttoken in das Modell eingegeben und anschließend vielfach das vorgeschlagene Folgewort gesammelt. 
+Wird dies lang genug gemacht, erhält man eine lange Tokenabfolgen, also quasi Sätze, die vom Modell gelernt wurden. 
+Dabei kann es sich um öffentliche Texte handeln, wie beispielsweise der Text der MIT Open Source Lizenz, aber auch private Daten wie Email-Adressen sind vorhanden.
+Diese Variation des Angriffs kann in gewissem Maße funktionieren, liefert jedoch oftmals gleiche Wortabfolgen und hat auch eine hohe False-Positive Rate.
+Carlini et al. \cite{P-88} variierten deshalb die Methodik, wie die Tokenabfolge gesammelt wird.
+Bevor GPT-2 das wahrscheinlichste Folgewort vorschlägt, werden die Wahrscheinlichkeiten in den Wertebereich (0,1) transformiert und so skaliert, dass diese Werte addiert 1 ergeben.
+Wird der Softmax Funktion ein Hyperparameter namens Temperatur > 1 mitgegeben, wird das Modell unsicherer und erhöht dadurch die Diversität der Vorhersagen des Modells.
+Neben dieser Temperatur wird eine zweite Verbesserung vorgeschlagen. 
+Anstatt nur einen Starttoken zu nutzen, werden die ersten Wörter von verschiedenen, öffentlichen Datenquellen genutzt.
+Mit diesen zwei Verbesserungen konnten mehr unterschiedliche Arten von Texten, die das Modell gelernt hat, extrahiert werden. 
+Neben Newsartikeln oder Forumsbeiträgen, befanden sich auch Kontaktdaten einiger Privatpersonen in diesen Tokenabfolgen.

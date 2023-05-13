@@ -1,0 +1,196 @@
+\documentclass[
+    11pt,
+    a4paper,
+    egregdoesnotlikesansseriftitles,
+    toc=chapterentrywithdots,
+    twoside,openright,
+    titlepage,
+    parskip=half,
+    headings=normal,  % reduces heading size
+    listof=totoc,
+    bibliography=totoc,
+    index=totoc,
+    captions=tableheading,  % caption below table
+    chapterprefix,
+    listof=flat,
+    final,
+    pointlessnumbers
+]{scrbook}
+
+
+% details about your thesis
+\newcommand{\titel}{Konzeption und Implementierung eines Frameworks zur Sicherung der Vertraulichkeit bei Neuronalen Netzen}
+\newcommand{\titelEN}{Conceptual Design and Implementation of a Framework for Ensuring Confidentiality in Neural Networks}
+\newcommand{\artderarbeit}{Masterarbeit}  % {Bachelorarbeit,Masterarbeit}
+\newcommand{\autor}{Sabau Patrick}
+\newcommand{\studiengang}{Künstliche Intelligenz}  % {Informatik,Wirtschaftsinformatik,Medieninformatik}
+\newcommand{\matrikelnr}{12913724}
+\newcommand{\erstgutachter}{{Prof.\,Dr.-Ing.~Christoph P. Neumann}}
+\newcommand{\zweitgutachter}{{Prof.\,Dr. rer. nat.~Daniel Loebenberger}}
+\newcommand{\betreuer}{}
+\newcommand{\unternehmen}{}
+\newcommand{\logo}{figures/TH-Nuernberg-RGB.png}
+\newcommand{\keywords}{machine, learning}
+ 
+
+% custom head and foot
+\usepackage[automark]{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\ihead{\headmark}
+\chead{}
+\ohead{\pagemark}
+\renewcommand*\chaptermarkformat{\chapappifchapterprefix{\ }% 
+  \thechapter.\enskip}
+
+
+
+
+% \RedeclareSectionCommand[tocindent=0pt]{section}
+% \RedeclareSectionCommand[tocindent=0pt]{subsection}
+% \RedeclareSectionCommand[tocnumwidth=70pt]{chapter}
+
+\usepackage{scrhack}
+
+% other packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,relsize,textcomp,csquotes}
+\usepackage{amsmath,amsfonts}
+\usepackage[ngerman]{babel} 
+\usepackage[final]{graphicx}
+\usepackage{setspace,geometry}
+\usepackage[pdftex,cmyk,fixpdftex,hyperref,table,xcdraw]{xcolor}
+\usepackage{makeidx}
+\usepackage{paralist,ifthen,todonotes}
+\usepackage{url}
+\usepackage[toc]{glossaries}
+\usepackage{pdfpages}
+
+%\usepackage{emptypage}
+
+% table setup
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{lscape}
+
+% pdf hyperref
+\usepackage[
+    bookmarks=true,
+    bookmarksopen=true,
+    bookmarksnumbered=true,
+    bookmarksopenlevel=1,
+    pdftitle={\titel},
+    pdfauthor={\autor},
+    pdfcreator={\autor},
+    pdfsubject={\titel},
+    pdfkeywords={\keywords},
+    pdfpagelabels=true,
+    colorlinks=true,
+    linkcolor=red,
+    urlcolor=magenta,
+    anchorcolor=black,
+    citecolor=cyan,
+    filecolor=magenta,
+    menucolor=red,
+    plainpages=false,
+    hypertexnames=true,
+    linktocpage=true,
+]{hyperref}
+
+
+% configure your listings style
+\usepackage{listings}
+\lstset{
+	tabsize=3,
+	extendedchars=true,
+	frame=single,
+	showstringspaces=true,
+	numbers=left,
+	numberstyle=\small,
+	breakautoindent=true
+}
+
+\usepackage[
+    backend=biber,
+    style=ieee,
+    natbib=true,
+    url=false,
+    doi=true
+]{biblatex}
+\addbibresource{refs.bib}
+
+% page setup
+% \setlength{\topskip}{\ht\strutbox}
+\geometry{paper=a4paper,left=2.5cm,top=3.0cm,bindingoffset=.8cm}
+\onehalfspacing
+\frenchspacing
+\clubpenalty = 10000
+\widowpenalty = 10000 
+\displaywidowpenalty = 10000
+
+% some commands
+\newcommand{\ua}{\mbox{u.\,a.\ }}
+\newcommand{\zB}{\mbox{z.\,B.\ }}
+\newcommand{\dahe}{\mbox{d.\,h.,\ }}
+\newcommand{\bzw}{\mbox{bzw.\ }}
+\newcommand{\bzgl}{\mbox{bzgl.\ }}
+\newcommand{\eg}{\mbox{e.\,g.\ }}
+\newcommand{\ie}{\mbox{i.\,e.\ }}
+\newcommand{\wrt}{\mbox{w.\,r.\,t.\ }}
+\newcommand{\etal}{\mbox{\emph{et.\,al.\ }}}
+
+
+% load glossary entries
+\makenoidxglossaries
+\loadglsentries{glossary}
+
+\begin{document}
+
+\setcounter{secnumdepth}{3}  % numerate subsections
+\setcounter{tocdepth}{2}  % ...but don't include them in toc
+
+\frontmatter
+
+\include{cover}\cleardoublepageusingstyle{empty}
+
+
+\include{formblatt_selbststaendigkeitserklaerung}\cleardoublepageusingstyle{empty}
+
+\include{content/0_abstract}\cleardoublepageusingstyle{empty}
+
+\tableofcontents
+
+\mainmatter
+\include{content/1_einleitung}
+\include{content/2_angriffe_gegen_ml}
+\include{content/3_methoden}
+\include{content/4_konzeption}
+\include{content/5_implementierung}
+\include{content/6_evaluierung}
+\include{content/7_diskussion}
+
+
+% remove if not needed
+%\appendix
+%\include{content/a1_supplemental}
+
+\backmatter
+\listoffigures
+\cleardoublepage
+
+\listoftables
+\cleardoublepage
+
+\renewcommand{\lstlistlistingname}{Auflistungen}  % change for German thesis
+\lstlistoflistings
+\cleardoublepage
+
+%\nocite{*}
+%\bibliographystyle{ieeetr}
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\printbibliography
+\printnoidxglossaries
+
+\end{document}

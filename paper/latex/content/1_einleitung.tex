@@ -1,0 +1,28 @@
+\chapter{Einleitung}\label{sec:introduction}
+
+Machine Learning ist spätestens seit der Veröffentlichung von ChatGPT\footnote{https://openai.com/blog/chatgpt} im Mainstream angelangt. 
+Dabei handelt es sich um einen Chatbot des Unternehmens OpenAI, welcher mittels natürlicher Sprache mit Nutzern kommuniziert und eine Vielzahl an Aufgaben bewältigen kann.
+Bereits nach zwei Monaten nutzen über 100 Millionen verschiedene Personen den Chatbot und machen diesen damit zu der am schnellsten wachsenden Plattform überhaupt.
+Im Hintergrund von ChatGPT läuft ein sogenanntes Large Language Model, welches anhand von menschlichem Feedback optimiert wurde \cite{P-84}. 
+
+Jedoch ist Machine Learning bereits seit Jahren in vielen Produkten verankert.
+Die Venture Capital Gesellschaft FirstMark gibt ein Überblick über Unternehmen, die im Machine Learning Umfeld tätig sind und Produkte, die diese Technologien unterstützen \cite{I-4}.
+
+Eine Voraussetzung für diese Anwendungen sind Daten, viele Daten.
+Teilweise sind diese Daten privat.
+Diese werden von Unternehmen gesammelt und dazu genutzt, Produkte zu verbessern oder sogar neue Services zu entwickeln und anzubieten. 
+Beispielsweise nutzen Soziale Medien die Nutzerdaten, um die Reihenfolge von Beiträgen zu sortieren\footnote{https://github.com/twitter/the-algorithm}. 
+Jedoch sind diese Daten nicht immer sicher. 
+So wurde beispielsweise über 50 Millionen Profile des Sozialen Netzwerks Facebook ausgelesen, und anschließend wurden diese Personen in Bezug auf die US Wahl 2016 manipuliert \cite{I-2}.
+
+Das Bundesamt für Sicherheit in der Informationstechnik, kurz BSI, definiert das Schutzziel der Vertraulichkeit wie folgt \cite{bsi_it_grundschutz}: \textit{\dq Vertraulichkeit ist der Schutz vor unbefugter Preisgabe von Informationen. Vertrauliche Daten und Informationen dürfen ausschließlich Befugten in der zulässigen Wiese zugänglich sein\dq}. 
+Da Machine Learning Anwendungen, darunter auch Neuronale Netze, vertrauliche Daten zum Training als auch für eine Vorhersage nutzen, gilt es auch hier, das Schutzziel der Vertraulichkeit zu gewähren.
+Datenlecks, wie das Beispiel von Facebook \cite{I-2}, oder auch Sammelklagen gegen Machine Learning Modelle, wie das Beispiel GitHub Copilot \cite{I-5}, zeigen, dass hier allerdings noch Nachholbedarf besteht.
+
+Die folgende Arbeit geht auf die Frage ein, wie der Schutz der Vertraulichkeit mit der Nutzung von Daten in Neuronalen Netzen in Einklang gebracht werden kann.
+Dazu werden zuerst Angriffe beleuchtet, welche die Vertraulichkeit von Neuronalen Netzen gefährden.
+Anschließend wird eine Reihe von Maßnahmen aufgeführt, die das Ziel haben, die vorher genannten Angriffe unwirksam zu machen.
+Eine Menge dieser Maßnahmen wird anschließend in einem Framework namens PrivacyFlow gebündelt.
+Die Konzeption und Implementierung dieses Frameworks wird detailliert geschildert.
+Nach Zusammenfassen der Ergebnisse, kann eine Handlungsempfehlung erstellt werden.
+Zum Abschluss der Arbeit werden offene Probleme der Forschung genannt und wie diese möglicherweise in Zukunft gelöst werden.
