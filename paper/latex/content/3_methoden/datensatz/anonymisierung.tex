@@ -1,5 +1,5 @@
 %\subsection{Elimination}
-\subsection{Anonymisierung}
+\subsection{Anonymisierung}\label{sec:anonymisierung}
 
 Bei der Anonymisierung von Daten geht es darum, identifizierende Eigenschaften zu entfernen oder unkenntbar zu machen.
 Dabei soll dennoch ein gewisser Nutzen erhalten bleiben. 
@@ -56,7 +56,7 @@ Dabei gibt es 3 Grundvarianten laut Machanavajjhala et al., wie \textit{\dq gut 
 \begin{compactitem}
 \item \textbf{Unterscheidbare \textit{l}-Diversität:} Bei dieser Variante, hat ein Block \textbf{l} unterschiedliche Werte eines sensiblen Attributes. Ein Block ist daher immer mindestens 1-divers, da dies bedeutet, dass das sensible Attribute immer den gleichen Wert annimmt.
 \item \textbf{Entropie \textit{l}-Diversität:} Hier wird die Entropie der sensiblen Attribute eines Blocks berechnet. Dabei ist ein Block \textit{l}-divers, wenn die Entropie $\ge$ log(\textit{l}) ist. Folglich ist 1-Diversität dabei immer gegeben.
-\item \textbf{Rekursive (c,\textit{l})-Diversität:} Diese Definition besagt, dass das häufigste sensible Attribut eines Blocks, seltener vorkommt, als die Anzahl der restlichen Attribute, multipliziert mit einem konstanten Wert c. Folglich darf kein sensibles Attribut zu oft vorkommen. Ein Block ist dabei (c, \textit{l})-divers, wenn $\textbf{l} - 1$ verschiedene einzigartige Attribute entfernt werden können und die Bedingung immernoch erfüllt ist.
+\item \textbf{Rekursive (c,\textit{l})-Diversität:} Diese Definition besagt, dass das häufigste sensible Attribut eines Blocks, seltener vorkommt, als die Anzahl der restlichen Attribute, multipliziert mit einem konstanten Wert c. Folglich darf kein sensibles Attribut zu oft vorkommen. Ein Block ist dabei (c, \textit{l})-divers, wenn $\textit{l} - 1$ verschiedene einzigartige Attribute entfernt werden können und die Bedingung immernoch erfüllt ist.
 \end{compactitem}
 
 Je nach Datensatz, kann es Sinn ergeben, einige Ausnahmen zu erlauben.
