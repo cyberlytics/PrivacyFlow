@@ -7,15 +7,16 @@ Ziel dabei ist es, Zugriff auf einen Datensatz zu ermöglichen, der sowohl nütz
 Differential Privacy kann dabei an 3 unterschiedlichen Stellen der Machine Learning Pipeline genutzt werden:
 \begin{compactitem}
 \item \textbf{Vorbereitung der Trainingsdaten:} Diese Methodik wird folgend in diesem Kapitel erläutert.
-\item \textbf{Trainingsalgorithmus:} Kapitel \ref{sec:dp_training} beschreibt, welche Anpassung am Trainingsalgorithmus vorgenommen werden müssen, damit dieser Differential Privacy nutzen kann.
-\item \textbf{Vorhersage des Modells:} Wie der Output des Modells durch Nutzung von Differential Privacy geschützt werden kann, wird durch Kapitel \ref{sec:dp_output} dargestellt.
+\item \textbf{Trainingsalgorithmus:} Kapitel \ref{sec:dp_training} beschreibt, welche Anpassungen am Trainingsalgorithmus vorgenommen werden können, um Differential Privacy zu gewährleisten.
+\item \textbf{Vorhersage des Modells:} Bevor die Vorhersage des Modells weitergeleitet wird, könnte diese verrauscht werden. Kapitel \ref{sec:betrieb} stellt dieses Vorgehen vor.
 \end{compactitem}
 
 
 Differential Privacy laut Dwork \cite{P-26} sorgt dafür, dass die gleiche Anfrage auf zwei unterschiedlichen Datensätze, die in höchstens einem Datenpunkt voneinander abweichen, keine signifikant unterschiedlichen Ergebnisse aufweise. 
 Um dies zu erreichen, wird den Anfragen ein zufälliges Rauschen hinzugefügt. 
 Dadurch handelt es sich bei Abfragen um randomisierte Funktionen.
-Die Größe des Unterschied der gleichen Abfrage auf zwei Datensätze, die sich in höchstens einem Eintrag unterscheiden, kann durch einen Wert $\epsilon$ dargestellt werden.
+Die Größe des Unterschied der gleichen Abfrage auf zwei Datensätze, die sich in höchstens einem Eintrag unterscheiden, kann durch einen Wert $\epsilon$ dargestellt werden. 
+Dieser Wert wird auch Privacy Budget genannt.
 
 Formal lautet die Definition von $\epsilon$-Differential Privacy wie folgt \cite{P-26}:\\
 \textit{
@@ -101,7 +102,7 @@ Um ($\epsilon$,0)-Differential Privacy zu erreichen, muss die Ausgabe einer Abfr
 
 
 Eine Abwandlung des Laplace-Mechanismus ist es, anstatt der Laplace-Verteilung, eine Gaußverteilung zu nutzen. Die Dichtefunktion dieser lautet:
-\begin{equation}
+\begin{equation}\label{formula:gauß}
     Gau\text{\textit{ß}}(x|b) = \frac{1}{b\sqrt{2\pi}}\times e^{-\frac{1}{2}(\frac{x}{b})^2}
 \end{equation}
 Der Gauß-Mechanismus liefert ($\epsilon$,$\delta$)-Differential Privacy, wenn $b = \Delta f \frac{\text{ln}(1/\delta)}{\epsilon}$ ist.

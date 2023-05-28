@@ -28,12 +28,20 @@ Kapitel \ref{sec:training_modells} stellt verschiedene Methoden vor, die bei der
 
 Schritt 2 umfasst die Architektur eines Modells.
 Je nach Anwendungsfall und Komplexität der Aufgabe, werden unterschiedliche Konfigurationen der einzelnen Schichten vorgenommen.
+Dabei werden die Gewichte zufällig oder anhand einer Verteilung initialisiert.
 In der Abbildung wird dies durch ein rotes Modell angezeigt, da Gewichte des Modell zufällig (oder anhand einer Verteilung) initialisiert sind, und noch keine sinnvolle Vorhersage getroffen werden kann.
-Schritt 3 ist der tatsächliche Trainingsvorgang, bei dem das Modell lernt.
-Grafisch wird dies durch den Verbund des Dokuments und des untrainierten, roten Modells dargestellt. 
+Schritt 3 ist der tatsächliche Trainingsvorgang, bei dem das untrainierte Modell lernt.
+Grob lässt sich das Training in folgende Schritte einteilen, die mehrfach mit jedem Datenpunkt durchgeführt werden können:
+\begin{compactenum}
+\item Ein Datenpunkt oder ein mehrere Datenpunkte (Batch) werden durch das Modell gegeben und die Vorhersage berechnet. Die Abweichung von der tatsächlichen Vorhersage zu dem Label des Datenpunktes wird mittels einer Verlustfunktion quantifiziert.
+\item Mittels des Wertes der Verlustfunktion lassen sich Gradienten für die Gewichte des Neuronalen Netzes berechnen. Diese können dazu genutzt werden, die aktuellen Gewichte anzupassen. Dieser Schritt wird Backpropagation genannt.
+\end{compactenum}
+Ein Durchgang der obigen Schritte mit jedem Datenpunkt wird dabei Epoche genannt. 
+Um den Trainingsfortschritt zu beobachten, kann eine Epoche zusätzlich auch eine Evaluierung mittels eines Validierungsdatensatzes enthalten.
+Grafisch wird das Training durch den Verbund des Dokuments und des untrainierten, roten Modells dargestellt. 
 Es entsteht ein grünes Modell, welches in der Lage ist, sinnvolle Vorhersagen zu erzeugen.
 In der Praxis gibt es hier einige Iterationen des Training, welche zusätzliche Vorgänge, wie beispielsweise eine Validierung, enthalten. 
-Kapitel \ref{sec:training_modells} widmet sich Methoden, die während der Training, welche aus Schritt 2 und 3 besteht, angewendet werden.
+Kapitel \ref{sec:training_modells} widmet sich Methoden, die während des Trainings, welche aus Schritt 2 und 3 besteht, angewendet werden.
 
 Schritt 4 und 5 beschreiben das Deployment und den Betrieb des Modells. 
 Dieses soll für vorgesehene Anwender erreichbar sein. 

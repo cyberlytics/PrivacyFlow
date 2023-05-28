@@ -1,1 +1,16 @@
 \subsection{Training mit Differential Privacy}\label{sec:dp_training}
+
+Nachdem Kapitel \ref{sec:dp} bereits zeigt, wie Differential Privacy definiert wird und bei der Vorverarbeitung von Daten genutzt werden kann, behandelt das folgende Kapitel, wie Differential Privacy während des Trainings genutzt werden kann.
+
+Abadi et al. \cite{P-28} zeigen, wie der Trainingsalgorithmus angepasst wird, um Differential Privacy zu unterstützen.
+Die Methode trägt den Namen Differentially private SGD oder auch DPSGD.
+Ein Trainingsschritt mittels DPSGD sieht dabei wie folgt aus:
+\begin{enumerate}
+    \item Die Gradienten werden mittels der Verlustfunktion berechnet. Dies gleicht dem Training ohne Differential Privacy.
+    \item Die maximale Größe der Gradienten wird beschränkt. Dies liegt daran, dass Gradienten potenziell beliebig groß werden könnten, jedoch für die Berechnung des Privacy Budget die maximale Änderung der Funktion, die Sensitivität $\Delta f$, benötigt wird. Diese entspricht der maximalen Größe der Gradienten quadriert.
+    \item Anschließend werden die Gradienten durch den Gauß-Mechanismus verrauscht. 
+    \item Die Anpassung der Gewichte erfolgt in die umgekehrte Richtung der Gradienten, skaliert mit einer Lernrate. Dies gleicht ebenfalls dem normalen Trainingsvorgehen.
+\end{enumerate}
+
+Entsprechend der Parameter des Gauß-Mechanismus (Formel \ref{formula:gauß} in Kapitel \ref{sec:dp}), kann gezeigt werden, dass jeder Schritt ($\epsilon$,$\delta$)-Differential Privacy erfüllt.
+Zusätzlich integrieren die Autoren eine Methode, Moments Accountant, welche den Verlust des Privacy Budgets über den Trainingsprozess überwacht.
