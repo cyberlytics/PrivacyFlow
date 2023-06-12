@@ -1,4 +1,67 @@
-\subsection{Federated Learning}
-% \subsubsection{Local Differential Privacy}
-% \subsubsection{Garbled Circuits}
-% \subsubsection{Additive Masks}
+\subsection{Verteiltes Lernen}\label{sec:verteiltes_lernen}
+
+Das Verteilte Lernen bietet einige besondere Herausforderungen, die bereits in Kapitel \ref{sec:angriffe_verteiltes_lernen} betrachtet wurden. 
+Einige bereits beschriebene Methoden lassen sich problemlos auf das Verteilte Lernen anwenden.
+Sollen beispielsweise die Daten der einzelnen Teilnehmer geteilt werden, so ist es möglich, diese mit den Methoden aus Kapitel \ref{sec:aufbereitung_datensatz} vorzuverarbeiten.
+Jedoch gibt es auch spezielle Methoden, die auf das Verteilte Lernen ausgerichtet sind.
+Im Folgenden werden einige davon genauer beschrieben.
+
+\subsubsection*{Distributed Selective SGD}
+Shokri und Shmatikov \cite{P-78} stellen eine Methode vor, bei welcher mehrere Teilnehmer gleichzeitig ein Modell trainieren, ohne dabei die Daten untereinander zu teilen.
+Diese wird Distributed Selective Stochastic Gradient Descent oder auch Distributed Selective SGD genannt.
+Das Modell liegt dabei auf einem zentralen Server.
+Bei der ersten Iteration laden die Teilnehmer das gesamte Modell herunter, bei weiteren Iterationen nur eine festgelegte Anzahl der am meisten geupdateten Parametern (Gewichte).
+Dadurch soll vermieden werden, dass Overfitting auf den Daten eines einzelnen Teilnehmers auftritt.
+Die heruntergeladenen Parameter ersetzen die alten Parameter an der entsprechenden Stelle im lokalen Modell.
+Anschließend wird dieses lokale Modell mit den eigenen Daten trainiert und im Nachhinein eine festgelegte Menge an Gradienten übertragen. 
+Diese können dabei entweder randomisiert ausgewählt werden, oder möglichst nach Größe sortiert werden.
+Alle Teilnehmer wählen die zu teilenden Gradienten mit der gleichen Strategie aus und behalten diese über den Trainingsprozess bei.
+Zusätzlich ist es möglich, die Gradienten vor dem Teilen noch mit in der Größe zu begrenzen oder Rauschen mittels Differential Privacy hinzuzufügen.
+Durch das eingeschränkte Teilen der Gradienten werden so wenig Information wie nötig geteilt, jedoch ist die Güte des Modells kaum schlechter als bei normalem Training.
+Die Autoren begründen dies damit, dass das lokale Modell lokale Minima durch das Ersetzen von Parametern aus dem geteilten Modell verlassen kann und so weiter eher Richtung globales Minimum konvergiert. 
+Zwei Parameter steuern dabei die Performance des Modells beim Training mit Distributed Selective SGD: sas Privacy Budget $\epsilon$ und die Anzahl der zu teilenden Gradienten.
+Werden mehr Gradienten nach jedem Schritt von jedem Teilnehmer geteilt, kann das Privacy Budget $\epsilon$ niedriger angesetzt werden, um dennoch eine nahezu identische Güte im Vergleich zu einem normal trainierten Modell zu erhalten.
+
+\subsubsection*{Aggregation}
+\cite{P-36}
+
+\subsubsection*{Kryptografische Methoden}
+
+Takabi et al. \cite{P-104} nutzen Homomorphe Verschlüsselung, um ein Modell zu trainieren, welches Daten von mehreren Teilnehmern nutzen kann. 
+Die Funktionsweise der Methode mit einem Teilnehmer wurde bereits in Kapitel \ref{sec:homomorphe_verschlüsselung} beschrieben.
+Diese lässt sich problemlos auf mehrere Teilnehmer erweitern, indem abwechselnd Daten jedes Teilnehmers verschlüsselt an den Server übertragen wird und diese für das Training des Modells mittels Homomorpher Verschlüsselung genutzt wird.
+Da Daten jeweils verschlüsselt sind, ist es nicht möglich, Daten anderer Teilnehmer zu extrahieren.
+
+Auch das auf Funktionaler Verschlüsselung basierende Framework CryptoNN\cite{P-53}, welches in Kapitel \ref{sec:funktionale_verschlüsselung} vorgestellt wurde, kann für Verteiltes Lernen genutzt werden. 
+Die Rolle des Clients können dabei mehrere Teilnehmer übernehmen, wohingegen die Autorität jedoch von einem separaten System übernommen werden muss. 
+Anschließend können auch bei dieser Methode abwechselnd Daten von verschiedenen Teilnehmern zum Trainieren genutzt werden.
+
+Bei der Secure Multi-Party Computation handelt es sich um einen Forschungsbereich mit dem Ziel, dass Teilnehmer gemeinsam eine Funktion berechnen können, ohne dass die einzelnen Eingabewerte aufgedeckt werden. 
+Methoden dieses kryptografischen Forschungsgebiets können auch für Neuronale Netze genutzt werden.
+
+Rouhani et al. \cite{P-71} stellten ein Framework namens DeepSecure vor, welches Oblivious Transfer, zu Deutsch vergessliche Übertragung, und Garbled Circuits, zu Deutsch verdrehte Schaltkreise, nutzt.
+Oblivious Transfer ist ein kryptografisches Protokoll zwischen einem Sender und einem Empfänger, bei dem der Empfänger einen Index zwischen 1 und $n$ auswählt und der Sender die Nachricht mit dem entsprechenden Index übermittelt. 
+Der Sender weiß dabei jedoch nicht, welcher Index ausgewählt wurde.
+Diese Methodik wird auch 1-aus-$n$ Oblivious Transfer genannt.
+Garbled Circuits ist ebenfalls ein Protokoll, bei der eine Funktion als Boolescher Schaltkreis mit zwei Eingabegattern dargestellt wird.
+Dabei erstellt einer der beiden Teilnehmer, hier Alice genannt, Wahrheitstabellen zu jedem Logikgatter des Schaltkreises. 
+Die Inputs sind dabei nicht 0 und 1, sondern jeweils eine Folge von $k$ randomisierten Bits, welche 0 und 1 kodieren.
+Die Ergebnisspalte dieser Wahrheitstabellen verschlüsselt Alice anschließend mit den beiden Inputs, sodass dies nur mit den beiden Inputs wieder entschlüsselt werden kann. 
+Zusätzlich wird die Reihenfolge der Zeilen randomisiert, damit aufgrund der Reihenfolge keine Rückschlüsse gewonnen werden können. 
+Dieser Schritt wird Garbling genannt und die entstandenen Tabellen sind sogenannte Garbled Tabellen.
+Anschließend überträgt Alice die Garbled Tabellen an den zweiten Teilnehmer, hier Bob.
+Mittels 1-aus-2 Oblivious Transfer wählt Bob eine von zwei Nachrichten aus, wobei der Index seinem Input entspricht und die zwei Nachrichten die kodierten Labels von Alice sind.
+Die erhaltene Nachricht und das eigene Label können nun genutzt werden, um die Ergebnisspalte einer Garbled Tabelle zu entschlüsseln.
+Bob führt dies für jedes Gatter des Schaltkreises aus.
+Am Ende erhält Bob den Output des letzten Gatters, welchen jedoch einer der randomisierten Bitfolgen ist. 
+Er übermittelt diesen an Alice und erhält dadurch den entsprechenden 0 oder 1 Wert.
+
+DeepSecure wenden Garbled Circuits auf Neuronale Netze an.
+Alice würde in diesem Fall die Daten besitzen und Bob das Modell, welches trainiert wird.
+Der Feedforward Schritt würde dabei durch einen Booleschen Schaltkreis aus XOR und XNOR Gattern implementiert werden, wodurch die Berechnung der Vorhersage erfolgt.
+Dadurch kann Bob den Wert der Verlustfunktion und anschließend der Gradienten bestimmen, ohne die Daten von Alice zu kennen.
+Alice würde jedoch auch nicht die genauen Gewichte des Modells kennen.
+Allerdings ist die Anzahl an benötigten Gattern, um ein Neuronales Netz darzustellen, enorm.
+Einige Operationen, wie die Anwendung einer Aktivierungsfunktion, benötigt mehrere tausende Gatter.
+Jedes dieser Gatter sorgt ebenfalls dafür, dass eine Menge an Daten übertragen werden muss.
+Ein Neuronales Netz, welches $28\times28$ Pixel Bilder als Input nimmt, zwei Hidden Layers mit 300 und 100 Knoten (Sigmoid Aktivierungsfunktion) besitzt und eine Softmax Output Layer mit 10 Knoten hat, würde circa 171.300.000 Gatter ausmachen und in einem Feedforward Schritt ungefähr 2 Gigabyte an Daten übertragen.

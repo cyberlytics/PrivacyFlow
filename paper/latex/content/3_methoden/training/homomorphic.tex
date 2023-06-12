@@ -1,6 +1,6 @@
-\subsection{Homomorphe Verschlüsselung}
+\subsection{Homomorphe Verschlüsselung}\label{sec:homomorphe_verschlüsselung}
 
-Homomorphe Verschlüsselung ermöglicht die Berechnung auf verschlüsselten Daten. Dadurch können Daten beispielsweise in der Cloud verarbeitet werden, ohne dass es dem Anbieter des Services möglich ist, die Vertraulichkeit der Daten zu gefährden.
+Homomorphe Verschlüsselung ist eine Methodik, um Berechnung auf verschlüsselten Daten durchführen zu können. Dadurch können Daten beispielsweise in der Cloud verarbeitet werden, ohne dass es dem Anbieter des Services möglich ist, die Vertraulichkeit der Daten zu gefährden.
 
 Ein Homomorphismus in der Algebra bezeichnet eine strukturerhaltende Abbildung einer Mengen $G$ in eine andere Menge $H$.
 Dabei hat jedes Element $g \in G $ mindestens ein Bild $h \in H$ und die Relationen der Elemente $g \in G$ zueinander, finden sich auch in H wieder \cite{B-2}.
@@ -49,7 +49,35 @@ Dabei wird der Geheimtext ein zweites Mal verschlüsselt, sodass dieser doppelt 
 Anschließend kann mittels des verschlüsselten Schlüssels die ursprüngliche Verschlüsselung homomorph herausgerechnet werden. 
 Dadurch wird das Rauschen den Verschlüsselungssystems zurückgesetzt und eine weitere Berechnung ist möglich. 
 Kann das ursprünglich eingeschränkte homomorphe Verschlüsselungssystem die homomorphe Entschlüsselung und eine weitere Operation durchführen, dann kann es mittels Bootstrapping zu einem vollständig homomorphen System umgewandelt werden.
-Van Dijk et al. \cite{P-100} tauschten die auf Gittern basierte Verschlüsselung durch eine auf Ganzzahlen basierte, eingeschränkt homomorphe Verschlüsselung aus.
+So tauschten Van Dijk et al. \cite{P-100} die auf Gittern basierte Verschlüsselung durch eine auf Ganzzahlen basierte, eingeschränkt homomorphe Verschlüsselung aus. 
+
+Brakerski und Vaikuntanathan \cite{P-101} verbesserten die Effizienz des bereits geschilderten Ansatzes.
+Sie nutzen eine eingeschränkte homomorphe Verschlüsselung auf Basis des Lernen mit Fehlern (Learning with errors) Problems zusätzlich zu einem Relinearisierungsschritt.
+Dieser zusätzliche Schritt reduziert die Größe des Geheimtextes, wodurch die homomorphe Entschlüsselung beim Bootstrapping vereinfacht wird.
+
+Gentry et al. \cite{P-102} stellten eine weitere vollständig homomorphe Verschlüsselung auf Basis des Lernen mit Fehlern Problems vor.
+Die darin eingesetzte, eingeschränkt homomorphe Verschlüsselung stellt den Geheimtext als eine Matrix dar.
+Die Dimension der Matrix bleibt bei jeder homomorphen Operation gleich und wächst dadurch nicht.
+Dies ermöglicht, den Relinearisierungsschritt zu entfernen.
+Bei dem Bootstrapping bisheriger Algorithmen, musste der verschlüsselte Schlüssel oder der Public Key des Nutzers mitgeschickt werden.
+Bei diesem Ansatz ist es jedoch möglich, alleine mit dem Geheimtext Operationen durchzuführen, die anschließend nur der Nutzer entschlüsseln kann.
+
+
+Theoretisch wäre das Training eines Neuronalen Netzes mittels vollständiger homomorpher Verschlüsselung möglich, jedoch ist es nicht praktikabel. 
+Das Training besteht aus vielen Berechnungsschritten (Inferenze, Berechnen der Verlustfunktion, Gradientenberechnung, Anpassen der Gewichte), welche mit der Größe des Neuronalen Netzes ansteigt.
+So wird bereits bei einem Neuronales Netz mit Konvolutions und insgesamt 7 Schichten, die Trainingszeit auf einer gewöhnlichen CPU, von ungefähr einer Stunde auf ein ganzes Jahr erhöht\cite{P-103}.
+Eine Alternative ist es, keine vollständige sondern nur eingeschränkte homomorphe Verschlüsselung zu nutzen.
+Takabi et al. \cite{P-104} zeigen wie dies möglich ist.
+Um das Problem der begrenzten Anzahl an Berechnungen von eingeschränkter homomorphen Verschlüsselung zu umgehen, wird ein zusätzlicher Schritt eingeführt. 
+Wird das Rauschen der Verschlüsselung zu groß und überschreitet einen festgelegten Schwellenwert, muss der aktuelle Zustand entschlüsselt und neu verschlüsselt werden.
+Dadurch wird das Rauschen zurückgesetzt, ohne dass Bootstrapping nötig ist.
+Dies ermöglicht es, andere Verschlüsselungssysteme zu nutzen, die performanter sind.
+
+
+Neben dem Training eines Modells, gibt es eine Vielzahl an Techniken, die Homomorphe Verschlüsselung nur bei der Inferenz der Neuronalen Netze nutzt. 
+Diese werden in Kapitel \ref{sec:krypto_inferenz} genauer beschrieben.
+Alternativ kann Homomorphe Verschlüsselung beim Verteilten Lernen eingesetzt werden, was in Kapitel \ref{sec:verteiltes_lernen} beleuchtet wird. 
+
 
 
 

@@ -1,1 +1,53 @@
-\subsection{Functional Encryption}
+\subsection{Funktionale Verschlüsselung}\label{sec:funktionale_verschlüsselung}
+
+Eine weitere Methodik, Berechnungen auf verschlüsselten Daten durchzuführen, ist die sogenannte Funktionale Verschlüsselung.
+Diese wurde 2011 von Boneh et al.\cite{P-44} vorgestellt.
+Funktionale Verschlüsselung erlaubt es, eine Funktion $f$ eines Klartextes zu berechnen, wobei nur der Geheimtext als Input der Funktion genutzt wird.
+Dies geschieht in vier Schritten\cite{P-44}:
+\begin{compactenum}
+    \item \textbf{Setup: } In einem Vorbereitungsschritt wird ein Public Key $pk$ und ein Master Secret Key $msk$ erzeugt.
+    \begin{equation*}
+        (pk, msk) \xleftarrow{} Setup
+    \end{equation*}
+    \item \textbf{Schlüsselgenerierung: } Der Master Secret Key kann nun genutzt werden, um einen spezifischen Secret Key $sk$ für eine definierte Funktion $f$ zu erzeugen.
+    \begin{equation*}
+        sk \xleftarrow{} Keygen(msk, f)
+    \end{equation*}
+    \item \textbf{Verschlüsselung: } Der Public Key $pk$ wird genutzt, um den Klartext $x$, auf welchem die Berechnung durchgeführt werden soll, zu verschlüsseln.
+    \begin{equation*}
+        c \xleftarrow{} Enc(pk,x)
+    \end{equation*}
+    \item \textbf{Entschlüsselung: } Die Entschlüsselung des Geheimtextes $c$ mittels des spezifischen Secret Key $sk$ entspricht hierbei der Berechnung der Funktion $f$ mit dem Parameter $x$.
+    \begin{equation*}
+        f(x) \xleftarrow{} Dec(sk,c)
+    \end{equation*}
+\end{compactenum}
+
+Die ersten Ansätze um Funktionale Verschlüsselung und Neuronalen Netze zu verbinden, fokussierten sich auf die Inferenz der Modelle, welche in Kapitel \ref{sec:krypto_inferenz} genauer betrachtet werden.
+Ein Framework für das Training des Modells mit dem Namen CryptoNN wurde jedoch von Xu et al. \cite{P-53} vorgestellt.
+Dieses ermöglicht, ein Modell auf einem fremden Server (Cloud) zu trainieren, ohne dass der Provider Einblick in die Daten erhält.
+Dabei wird eine Funktionale Verschlüsselung genutzt, welche die Berechnung des Skalarprodukts und zusätzlich auch die Grundrechenarten (Addition, Subtraktion, Multiplikation und Division) von zwei Vektoren elementweise ermöglicht.
+Kombiniert ermöglicht dies, alle notwendigen Berechnungen beim Training des Modells durchzuführen.
+CryptoNN führt dabei 3 Rollen ein: Autorität, Client und Server. 
+Dabei ist es auch möglich, dass es mehrere Clients gibt, die zusammen ein Modell trainieren.
+Gibt es jedoch nur einen Client, so übernimmt dieser auch die Rolle der Autorität.
+Die Autorität ist dafür zuständig, einen Master Secret Key $msk$ und einen Public Key $pk$ zu erzeugen, den Public Key $pk$ an den Client zu verteilen und bei Bedarf spezifische Secret Keys $sk_n$ zu erzeugen und an den Server weiterzugeben.
+Der Client ist Besitzer der Daten und verschlüsselt diese vor der Übergabe an den Server mit dem Public Key $pk$. 
+Der Server führt das tatsächliche Training des Modells durch.
+Beim Feedforward Schritt wird Funktionale Verschlüsselung zur Berechnung der Neuronen der ersten Hidden Layer genutzt.
+Dafür fordert der Server einen spezifischen Secret Key $sk_n$ an, der die Berechnung der ersten Schicht ermöglicht.
+Der restliche Feedforward Schritt erfolgt unverschlüsselt.
+Wenn der Client auch das Label verschlüsselt, kann die Berechnung der Verlustfunktion für jedes Output Neuron ebenfalls verschlüsselt erfolgen.
+Abbildung \ref{fig:cryptonn} zeigt das CryptoNN Framework.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=15cm]{figures/cryptoNN}
+    \caption{CryptoNN Framework \cite{P-53}}
+    \label{fig:cryptonn}
+\end{figure} 
+
+Ein Problem des CryptoNN Frameworks ist jedoch, dass davon ausgegangen wird, dass der Server kein Angreifer ist, der effektiv versucht Daten zu extrahieren.
+Ansonsten könnte dies dazu führen, dass der Server diverse White-Box Angriffe (Kapitel \ref{sec:angriffe}) durchführen könnte, da das Modell unverschlüsselt vorliegt.
+Die Methodik ist demnach darauf ausgelegt dafür zu sorgen, dass Clients Daten verschlüsselt übertragen können und diese nicht beispielsweise von dem Cloud Provider mitgelesen werden können.
+

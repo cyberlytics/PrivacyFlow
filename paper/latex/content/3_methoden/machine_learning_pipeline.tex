@@ -33,8 +33,8 @@ In der Abbildung wird dies durch ein rotes Modell angezeigt, da Gewichte des Mod
 Schritt 3 ist der tatsächliche Trainingsvorgang, bei dem das untrainierte Modell lernt.
 Grob lässt sich das Training in folgende Schritte einteilen, die mehrfach mit jedem Datenpunkt durchgeführt werden können:
 \begin{compactenum}
-\item Ein Datenpunkt oder ein mehrere Datenpunkte (Batch) werden durch das Modell gegeben und die Vorhersage berechnet. Die Abweichung von der tatsächlichen Vorhersage zu dem Label des Datenpunktes wird mittels einer Verlustfunktion quantifiziert.
-\item Mittels des Wertes der Verlustfunktion lassen sich Gradienten für die Gewichte des Neuronalen Netzes berechnen. Diese können dazu genutzt werden, die aktuellen Gewichte anzupassen. Dieser Schritt wird Backpropagation genannt.
+\item \textbf{Feedforward: }Ein Datenpunkt oder ein mehrere Datenpunkte (Batch) werden durch das Modell gegeben und die Vorhersage berechnet. Die Abweichung von der tatsächlichen Vorhersage zu dem Label des Datenpunktes wird mittels einer Verlustfunktion quantifiziert.
+\item \textbf{Backpropagation: }Mittels des Wertes der Verlustfunktion lassen sich Gradienten für die Gewichte des Neuronalen Netzes berechnen. Diese können dazu genutzt werden, die aktuellen Gewichte anzupassen. 
 \end{compactenum}
 Ein Durchgang der obigen Schritte mit jedem Datenpunkt wird dabei Epoche genannt. 
 Um den Trainingsfortschritt zu beobachten, kann eine Epoche zusätzlich auch eine Evaluierung mittels eines Validierungsdatensatzes enthalten.

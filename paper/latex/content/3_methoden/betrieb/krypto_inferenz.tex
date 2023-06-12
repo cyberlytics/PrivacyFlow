@@ -1,0 +1,36 @@
+\subsection{Kryptografische Inferenz}\label{sec:krypto_inferenz}
+
+Wird ein Modell auf einen fremden Server (beispielsweise in einer Cloud) deployed, wäre es möglich, dass der Provider des Servers Informationen über die Daten, die zur Vorhersage genutzt werden, herausfindet.
+Dies wird sowohl durch Homomorphe Verschlüsselung als auch durch Funktionale Verschlüsselung verhindert.
+Beide Methoden sorgen dafür, dass Daten verschlüsselt in das Modell gegeben werden, sodass sich diese Daten zu keinem Zeitpunkt unverschlüsselt auf dem fremden Server befinden.
+%Ein Unterschied der beiden Methoden liegt jedoch darin, dass bei der Funktionalen Verschlüsselung das Label unverschlüsselt vorliegt, wohingegen bei der Homomorphen Verschlüsselung dieses verschlüsselt existiert.
+
+\subsubsection*{Inferenz mittels Homomorpher Verschlüsselung}
+
+\subsubsection*{Inferenz mittels Funktionaler Verschlüsselung}
+% Dufour-Sans et al. \cite{P-105} zeigen, dass es möglich ist, Neuronale Netze mittels Funktionaler Verschlüsselung zu interferieren. 
+% Um dies zu ermögliche, stellten die Autoren eine effiziente Funktionale Verschlüsselung auf Basis von Paarungsbasierter Kryptographie vor.
+
+% \subsubsection*{Secure Multi-Party Computation}
+
+% Bei der Secure Multi-Party Computation handelt es sich um einen Forschungsbereich mit dem Ziel, das Teilnehmer gemeinsam eine Funktion berechnen können, ohne dass die einzelnen Eingabewerte aufgedeckt werden. 
+% Methoden dieses kryptografischen Forschungsgebiets können auch für Neuronale Netze genutzt werden.
+
+% Rouhani et al. \cite{P-71} stellten ein Framework namens DeepSecure vor, welches Oblivious Transfer, zu Deutsch vergessliche Übertragung, und Garbled Circuits, zu Deutsch verdrehte Schaltkreise, nutzt.
+% Oblivious Transfer ist ein kryptografisches Protokoll zwischen einem Sender und einem Empfänger, bei dem der Empfänger einen Index zwischen 1 und $n$ auswählt und der Sender die Nachricht mit dem entsprechenden Index übermittelt. 
+% Der Sender weiß dabei jedoch nicht, welcher Index ausgewählt wurde.
+% Diese Methodik wir auch 1-aus-$n$ Oblivious Transfer genannt.
+% Garbled Circuits ist ebenfalls ein Protokoll, bei der eine Funktion als Boolescher Schaltkreis mit zwei Eingabegattern dargestellt wird.
+% Dabei erstellt einer der beiden Teilnehmer, hier Alice genannt, Wahrheitstabellen zu jedem Logikgatter des Schaltkreises. 
+% Die Inputs sind dabei nicht 0 und 1, sondern jeweils eine Folge von $k$ randomisierten Bits, welche 0 und 1 kodieren.
+% Die Ergebnisspalte dieser Wahrheitstabellen verschlüsselt Alice anschließend mit den beiden Inputs, sodass dies nur mit den beiden Inputs wieder entschlüsselt werden kann. 
+% Zusätzlich wird die Reihenfolge der Zeilen randomisiert, damit aufgrund der Reihenfolge keine Rückschlüsse gewonnen werden können. 
+% Dieser Schritt wird Garbling genannt und die entstandenen Tabellen sind sogenannte Garbled Tabellen.
+% Anschließend überträgt Alice die Garbled Tabellen an den zweiten Teilnehmer, hier Bob.
+% Mittels 1-aus-2 Oblivious Transfer wählt Bob eine von zwei Nachrichten aus, wobei der Index seinem Input entspricht und die zwei Nachrichten die kodierten Labels von Alice sind.
+% Die erhaltene Nachricht und das eigene Label können nun genutzt werden, um die Ergebnisspalte einer Garbled Tabelle zu entschlüsseln.
+% Bob führt dies für jedes Gatter des Schaltkreises aus.
+% Am Ende erhält Bob den Output des letzten Gatters, welchen jedoch einer der randomisierten Bitfolgen ist. 
+% Er übermittelt diesen an Alice und erhält dadurch den entsprechenden 0 oder 1 Wert.
+
+% DeepSecure 
