@@ -52,24 +52,18 @@ Wird nun Differential Privacy genutzt, wird ein zufälliges Rauschen über das E
 
 \subsubsection*{Eigenschaften von Differential Privacy}
 Das Ziel von Differential Privacy, die Vertraulichkeit eines Datenpunktes zu schützen und dennoch die Nützlichkeit des Datensatzes zu bewahren, wurde bereits zu Beginn des Kapitels geschildert.
-Jedoch bringt Differential Privacy eine Reihe weiterer nützlicher Eigenschaften mit sich\cite{P-27}:
+Jedoch bringt Differential Privacy eine Reihe weiterer nützlicher Eigenschaften mit sich \cite{P-27}:
 \begin{compactitem}
     \item \textbf{Gruppen Privacy:} Differential Privacy betrachtet zwei Datensätze, die sich in einem Punkt unterscheiden. Jedoch gelten die gleichen Regeln für Datensätze, die sich in mehreren Datenpunkten unterscheiden, wobei $\epsilon$ dabei mit der Anzahl der unterschiedlichen Datenpunkte multipliziert wird.
     \item \textbf{Resistenz gegen Nachbearbeitung:} Eine Anfrage, welche Differential Privacy nutzt, kann nicht im Nachgang so bearbeitet werden, dass die Privatsphäre weniger geschützt sei.
     \item \textbf{Quantifizierung der Vertraulichkeit:} Mit den Parametern $\epsilon$ und $\delta$ kann angegeben werden, wie stark die Vertraulichkeit der Daten geschützt wird.
-    \item \textbf{Zusammensetzung von Berechnungen:} Durch die Quantifizierung der Vertraulichkeit, können auch zusammengesetzte Berechnungen bewertet werden.
+    \item \textbf{Zusammensetzung von Berechnungen:} Durch die Quantifizierung der Vertraulichkeit, können auch zusammengesetzte Berechnungen bewertet werden. Wird ein Schritt mit festgelegtem $\epsilon$ beispielsweise 10 mal ausgeführt, erfüllt die Berechnung $10\epsilon$-Differential Privacy
 \end{compactitem}
 
 
 \subsubsection*{Algorithmen für Differential Privacy}
 Die Art des Rauschens, welche über die Ausgabe einer Abfrage gelegt wird, kann unterschiedlichster Herkunft sein.
 Dwork und Roth \cite{P-27} stellen eine ganze Reihe dieser Mechanismen vor, die im Folgenden beschrieben werden.
-% \begin{compactitem}
-%     \item Technik der randomisierten Antwort
-%     \item Laplace-Mechanismus
-%     \item Gauß-Mechanismus
-%     \item Exponential-Mechanismus
-% \end{compactitem}
 
 Bei der Technik der randomisierten Antwort, im Englischen Random Response, wird mit einer festgelegten Wahrscheinlichkeit, ein falsches Ergebnis ausgegeben. 
 Wird beispielsweise eine Person gefragt, ob sie eine gewisse Aktivität durchgeführt hat, wird mit 25-prozentiger Wahrscheinlichkeit die falsche Antwort gegeben.

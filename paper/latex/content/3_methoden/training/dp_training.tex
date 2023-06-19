@@ -14,3 +14,4 @@ Ein Trainingsschritt mittels DPSGD sieht dabei wie folgt aus:
 
 Entsprechend der Parameter des Gauß-Mechanismus (Formel \ref{formula:gauß} in Kapitel \ref{sec:dp}), kann gezeigt werden, dass jeder Schritt ($\epsilon$,$\delta$)-Differential Privacy erfüllt.
 Zusätzlich integrieren die Autoren eine Methode, Moments Accountant, welche den Verlust des Privacy Budgets über den Trainingsprozess überwacht.
+Dieses nutzt die stochastischen Momente des Rauschens, um zu zeigen, dass das Privacy Budget $\epsilon$ für den gesamten Trainingsprozess tatsächlich geringer ist als das, was bei der üblichen Multiplikation des Privacy Budgets nach jedem Schritt berechnet wird.

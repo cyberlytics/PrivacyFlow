@@ -1,0 +1,33 @@
+\section{Zusammenfassung der Angriffe}
+
+Ein Datenleck ist eines der größten Probleme von datengetriebenen Anwendungen.
+Selbst wenn diese anonymisiert wurden, können diese oftmals zu den Originaldaten zurückgeführt werden.
+Dies erfolgt oftmals statistisch mit einem weiteren (teils öffentlichem) Datensatz (Kapitel \ref{sec:deano}).
+
+Jedoch können Daten auch rekonstruiert werden, wenn nur das Modell bereitgestellt wird.
+Dies wird Model Inversion Attacke genannt.
+Dabei versucht ein Angreifer, die Vorhersage eines Modells zu nutzen, um seinen Datenpunkt näher an den Originaldatenpunkt zu bringen.
+Dies kann über einen iterativen Prozess funktionieren oder auch komplexere, generative Modelle wie Autoencoder nutzen (Kapitel \ref{sec:model_inversion}).
+
+Wenn das Ziel nicht einzelne Datenpunkte sind, sondern Eigenschaften, die für einen ganzen Datensatz gelten, können diese mit der Property Inference Attacke analysiert werden.
+Dabei werden Shadow Modelle trainiert, welche versuchen, das originale Modell zu imitieren.
+Das Besondere an diesen Shadow Modellen ist es, dass manche mit einem Datensatz trainiert wurden, der die zu untersuchende Eigenschaft besitzt und andere wiederum nicht.
+Die Shadow Modelle werden genutzt, um einen Klassifikator zu bauen, der bestimmt, ob die Eigenschaft im genutzten Datensatz vorkommt oder nicht.
+Wird dies auf das originale Modell angewendet, kann ein Angreifer Aussagen zu dieser Eigenschaft treffen (Kapitel \ref{sec:property_inference}).
+
+Die Membership Inference Attacke nutzt ebenfalls Shadow Modelle, um einen Klassifikator zu trainieren, jedoch diesmal um herauszufinden, ob ein spezifischer Datenpunkt im Training genutzt wurde.
+Alleine dieser Fakt könnte sensibel sein (Kapitel \ref{sec:membership_inference}).
+
+Sprachmodelle, welche das nächste Wort vorhersagen, sind besonders von der Data Extraction Attacke betroffen.
+Durch lange, fortlaufende Nutzung des Modells wurde ein riesiger Datensatz aus Text gesammelt, welcher nur vom Modell stammt.
+Dabei fanden sich sensible Informationen, die das Modell nur indirekt zum Training nutzte.
+Durch effizientere Sammelmethoden kann die Anzahl an sensiblen Information sogar noch erhöht werden (Kapitel \ref{sec:data_ext}).
+
+
+Bei der Poisoning Attacke werden manipulierte Daten in den Datensatz integriert, welche dafür sorgen, dass das Training des Modells sabotiert wird.
+Das resultierende Modell wird verschlechtert oder sogar unbrauchbar gemacht.
+Werden die manipulierten Daten jedoch bewusst gewählt, kann es sein, dass andere Angriffe wie die Membership Inference Attacke wesentlich effektiver werden (Kapitel \ref{sec:poisoning}).
+
+Verteiltes Lernen bringt einige besondere Herausforderungen mit sich.
+Durch das Teilen von beispielsweise Gradienten, können Teilnehmer Rückschlüsse auf Eingabedaten ziehen, was Membership Inference und Property Inference Attacken erleichtert.
+Zusätzlich lassen sich mit den Gradienten auch ganze Datensätze rekonstruieren (Kapitel \ref{sec:angriffe_verteiltes_lernen}).

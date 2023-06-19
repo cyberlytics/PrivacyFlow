@@ -142,9 +142,6 @@
 \newcommand{\etal}{\mbox{\emph{et.\,al.\ }}}
 
 
-% load glossary entries
-\makenoidxglossaries
-\loadglsentries{glossary}
 
 \begin{document}
 
@@ -154,14 +151,9 @@
 \frontmatter
 
 \include{cover}\cleardoublepageusingstyle{empty}
-
-
 \include{formblatt_selbststaendigkeitserklaerung}\cleardoublepageusingstyle{empty}
-
 \include{content/0_abstract}\cleardoublepageusingstyle{empty}
-
 \tableofcontents
-
 \mainmatter
 \include{content/1_einleitung}
 \include{content/2_angriffe_gegen_ml}
@@ -172,7 +164,6 @@
 \include{content/7_diskussion}
 
 
-% remove if not needed
 %\appendix
 %\include{content/a1_supplemental}
 
@@ -183,15 +174,10 @@
 \listoftables
 \cleardoublepage
 
-\renewcommand{\lstlistlistingname}{Auflistungen}  % change for German thesis
+\renewcommand{\lstlistlistingname}{Auflistungen}
 \lstlistoflistings
 \cleardoublepage
 
-%\nocite{*}
-%\bibliographystyle{ieeetr}
-%\bibliographystyle{plain}
-%\bibliography{refs}
 \printbibliography
-\printnoidxglossaries
 
 \end{document}

@@ -1,0 +1,61 @@
+\section{Zusammenfassung der Methoden}
+
+Methoden zur Sicherung der Vertraulichkeit lassen sich in die verschiedenen Phasen des Trainingsprozesses einordnen (Kapitel \ref{sec:ml_pipeline}):
+\begin{compactitem}
+\item Vor dem eigentlichen Training: Aufbereitung des Datensatzes
+\item Anpassung des eigentlichen Trainings
+\item Nach dem eigentlichen Training: Anpassung und Betrieb des Modells
+\end{compactitem}
+
+Anonymisierte Daten sind eine der bekanntesten Formen zur sicheren Datenaufbewahrung ohne direkte Identifikatoren.
+Sicher ist dabei unklar definiert, was jedoch durch verschiedene Maße quantifiziert werden soll.
+So beschreibt \textit{k}-Anonymität eine Gruppierung anhand von Quasi-Identifikatoren, sodass jede dieser Gruppe mindestens \textit{k} Elemente enthält.
+Mit \textit{l}-Diversität kann zusätzlich noch beurteilt werden, ob sensible Attribut innerhalb eines Datensatzes oder auch eines \textit{k}-Anonymität Blocks verschieden genug sind.
+\textit{t}-Nähe erweitert diesen Ansatz, indem quantifiziert werden soll, wie die Verteilung der sensiblen Attribute in einem \textit{k}-Anonymität Block im Verhältnis zu der Verteilung innerhalb des ganzen Datensatzes steht (Kapitel \ref{sec:anonymisierung}).
+
+Differential Privacy ist ein anderes Maß, um zu beurteilen, wie stark eine Abfrage über zwei Datensätze, die maximal einen unterschiedlichen Datenpunkt beinhalten, abweichen darf.
+Zusätzlich gibt es die Möglichkeit, mittels eines Rauschens über eine Abfrage, Differential Privacy mit einem festgelegten Privacy Budget $\epsilon$ zu erreichen.
+Gängig sind dabei der Laplace-Mechanismus und Gauß-Mechanismus als Rauschen über diskrete Werte und der Exponential-Mechanismus als Rauschen bei der Auswahl eines Objekts aus einer Menge.
+Differential Privacy wird in vielen anderen Methoden genutzt (Kapitel \ref{sec:dp}).
+
+Synthetische Daten bieten eine Möglichkeit, Modelle zu trainieren, ohne echte Daten zu verwenden.
+Generative Adversarial Networks, oder auch GANs, sind optimal dazu geeignet, synthetische Daten aus den originalen Daten zu erzeugen.
+Dieses bietet unterschiedliche Erweiterungen, um die Verteilungen der beiden Datensätze, synthetisch und original, miteinander zu vergleichen.
+Dazu zählt das Wassersetin GAN, welches mittels der gleichnamigen Wasserstein-Distanz dafür sorgen soll, dass nicht nur der häufigste Datenpunkt imitiert wird, sondern die gesamte Verteilung der Daten vom GAN gelernt wird.
+Zusätzlich kann ein GAN auch Differential Privacy nutzen, um die originalen Daten zu schützen.
+Neben GANs gibt es auch statistische Methoden, künstliche Daten zu erzeugen.
+NIST-MST ist eine dieser Methoden, welche Marginalverteilungen nutzt, um einen synthetischen Datensatz immer mehr dem originalen Datensatz anzugleichen (Kapitel \ref{sec:synthetic_data}).
+
+Differential Privacy im Training zu nutzen, können die Gewichte eines Neuronalen Netzes mittels DP-SGD angepasst werden.
+Nach der Berechnung der Gradienten, werden diese mittels des Gauß-Mechanismus verrauscht, bevor die Gewichte angepasst werden.
+Mittels des sogenannten Moments Accountant kann das Privacy Budget $\epsilon$ nicht nur über einzelne Trainingsschritte, sondern den gesamten Trainingsprozess überwacht werden (Kapitel \ref{sec:dp_training}).
+
+Homomorphe Verschlüsselung ist ein moderner kryptografischer Ansatz, welcher ermöglicht, Berechnungen auf verschlüsselten Daten durchzuführen.
+Somit kann der Plattformanbieter nicht mitlesen, wenn ein Modell auf seiner Plattform trainiert wird.
+Da vollständig homomorphe Verschlüsselung sehr rechenintensiv ist, wird oftmals mit teilweise homomorpher Verschlüsselung gearbeitet, die eine begrenzte Anzahl an Operationen zulässt.
+Mit ein paar Anpassungen genügt dies, um ein Modell zu trainieren (Kapitel \ref{sec:homomorphe_verschlüsselung}).
+
+Ein weiterer moderner Ansatz der Kryptografie ist Funktionale Verschlüsselung.
+Dabei kann eine Funktion berechnet werden, indem nur der Geheimtext des eigentlichen Inputs eingegeben wird.
+Dies kann ebenfalls genutzt werden, um Modell auf einem Cloud Server zu trainieren, ohne dass der Provider mitlesen kann (Kapitel \ref{sec:funktionale_verschlüsselung}).
+
+Secure Multi-Party Computation ist ein Gebiet der Kryptografie, welches die Berechnung einer Funktion von mehreren Teilnehmern ermöglicht, ohne die einzelnen Parameter der Teilnehmer zu teilen.
+Homomorphe Verschlüsselung und Funktionale Verschlüsselung gehören ebenfalls zu diesem Gebiet.
+Ältere Methoden, wie Garbled Circuits, können jedoch auch genutzt werden, um Modelle in einer verteilten Umgebung zu trainieren. 
+Dabei werden Berechnungen, wie der Feedforward Schritt, als Boolescher Schaltkreis dargestellt, welcher von mehreren Parteien gemeinsam ausgewertet werden kann.
+All diese Methoden lassen sich nicht nur beim Verteilten Lernen nutzen (Kapitel \ref{sec:verteiltes_lernen}), sondern auch um ein bereits trainiertes Modell auf einer fremden Umgebung zu Nutzen, ohne die Daten dieser Umgebung preiszugeben. 
+Dieser Schritt wird kryptografische Inferenz genannt (Kapitel \ref{sec:krypto_inferenz}). 
+
+Eine weitere Möglichkeit sicheres Verteiltes Lernen zu ermöglichen ist das sogenannte Distributed Selective SGD. 
+Dabei laden Teilnehmer ein globales Modell und dessen Updates herunter, trainieren das Modell lokal mit den eigenen Daten und geben eine Auswahl der Updates verrauscht an das globale Modell zurück (Kapitel \ref{sec:verteiltes_lernen}).
+
+PATE ist eine Technik, bei der ein Teacher Modell genutzt wird, um ein Student Modell zu trainieren.
+Bei PATE gibt es nicht nur ein Teacher Modell, sondern ein ganzes Ensemble aus Teacher Modellen.
+Diese können dabei auf sensiblen Daten trainiert worden sein, wohingegen das Student Modell nur auf Vorhersagewahrscheinlichkeiten des Ensembles trainiert wird.
+Das Student Modell kann anschließend deployt werden und für Nutzer erreichbar sein (Kapitel \ref{sec:pate}).
+Die Modell Destillation beschreibt eine weitere Möglichkeit, um das Wissen eines Teacher Modells auf ein Student Modell zu übertragen. 
+Dabei werden die Vorhersagewahrscheinlichkeiten des Teacher Modells durch Anpassung der Softmax Funktion verändert, um das Training des Student Modells zu optimieren.
+Mittels Differential Privacy kann zusätzlich die Vertraulichkeit bei dem Wissenstransfer geschützt werden.
+Eine weitere Methode ist die Quantisierung des Modells.
+Dabei werden die Gewichte in eine festgelegte Bit-Länge, die niedriger als im originalen Modell ist, übertragen.
+Dies ähnelt dabei dem Hinzufügen von Rauschen mittels des Gauß-Mechanismus von Differential Privacy (Kapitel \ref{sec:kompression}).

@@ -1,7 +1,7 @@
 \subsection{Private Aggregation of Teacher Ensembles}\label{sec:pate}
 
-Die Private Aggregation of Teacher Ensembles (Pate) Architektur wurde 2017 von Papernot et al. \cite{P-57} erstmals vorgestellt.
-Dabei handelt es sich um eine sogenannte Wissenstransfer-Architektur (Knowledge Transfer), bei welcher ein Modell genutzt wird, um ein weiteres Modell zu trainieren.
+Die Private Aggregation of Teacher Ensembles (PATE) Architektur wurde 2017 von Papernot et al. \cite{P-57} erstmals vorgestellt.
+Dabei handelt es sich um eine sogenannte Wissenstransfer-Architektur (Knowledge Transfer), bei welcher mindesten ein Modell genutzt wird, um ein weiteres Modell zu trainieren.
 
 \begin{figure}[!htb]
     \centering
@@ -17,10 +17,31 @@ Wenn das gesamte Modell eine Klassifikation aus 10 unterschiedlichen Klassen ist
 Hierbei ist es ebenfalls wichtig, dass die Teildatensätze nicht zu klein sind, da ansonsten die Teacher Modelle nicht gut funktionieren würden.
 Die Vorhersagen aller Teacher Modelle können aggregiert werden, indem die Vorhersagen der Teacher Modelle addiert werden. 
 An dieser Stelle werden die Anzahlen jeder Klasse mittels des Laplace-Mechanismus verrauscht.
-Diese Anzahlen können nun an das sogenannte Student oder Schüler Modell weitergegeben werden, welches die finale Vorhersage an den Nutzer weitergibt.
-Die roten Pfeile der Abbildung zeigen dabei den Fluss einer Predction. 
-Für den Nutzer ist nur der rechte Teil der gestrichelten Linie (Student Modell) erreichbar, der linke Teil nicht.
+Diese Verteilungen können nun an das sogenannte Student oder Schüler Modell weitergegeben werden, um dieses zu trainieren.
+Das Student Modell ist auch das einzige, welches für den Nutzer erreichbar ist.
+In Abbildung \ref{fig:pate_basic} ist dies der rechte Teil der gestrichelten Linie.
+Der linke Teil, die Teacher Modelle sowie die Aggregation dieser, werden für die Vorhersage genutzt, sind aber nicht direkt erreichbar.
 
-Theoretisch wäre es möglich, die Aggregation der Teacher Modelle direkt an den Nutzer zu geben.
-Ein Student Modell könnte jedoch in die Hände eines Angreifers gelangen und wäre dennoch resistent gegen White Box Angriffe, wohingegen White Box Angriffe bei den Teacher Modellen problematischer wäre.
-Zusätzlich bietet Student Modelle weitere Vorteile. So ist es beispielsweise möglich, die Teacher Modelle nur auf sensiblen Daten zu trainieren und nicht sensible (öffentliche) Daten mit in das Student Modell zu übergeben.
+Die Autoren untersuchten mehrere Möglichkeiten, das Student Modell zu trainieren.
+Die erfolgreichste Methode war ein teilweise beaufsichtigtes (semi-supervised) Lernen, welches auf GANs basiert.
+Diese wird folglich PATE-G genannt.
+Es können öffentliche, unsensible oder auch ungelabelte Daten zusätzlich genutzt werden.
+Teilweise können die ungelabelten Daten mit der Aggregation der Teacher Modelle gelabelt werden, dies ist jedoch nicht für alle Datenpunkte notwendig.
+PATE-G nutzt den Student als Diskriminator eines GANs, der eine Klasse für unechte Daten besitzt. 
+Anstelle der Klasse für echte Daten, gibt es jedoch Neuronen für jede Klasse des Datensatzes.
+Der Generator erzeugt Verteilungen, die den Aggregationen der Teacher Modelle ähnelt.
+Das Student Modell, der Diskriminator, soll während des Trainings falsche Verteilungen in die Klasse für unechte Daten einordnen.
+Echte, gelabelte Daten (beziehungsweise deren aggregierte Vorhersage) sollen der richtigen Klasse zugeordnet werden, wohingegen echte, ungelabelte Daten irgendeiner beliebigen, echten Klasse zugeordnet werden können.
+Abbildung \ref{fig:pate_g} zeigt die bereits beschriebene Trainingsarchitektur von PATE-G.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=15cm]{figures/pate_g.png}
+    \caption{PATE-G}
+    \label{fig:pate_g}
+\end{figure} 
+
+Die Anzahl der Teacher Modelle beeinflusst die Güte des Modells weniger als die Wahl des Privacy Budgets $\epsilon$.
+Umso weniger Teacher vorhanden sind, umso größer sollte $\epsilon$ gewählt werden, damit die Genauigkeit des Modells möglichst groß ist.
+
+

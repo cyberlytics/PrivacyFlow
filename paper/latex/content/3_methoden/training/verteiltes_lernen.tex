@@ -17,24 +17,43 @@ Anschließend wird dieses lokale Modell mit den eigenen Daten trainiert und im N
 Diese können dabei entweder randomisiert ausgewählt werden, oder möglichst nach Größe sortiert werden.
 Alle Teilnehmer wählen die zu teilenden Gradienten mit der gleichen Strategie aus und behalten diese über den Trainingsprozess bei.
 Zusätzlich ist es möglich, die Gradienten vor dem Teilen noch mit in der Größe zu begrenzen oder Rauschen mittels Differential Privacy hinzuzufügen.
+Abbildung \ref{fig:dssgd} zeigt die Architektur von Distributed Selective SGD.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=12cm]{figures/dssgd}
+    \caption{Distributed Selective SGD \cite{P-78}}
+    \label{fig:dssgd}
+\end{figure} 
+
 Durch das eingeschränkte Teilen der Gradienten werden so wenig Information wie nötig geteilt, jedoch ist die Güte des Modells kaum schlechter als bei normalem Training.
 Die Autoren begründen dies damit, dass das lokale Modell lokale Minima durch das Ersetzen von Parametern aus dem geteilten Modell verlassen kann und so weiter eher Richtung globales Minimum konvergiert. 
-Zwei Parameter steuern dabei die Performance des Modells beim Training mit Distributed Selective SGD: sas Privacy Budget $\epsilon$ und die Anzahl der zu teilenden Gradienten.
+Zwei Parameter steuern dabei die Performance des Modells beim Training mit Distributed Selective SGD: das Privacy Budget $\epsilon$ und die Anzahl der zu teilenden Gradienten.
 Werden mehr Gradienten nach jedem Schritt von jedem Teilnehmer geteilt, kann das Privacy Budget $\epsilon$ niedriger angesetzt werden, um dennoch eine nahezu identische Güte im Vergleich zu einem normal trainierten Modell zu erhalten.
 
-\subsubsection*{Aggregation}
-\cite{P-36}
-
-\subsubsection*{Kryptografische Methoden}
+\subsubsection*{Anspruchsvolle kryptografische Methoden}
 
 Takabi et al. \cite{P-104} nutzen Homomorphe Verschlüsselung, um ein Modell zu trainieren, welches Daten von mehreren Teilnehmern nutzen kann. 
 Die Funktionsweise der Methode mit einem Teilnehmer wurde bereits in Kapitel \ref{sec:homomorphe_verschlüsselung} beschrieben.
 Diese lässt sich problemlos auf mehrere Teilnehmer erweitern, indem abwechselnd Daten jedes Teilnehmers verschlüsselt an den Server übertragen wird und diese für das Training des Modells mittels Homomorpher Verschlüsselung genutzt wird.
 Da Daten jeweils verschlüsselt sind, ist es nicht möglich, Daten anderer Teilnehmer zu extrahieren.
 
-Auch das auf Funktionaler Verschlüsselung basierende Framework CryptoNN\cite{P-53}, welches in Kapitel \ref{sec:funktionale_verschlüsselung} vorgestellt wurde, kann für Verteiltes Lernen genutzt werden. 
+Auch das auf Funktionaler Verschlüsselung basierende Framework CryptoNN \cite{P-53}, welches in Kapitel \ref{sec:funktionale_verschlüsselung} vorgestellt wurde, kann für Verteiltes Lernen genutzt werden. 
 Die Rolle des Clients können dabei mehrere Teilnehmer übernehmen, wohingegen die Autorität jedoch von einem separaten System übernommen werden muss. 
 Anschließend können auch bei dieser Methode abwechselnd Daten von verschiedenen Teilnehmern zum Trainieren genutzt werden.
+
+Ein weiterer Ansatz für Verteiltes Lernen, welches auf Funktionaler Verschlüsselung basiert, wurde von Xu et al. \cite{P-33} mit dem Namen HybridAlpha vorgestellt.
+Ähnlich zu dem bereits beschriebenen CryptoNN Framework, gibt es auch eine Autorität, welche die benötigten kryptografischen Schlüssel an die Server und Clients verteilt.
+Jedoch übertragen die Clients keine Daten an den Server, sondern trainieren ein lokales Modell.
+Die aktualisierten Modellparameter werden anschließend mit Differential Privacy verrauscht und dann verschlüsselt an den Server übertragen.
+Hat der Server alle verschlüsselten Modellparameter jedes Teilnehmers gesammelt, wird mittels Funktionaler Verschlüsselung die Summe der Gewichte jedes Neurons gebildet.
+Daraus kann der Server anhand der Anzahl an Teilnehmern, den Durchschnittswert für jedes Gewicht jedes Neurons bilden und aktualisiert damit das globale Modell.
+Die Autoren zeigen anhand des MNIST Datensatze \cite{D-MNIST}, dass die Güte eines Modells, welches mit HyrbidAlpha ohne Differential Privacy trainiert wurde, sehr nahe der Güte eines Modells ist, welches in einem Verteilten Lernen Szenario ohne HyrbidAlpha gelernt wurde. 
+Wird jedoch zusätzlich Differential Privacy genutzt, sinkt die Güte des Modells. 
+Mit einem Privacy Budget von $\epsilon=0,5$ sinkt die Genauigkeit der Klassifikation um knapp 10\%.
+
+
+\subsubsection*{Secure Multi-Party Computation}
 
 Bei der Secure Multi-Party Computation handelt es sich um einen Forschungsbereich mit dem Ziel, dass Teilnehmer gemeinsam eine Funktion berechnen können, ohne dass die einzelnen Eingabewerte aufgedeckt werden. 
 Methoden dieses kryptografischen Forschungsgebiets können auch für Neuronale Netze genutzt werden.
@@ -43,7 +62,7 @@ Rouhani et al. \cite{P-71} stellten ein Framework namens DeepSecure vor, welches
 Oblivious Transfer ist ein kryptografisches Protokoll zwischen einem Sender und einem Empfänger, bei dem der Empfänger einen Index zwischen 1 und $n$ auswählt und der Sender die Nachricht mit dem entsprechenden Index übermittelt. 
 Der Sender weiß dabei jedoch nicht, welcher Index ausgewählt wurde.
 Diese Methodik wird auch 1-aus-$n$ Oblivious Transfer genannt.
-Garbled Circuits ist ebenfalls ein Protokoll, bei der eine Funktion als Boolescher Schaltkreis mit zwei Eingabegattern dargestellt wird.
+Garbled Circuits, auch Yao's Garbled Circuits genannt, ist ebenfalls ein Protokoll, bei der eine Funktion als Boolescher Schaltkreis mit zwei Eingabegattern dargestellt wird.
 Dabei erstellt einer der beiden Teilnehmer, hier Alice genannt, Wahrheitstabellen zu jedem Logikgatter des Schaltkreises. 
 Die Inputs sind dabei nicht 0 und 1, sondern jeweils eine Folge von $k$ randomisierten Bits, welche 0 und 1 kodieren.
 Die Ergebnisspalte dieser Wahrheitstabellen verschlüsselt Alice anschließend mit den beiden Inputs, sodass dies nur mit den beiden Inputs wieder entschlüsselt werden kann. 
@@ -55,8 +74,7 @@ Die erhaltene Nachricht und das eigene Label können nun genutzt werden, um die 
 Bob führt dies für jedes Gatter des Schaltkreises aus.
 Am Ende erhält Bob den Output des letzten Gatters, welchen jedoch einer der randomisierten Bitfolgen ist. 
 Er übermittelt diesen an Alice und erhält dadurch den entsprechenden 0 oder 1 Wert.
-
-DeepSecure wenden Garbled Circuits auf Neuronale Netze an.
+DeepSecure wendet Garbled Circuits auf Neuronale Netze an.
 Alice würde in diesem Fall die Daten besitzen und Bob das Modell, welches trainiert wird.
 Der Feedforward Schritt würde dabei durch einen Booleschen Schaltkreis aus XOR und XNOR Gattern implementiert werden, wodurch die Berechnung der Vorhersage erfolgt.
 Dadurch kann Bob den Wert der Verlustfunktion und anschließend der Gradienten bestimmen, ohne die Daten von Alice zu kennen.
@@ -65,3 +83,11 @@ Allerdings ist die Anzahl an benötigten Gattern, um ein Neuronales Netz darzust
 Einige Operationen, wie die Anwendung einer Aktivierungsfunktion, benötigt mehrere tausende Gatter.
 Jedes dieser Gatter sorgt ebenfalls dafür, dass eine Menge an Daten übertragen werden muss.
 Ein Neuronales Netz, welches $28\times28$ Pixel Bilder als Input nimmt, zwei Hidden Layers mit 300 und 100 Knoten (Sigmoid Aktivierungsfunktion) besitzt und eine Softmax Output Layer mit 10 Knoten hat, würde circa 171.300.000 Gatter ausmachen und in einem Feedforward Schritt ungefähr 2 Gigabyte an Daten übertragen.
+
+\subsubsection*{Aggregation}
+Eine alternative Methode wird von Bonawitz et al. \cite{P-36} vorgestellt.
+Diese basiert auf sicherer Aggregation, welche mehrere Daten von unterschiedlichen Teilnehmern verbindet, ohne dass die Daten eines einzelnen Teilnehmers erkenntlich werden.
+Teilnehmer trainieren ein lokales Modell mit den eigenen privaten Daten. 
+Bevor die angepassten Parameter aber an das globale Modell übertragen werden, werden die Parameter mit den Parametern anderer Teilnehmer kryptografisch aggregiert.
+Dadurch erhält das globale Modell Gradienten aller Trainingsdaten, ohne die einzelnen Daten zu kennen.
+
