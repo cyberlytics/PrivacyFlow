@@ -41,3 +41,6 @@ def preprocess_heart_data():
     df_train.to_csv(path_configs.HEART_DATA_TRAIN, index=False)
     df_val.to_csv(path_configs.HEART_DATA_VAL, index=False)
     df_test.to_csv(path_configs.HEART_DATA_TEST, index=False)
+
+    df_total = pd.concat([df_train,df_val,df_test])
+    df_total.to_csv(path_configs.HEART_DATA_TOTAL)
