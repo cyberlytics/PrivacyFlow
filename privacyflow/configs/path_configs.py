@@ -14,6 +14,4 @@ HEART_DATA_VAL = f"{ROOT_PATH}/data_health/heart_val.csv"
 HEART_DATA_TEST = f"{ROOT_PATH}/data_health/heart_test.csv"
 HEART_DATA_TOTAL = f"{ROOT_PATH}/data_health/heart_total.csv"
 
-DIABETES_DATA = f"{ROOT_PATH}/data_health/diabetes_prediction_dataset.csv"
-DIABETES_DATA_TRAIN = f"{ROOT_PATH}/data_health/diabetes_train.csv"
-DIABETES_DATA_TEST = f"{ROOT_PATH}/data_health/diabetes_test.csv"
+FACE_MI_DATA = f"{ROOT_PATH}/data_faces/faces_mi.csv"

@@ -8,9 +8,10 @@ from sklearn.preprocessing import *
 
 def preprocess_heart_data():
     data = pd.read_csv(path_configs.HEART_DATA)
-
+    # data = data.drop_duplicates(keep='first')
+    # print(len(data.index))
     # train test split
-    df_train, df_test = train_test_split(data, test_size=0.2, random_state=42)
+    df_train, df_test = train_test_split(data, test_size=0.1, random_state=42)
     df_train, df_val = train_test_split(df_train, test_size=0.1, random_state=42)
 
     # Scaling based on training data
