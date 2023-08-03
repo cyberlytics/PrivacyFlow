@@ -78,5 +78,5 @@ class FaceMIDataset(Dataset):
 
     def __getitem__(self, idx):
         variables = torch.tensor(self.df_inputs.iloc[idx], dtype=torch.float32)
-        label = torch.tensor(self.df_labels.iloc[idx])
+        label = torch.tensor([self.df_labels.iloc[idx]], dtype=torch.float32)
         return variables, label

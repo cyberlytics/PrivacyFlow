@@ -15,3 +15,4 @@ HEART_DATA_TEST = f"{ROOT_PATH}/data_health/heart_test.csv"
 HEART_DATA_TOTAL = f"{ROOT_PATH}/data_health/heart_total.csv"
 
 FACE_MI_DATA = f"{ROOT_PATH}/data_faces/faces_mi.csv"
+FACE_BASE_MODEL = f"{ROOT_PATH}/models_trained/face_base_model.pl"
