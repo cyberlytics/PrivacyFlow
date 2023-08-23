@@ -3,6 +3,7 @@
 Das Verteilte Lernen bietet einige besondere Herausforderungen, die bereits in Kapitel \ref{sec:angriffe_verteiltes_lernen} betrachtet wurden. 
 Einige bereits beschriebene Methoden lassen sich problemlos auf das Verteilte Lernen anwenden.
 Sollen beispielsweise die Daten der einzelnen Teilnehmer geteilt werden, so ist es möglich, diese mit den Methoden aus Kapitel \ref{sec:aufbereitung_datensatz} vorzuverarbeiten.
+So sind die beispielsweise die einzelnen Datenbestände jedes Teilnehmers disjunkte Teile des gesamten Datenbestandes aller Teilnehmer, wodurch sich Differential Privacy in der Vorverarbeitung von jedem Teilnehmer anwenden lässt und dennoch eine Quantifizierung der Privatsphäre möglich ist.
 Jedoch gibt es auch spezielle Methoden, die auf das Verteilte Lernen ausgerichtet sind.
 Im Folgenden werden einige davon genauer beschrieben.
 
@@ -14,8 +15,8 @@ Bei der ersten Iteration laden die Teilnehmer das gesamte Modell herunter, bei w
 Dadurch soll vermieden werden, dass Overfitting auf den Daten eines einzelnen Teilnehmers auftritt.
 Die heruntergeladenen Parameter ersetzen die alten Parameter an der entsprechenden Stelle im lokalen Modell.
 Anschließend wird dieses lokale Modell mit den eigenen Daten trainiert und im Nachhinein eine festgelegte Menge an Gradienten übertragen. 
-Diese können dabei entweder randomisiert ausgewählt werden, oder möglichst nach Größe sortiert werden.
-Alle Teilnehmer wählen die zu teilenden Gradienten mit der gleichen Strategie aus und behalten diese über den Trainingsprozess bei.
+Diese können dabei entweder randomisiert ausgewählt werden, wobei eine Sortierung nach Größe empfohlen wird.
+Alle Teilnehmer wählen die zu teilenden Gradienten ihres lokalen Modells mit der gleichen Strategie aus und behalten diese Strategie über den Trainingsprozess bei.
 Zusätzlich ist es möglich, die Gradienten vor dem Teilen noch mit in der Größe zu begrenzen oder Rauschen mittels Differential Privacy hinzuzufügen.
 Abbildung \ref{fig:dssgd} zeigt die Architektur von Distributed Selective SGD.
 
@@ -27,9 +28,12 @@ Abbildung \ref{fig:dssgd} zeigt die Architektur von Distributed Selective SGD.
 \end{figure} 
 
 Durch das eingeschränkte Teilen der Gradienten werden so wenig Information wie nötig geteilt, jedoch ist die Güte des Modells kaum schlechter als bei normalem Training.
-Die Autoren begründen dies damit, dass das lokale Modell lokale Minima durch das Ersetzen von Parametern aus dem geteilten Modell verlassen kann und so weiter eher Richtung globales Minimum konvergiert. 
+Die Autoren begründen dies damit, dass das lokale Modell lokale Minima durch das Ersetzen von Parametern aus dem geteilten Modell verlassen kann und so weiter in Richtung globales Minimum konvergiert. 
 Zwei Parameter steuern dabei die Performance des Modells beim Training mit Distributed Selective SGD: das Privacy Budget $\epsilon$ und die Anzahl der zu teilenden Gradienten.
-Werden mehr Gradienten nach jedem Schritt von jedem Teilnehmer geteilt, kann das Privacy Budget $\epsilon$ niedriger angesetzt werden, um dennoch eine nahezu identische Güte im Vergleich zu einem normal trainierten Modell zu erhalten.
+Jeder Teilnehmer, kann mit der Moment Berechnung von DPSGD \cite{P-28} das die Privatsphäre seines eigenen Trainingsdatensatzes überwachen.
+Da jedoch nicht alle Gradienten geteilt werden, fällt das tatsächliche Privacy Budget geringer aus, als mit der Moment Berechnung ermittelt wird, da die Moment Berechnung sich auf alle Gradienten bezieht.
+Werden also weniger Gradienten nach jedem Schritt von jedem Teilnehmer geteilt, so kann das Privacy Budget $\epsilon$ größer konfiguriert werden.
+Werden hingegen viele oder sogar alle Gradienten geteilt, sollte das Privacy Budget kleiner angesetzt werden.
 
 \subsubsection*{Anspruchsvolle kryptografische Methoden}
 
@@ -39,18 +43,24 @@ Diese lässt sich problemlos auf mehrere Teilnehmer erweitern, indem abwechselnd
 Da Daten jeweils verschlüsselt sind, ist es nicht möglich, Daten anderer Teilnehmer zu extrahieren.
 
 Auch das auf Funktionaler Verschlüsselung basierende Framework CryptoNN \cite{P-53}, welches in Kapitel \ref{sec:funktionale_verschlüsselung} vorgestellt wurde, kann für Verteiltes Lernen genutzt werden. 
-Die Rolle des Clients können dabei mehrere Teilnehmer übernehmen, wohingegen die Autorität jedoch von einem separaten System übernommen werden muss. 
+Die Rolle des Clients können dabei mehrere Teilnehmer übernehmen, wohingegen die Autorität jedoch von einem separaten System oder Teilnehmer übernommen werden muss. 
 Anschließend können auch bei dieser Methode abwechselnd Daten von verschiedenen Teilnehmern zum Trainieren genutzt werden.
 
+
 Ein weiterer Ansatz für Verteiltes Lernen, welches auf Funktionaler Verschlüsselung basiert, wurde von Xu et al. \cite{P-33} mit dem Namen HybridAlpha vorgestellt.
-Ähnlich zu dem bereits beschriebenen CryptoNN Framework, gibt es auch eine Autorität, welche die benötigten kryptografischen Schlüssel an die Server und Clients verteilt.
-Jedoch übertragen die Clients keine Daten an den Server, sondern trainieren ein lokales Modell.
-Die aktualisierten Modellparameter werden anschließend mit Differential Privacy verrauscht und dann verschlüsselt an den Server übertragen.
+Ähnlich zu dem bereits beschriebenen CryptoNN Framework, gibt es auch eine Autorität, welche die benötigten kryptografischen Schlüssel an den Server und die Teilnehmer (Clients) verteilt.
+
+Jedoch übertragen die Teilnehmer keine Daten an den Server.
+Stattdessen trainiert jeder Teilnehmer eine Kopie des globalen Modells bei sich lokal unverschlüsselt mit dem eigenen Datenbestand.
+Nach jeder Epoche können die aktualisierten Modellparameter mit dem Laplace-Mechanismus oder Gauß-Mechanismus verrauscht werden.
+Die Autoren geben jedoch nicht an, wie das Privacy Budget über den Trainingsprozess mehrere Teilnehmer getrackt werden kann.
+Anschließend verschlüsselt jeder Teilnehmer die Modellparameter mit dem Public Key $pk_i$, welchen sie von der Autorität bekommen.
+Diese verschlüsselten Werte, werden an den Server übertragen.
 Hat der Server alle verschlüsselten Modellparameter jedes Teilnehmers gesammelt, wird mittels Funktionaler Verschlüsselung die Summe der Gewichte jedes Neurons gebildet.
 Daraus kann der Server anhand der Anzahl an Teilnehmern, den Durchschnittswert für jedes Gewicht jedes Neurons bilden und aktualisiert damit das globale Modell.
+Den dafür benötigten spezifischen Secret Key $sk_n$, erhält der Server von der Autorität.
 Die Autoren zeigen anhand des MNIST Datensatze \cite{D-MNIST}, dass die Güte eines Modells, welches mit HyrbidAlpha ohne Differential Privacy trainiert wurde, sehr nahe der Güte eines Modells ist, welches in einem Verteilten Lernen Szenario ohne HyrbidAlpha gelernt wurde. 
 Wird jedoch zusätzlich Differential Privacy genutzt, sinkt die Güte des Modells. 
-Mit einem Privacy Budget von $\epsilon=0,5$ sinkt die Genauigkeit der Klassifikation um knapp 10\%.
 
 
 \subsubsection*{Secure Multi-Party Computation}

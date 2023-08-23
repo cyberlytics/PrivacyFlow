@@ -1,24 +1,27 @@
 \section{Poisoning Attacke}\label{sec:poisoning}
 
-Bei der sogenannten Poisoning Attacke werden manipulierte Datensätze in den Trainingsdatensatz eines Modells injiziert, wodurch das Modell schlechtere oder sogar falsche Vorhersagen trifft.
+Bei der sogenannten Poisoning Attacke werden manipulierte Records in die Trainingsdatenmenge eines Modells injiziert, wodurch das Modell schlechtere oder sogar falsche Vorhersagen trifft.
 Ursprünglich ist diese Art des Angriffs recht populär bei Support Vektor Maschinen.
-Biggio et al. \cite{P-15} zeigt, dass einige modifizierte Datenpunkte in der Nähe der Entscheidungsgrenze genügen, um die gelernte Funktion deutlich negativ zu beeinflussen.
+Biggio et al. \cite{P-15} zeigen, dass einige modifizierte Datenpunkte in der Nähe der Entscheidungsgrenze einer Support Vektor Maschine genügen, um die gelernte Funktion deutlich negativ zu beeinflussen.
 
 Yang et al. \cite{P-17} zeigen ein Verfahren, bei dem eine Poisoning Attacke auf Neuronalen Netzen angewendet wird.
-Ziel hierbei ist es, die Daten mit einem falschen Label so zu wählen, dass der Wert der Verlustfunktion möglichst groß ist. 
-Dadurch werden die Gradienten größer, was auch bedeutet, dass die negative Beeinflussung des infizierten Datenpunktes größer wird.
-Um diese Daten zu erzeugen, nutzen Yang et al. \cite{P-17} einen Autoencoder, der Daten so transformiert, dass diese vom Modell als echte Daten erkannt werden, jedoch aufgrund der falschen Labels, das Modell möglichst stark negativ beeinflussen.
-Dieser Autoencoder wurde trainiert, indem die Verlustfunktion des angegriffenen Modells auch durch den Autoencoder backpropagiert wurde.
+Ziel hierbei ist es, die gefälschte Daten mit einem absichtlich falschen Label so zu wählen, dass der Wert der Verlustfunktion möglichst groß ist. 
+Um dies zu erreichen, wird der Wert der Verlustfunktion des anzugreifenden Modells durch das Modell backpropagiert, wobei die gefälschten Daten als Teil des Modells betrachtet werden. 
+Die Daten werden nun in Richtung der Gradienten angepasst, wodurch der Wert der Verlustfunktion steigt.
+Werden die gefälschten Daten anschließend genutzt, um das Modell weiter zu trainieren, wird die Verlustfunktionen einen erhöhten Wert aufweisen, was zu einer stärkeren Anpassung des Modells führt, was (aufgrund der gefälschten Label) zu einer Verschlechterung der Güte des Modells führt.
+Um nicht als gefälschte Daten aufzufallen, nutzen Yang et al. \cite{P-17} einen Autoencoder, der Daten so transformiert, dass diese vom Modell als echte Daten erkannt werden.
+Damit der Autoencoder lernt, realistische Daten nachzubilden, wird ein zusätzliches Modell genutzt, welches einem Diskriminator der Generative Adversarial Network Architektur \cite{P-86} entspricht.
 
 Guo und Liu \cite{P-16} nutzen einen Ansatz, bei welchem der Angreifer keinen Zugriff auf die Gradienten des angegriffenen Modells braucht.
 Stattdessen wird ein vortrainiertes Modell genutzt, welches ähnlich zu dem angegriffenen Modell ist. 
 Da diverse Modellarchitekturen Open Source sind, finden sich auch einige vortrainierte Varianten von diesen im Internet.
 Bei Bildklassifikation lässt sich beispielsweise ein vortrainiertes YOLO Modell nutzen.
-Dieses kann dann genutzt werden, um ein generatives Modell zu trainieren, welches wie bei Yang et al. \cite{P-17} die Gradienten durch das Generator Modell backpropagieren.
+Dieses kann dann genutzt werden, um ein generatives Modell zu trainieren, welches wie bei Yang et al. \cite{P-17} die Gradienten des anzugreifenden Modells nutzt, um Daten für das anzugreifende Modell zu verschlimmern.
 Guo und Liu \cite{P-16} gehen davon aus, dass das angegriffene Modell noch optimiert wurde und deshalb eine bessere Feature Erkennung als die öffentlich vortrainierten Modelle hat.
-Dies macht den Angriff effektiver, sofern die Modelle nicht zu verschieden sind.
+Dies macht den Angriff effektiver, sofern die Modelle nicht zu unterschiedlich sind.
 
 Poisoning Attacken verschlechtern in der Regel lediglich die Performance eines Modells und sorgen für falsche Vorhersagen.
 Tramèr et al. \cite{P-14} zeigen jedoch, dass manipulierte Daten dafür sorgen können, dass andere Angriffe, welche die Vertraulichkeit angreifen, effektiver werden.
-Durch Ändern des Labels eines Datenpunktes kann dieser gegebenenfalls zu einem Ausreißer transformiert werden. 
+Durch Ändern des Labels eines Records kann dieser gegebenenfalls zu einem Ausreißer transformiert werden. 
 Dadurch passt sich das Modell stärker diesem an, als wenn sich der Datenpunkt in die Messreihe einordnet.
+Die falsche Klassifizierung des veränderten Records, würde eine Memberhsip Inferenze Attacke auf diesen verbessern.

@@ -5,8 +5,8 @@ Bei der Anonymisierung von Daten geht es darum, identifizierende Eigenschaften z
 Dabei soll dennoch ein gewisser Nutzen erhalten bleiben. 
 
 Sweeney \cite{P-23} stellt eine Methode der Anonymisierung namens \textit{k}-Anonymität (im Englischen \textit{k}-Anonymity) vor.
-Die Methode wird im folgenden mittels eines Auszugs des Titanic Datensatzes \cite{D-titanic} erläutert.
-Tabelle \ref{tab:nicht_ano_titanic} zeigt einen Auszug aus diesem Datensatz.
+Die Methode wird im folgenden mittels eines Auszugs der Titanic Datenmenge \cite{D-titanic} erläutert.
+Tabelle \ref{tab:nicht_ano_titanic} zeigt einen Auszug aus dieser Datenmenge.
 Die hier ausgewählten Spalten enthalten beschreibende Merkmale einer Person, sowie Informationen über die Reise auf der Titanic. 
 Zur Verdeutlichung gehen wir davon aus, dass es sich bei dem Einstiegsort um eine private Information handelt, die den Wohnort verraten könnte.
 
@@ -15,14 +15,14 @@ Zur Verdeutlichung gehen wir davon aus, dass es sich bei dem Einstiegsort um ein
 Bei \textit{k}-Anonymität werden die Attribute in 3 separate Klassen eingeteilt: Identifikatoren, Quasi-Identifikatoren und sensible Attribute.
 Bei diesem Beispiel wäre der Name der einzige Identifikator, da über diesen eine Person eindeutig zugeordnet werden kann. 
 Quasi-Identifikatoren sind alle Variablen, welche Information über einen Datenpunkt preisgeben, aber nicht direkt auf diesen schließen lassen. 
-Um mit Quasi-Identifikatoren einen Datenpunkt zu identifizieren, braucht es in der Regel mehr Informationen, beispielsweise einen Datensatz.
+Um mit Quasi-Identifikatoren einen Datenpunkt zu identifizieren, braucht es in der Regel mehr Informationen, beispielsweise einen zusätzlichen Datenbestand.
 In diesem Beispiel könnte also jede Spalte ein Quasi-Identifikator sein.
 Da der Name bereits ein direkter Identifikator ist, wird dieser anders zugeordnet.
 Die dritte Klasse sind die sensiblen Attribute, die es zu sichern gilt. 
 Hier gehen wir davon aus, dass der Einstiegsort eine schützenswerte Information ist.
 Um \textit{k}-Anonymität zu erreichen, muss jede Kombination aus Quasi-Identifikatoren mindestens k mal vorkommen, wobei k festgelegt werden kann. 
 Ein größeres k sorgt für mehr Privatsphäre.
-Um dies zu erreichen, können die Quasi-Identifikatoren gruppiert werden, so kann beispielsweise anstatt des Alters, eine Zahlenbereich als Alter dienen.
+Um dies zu erreichen, können die Quasi-Identifikatoren gruppiert werden, so kann beispielsweise anstatt des Alters, ein Zahlenbereich als Alter dienen.
 Tabelle \ref{tab:k-ano-titanic} zeigt wie diese Gruppierung aussieht.
 
 \input{tables/k_ano_titanic}
@@ -44,13 +44,13 @@ Sollte also eine Person männlich, zwischen 20 und 35 Jahren alt sein und in der
 \input{tables/homogenitaet_k_ano}
 
 Ein weiteres Problem ist ein Angriff mit Hintergrundwissen, mit dem gewisse sensible Attribute ausgeschlossen werden können oder zumindest unwahrscheinlicher machen könnten.
-In diesem Beispiel könnte es also sein, dass ein Angreifer weiß wann, ein Passagier zugestiegen ist und an welchem Hafen das Schiff zu dieser Zeit war. 
+In diesem Beispiel könnte es also sein, dass ein Angreifer weiß, wann ein Passagier zugestiegen ist und an welchem Hafen das Schiff zu dieser Zeit war. 
 Damit können Rückschlüsse auf den Einstiegsort gemacht werden.
 
 Aufgrund dieser beiden Angriffe, schlagen Machanavajjhala et al. \cite{P-24} eine Erweiterung mit dem Namen \textit{l}-Diversität (im Englischen \textit{l}-Diversity) vor.
 Dabei wird \textit{k}-Anonymität auf die Daten angewendet und zusätzlich eine Bedingung eingeführt. 
 Diese kann sowohl für einen Block, eine einheitliche Kombination der Werte der Quasi-Identifikatoren, als auch für den ganzen Datensatz gelten.
-Ein Block ist dabei \textit{l}-divers, wenn die Werte des sensiblen Attributes \textit{\dq gut repräsentiert\dq} sind, wobei l eine Zahl zugeorndet werden kann.
+Ein Block ist dabei \textit{l}-divers, wenn die Werte des sensiblen Attributes \textit{\dq gut repräsentiert\dq} sind, wobei \textit{l} eine Zahl zugeorndet werden kann.
 Ist jeder Block des Datensatzes \textit{l}-divers, dann ist auch der ganze Datensatz \textit{l}-divers.
 Dabei gibt es 3 Grundvarianten laut Machanavajjhala et al., wie \textit{\dq gut repräsentiert\dq} definiert werden kann \cite{P-24}:
 \begin{compactitem}
@@ -85,7 +85,7 @@ Die Autoren prüfen verschiedene Verfahren der Distanzmessung der Verteilungen u
 Dabei handelt es sich um eine Metrik zweier Verteilungen, welche die minimale Arbeit berechnet, die nötig ist, um eine Verteilung zu der anderen Verteilung zu transformieren, indem Werte innerhalb der Verteilung verschoben werden. 
 Die Metrik liegt immer im Wertebereich (0,1) wodurch diese auch vergleichbar ist. 
 Ein Wert nahe 0 ist dabei besser.
-Mathematisch gesehen, handelt es sich um ein Optimierungsproblem, jedoch gehen die Autoren auf 2 unterschiedliche Arten von Attributen ein, numerische und kategoriale, um zu zeigen, wie die Earth Mover Distanz berechnet wird.
+Mathematisch gesehen, handelt es sich um ein Optimierungsproblem, jedoch gehen die Autoren auf zwei unterschiedliche Arten von Attributen ein, numerische und kategoriale, um zu zeigen, wie die Earth Mover Distanz berechnet wird.
 Um die Distanz für numerische Werte berechnet zu werden, müssen diese erstmal sortiert werden. 
 Sofern es sich um eine ungleiche Anzahl an Werten handelt, können die Werte mehrfach genutzt werden.
 Anschließend wird die durchschnittliche, normalisierte Differenz zwischen den Werten an gleicher Stelle beider sortierten Verteilungen berechnet.
@@ -103,7 +103,7 @@ $ (20-20)+(20-25)+(20-25)+(30-30)+(30-35)+(30-35)+(40-35)+\\ (40-35) + (40-40) =
 \end{addmargin}
 Der durchschnittliche, normalisierte Wert dieser Distanz, ist die gesuchte Earth Mover Distanz:
 \begin{addmargin}[25pt]{0pt}
-$ 1/9 \times  |-10| \div /20 = 0,056$
+$ 1/9 \times  |-10| \div 20 = 0,056$
 \end{addmargin}
 Damit hat dieser Block eine 0,056-Nähe, was bedeutet, wenn man einer Person diesem Block zuordnet könnte, ist dennoch kaum Informationsgewinnung möglich.
 
@@ -111,8 +111,7 @@ Damit hat dieser Block eine 0,056-Nähe, was bedeutet, wenn man einer Person die
 Bei kategorialen Werten ist es schwieriger, eine Differenz zu bilden.
 Es gibt die Möglichkeit den Wert 1 zuzuweisen, wenn die beiden Kategorien unterschiedlich sind und den Wert 0, sofern beide gleich sind. 
 Dies würde jedoch bedeuten, dass semantische Ähnlichkeiten der Werte nicht berücksichtigt werden.
-Eine Alternative wäre es, alle möglichen Werte semantisch zu in einer Art Baumstruktur zu gliedern. 
+Eine Alternative wäre es, alle möglichen Werte semantisch in einer Art Baumstruktur zu gliedern. 
 Bei Krankheiten wäre beispielsweise die Wurzel \textit{\dq Krankheit\dq}, die Nachfolger wären dann gewisse Systeme des Körpers wie beispielsweise \textit{\dq Herz-Kreislaufsystem\dq} und \textit{\dq Verdauungssystem\dq}.
 Die Distanz ist nun die Anzahl der Schritte, die benötigt wird, um die Werte zu verbinden. 
 Zwei unterschiedliche Herzkrankheiten sind über einen Schritt mittels \textit{\dq Herz-Kreislaufsystem\dq} verbunden, wohingegen eine Herzkrankheit und eine Darmkrankheit über 2 Schritte mittels der Wurzel \textit{\dq Krankheit\dq} verbunden wären.
-

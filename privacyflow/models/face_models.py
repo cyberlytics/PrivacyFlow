@@ -3,13 +3,35 @@ import torch.nn as nn
 import torchvision.models as tv_models
 
 
-def get_FaceModelBase(output_size: int):
-    model = tv_models.resnet18(weights=tv_models.ResNet18_Weights.IMAGENET1K_V1)
+def get_FaceModelDenseNet(output_size: int):
+    model = tv_models.densenet121(weights=tv_models.DenseNet121_Weights, memory_efficient=True)
+    model.classifier = nn.Sequential(
+        nn.Linear(model.classifier.in_features, output_size),
+        nn.Sigmoid()
+    )
+    return model
+
+
+def get_FaceModelResNet(output_size: int, pretrained:bool=True) -> nn.Module:
+    weights = tv_models.ResNet18_Weights.IMAGENET1K_V1 if pretrained else None
+    model = tv_models.resnet18(weights=weights)
     model.fc = nn.Sequential(
         nn.Linear(model.fc.in_features, output_size),
         nn.Sigmoid()
     )
     return model
+
+
+def get_FaceVisionTransformer(output_size: int, pretrained:bool=True) -> nn.Module:
+    weights = tv_models.ViT_B_16_Weights if pretrained else None
+    model = tv_models.vit_b_16(weights=weights)
+    model.heads = nn.Sequential(
+        nn.Linear(model.hidden_dim, output_size),
+        nn.Sigmoid()
+    )
+    return model
+
+
 
 
 class FaceMIModel(nn.Module):

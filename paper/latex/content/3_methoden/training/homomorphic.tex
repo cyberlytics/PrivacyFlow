@@ -5,7 +5,7 @@ Homomorphe Verschlüsselung ist eine Methodik, um Berechnung auf verschlüsselte
 Ein Homomorphismus in der Algebra bezeichnet eine strukturerhaltende Abbildung einer Mengen $G$ in eine andere Menge $H$.
 Dabei hat jedes Element $g \in G $ mindestens ein Bild $h \in H$ und die Relationen der Elemente $g \in G$ zueinander, finden sich auch in H wieder \cite{B-2}.
 
-Ein typisches Beispiel ist der Homomorphismus zwischen zwei Gruppen $(G,\circ)$ und $(H,\ast)$. 
+Ein typisches Beispiel ist der Homomorphismus zwischen zwei Gruppen $(G,\circ)$ und $(H,\ast)$, wobei $\circ$ und $\ast$ jeweils eine Verknüpfung innerhalb der Gruppe symbolisieren. 
 Die Beziehung der beiden Gruppen wird Gruppenhomomorphismus genannt, wenn es eine Funktion $f:G\to H$ gibt, die Elemente der Gruppe $G$ auf die Gruppe $H$ abbildet und dabei für alle Elemente $g_1,g_2 \in G$ gilt \cite{P-98}:
 \begin{equation*}
     f(g_1 \circ g_2) = f(g_1) \ast f(g_2)
@@ -20,12 +20,16 @@ Abbildung \ref{fig:group_homomorphismus} zeigt eine grafische Darstellung dieses
 \end{figure} 
 
 Bei der homomorphen Verschlüsselung, handelt es sich um einen Gruppenhomomorphismus zwischen der Gruppe der Klartexte $(P,\circ)$ und der Gruppe der Geheimtexte $(C,\ast)$. 
-Die Abbildfunktionen sind dabei der Verschlüsselungsalgorithmus $E_k:P\to C$ und der Entschlüsselungsalgorithmus $D_k:C\to P$ mit einem Schlüssel $k \in K$ \cite{P-98}. 
+Die Abbildfunktionen sind dabei der Verschlüsselungsalgorithmus $Enc_k:P\to C$ und der Entschlüsselungsalgorithmus $Dec_k:C\to P$ mit einem Schlüssel $k \in K$ \cite{P-98}. 
 Daraus lässt sich ableiten, dass folgende Bedingungen erfüllt sind:
 \begin{equation*}
-    E_k(p_1 \circ p_2) = E_k(p_1) \ast E_k(p_2)  \text{ und } D_k(c_1 \ast c_2) = D_k(c_1) \circ D_k(c_2)
+    Enc_k(p_1 \circ p_2) = Enc_k(p_1) \ast Enc_k(p_2) 
+\end{equation*}
+\begin{equation*}
+Dec_k(c_1 \ast c_2) = Dec_k(c_1) \circ Dec_k(c_2)
 \end{equation*}
 Abbildung \ref{fig:homo_enc} zeigt, wie besagter Homomorphismus aussieht.
+
 
 \begin{figure}[!htb]
     \centering
@@ -37,7 +41,7 @@ Abbildung \ref{fig:homo_enc} zeigt, wie besagter Homomorphismus aussieht.
 Homomorphe Verschlüsselungen lassen sich dabei in 3 Kategorien einteilen, je nachdem welche Verknüpfungen innerhalb der Gruppen möglich sind \cite{P-42}:
 \begin{compactitem}
 \item \textbf{Teilweise homomorphe Verschlüsselung (partially):} Entweder Multiplikation oder Addition möglich, jedoch nicht beides.
-\item \textbf{Eingeschränkte homomorphe Verschlüsselung (somewhat):} Sowohl Multiplikation als auch Addition möglich, jedoch beschränkt durch die Anzahl an durchführbaren Berechnungen. 
+\item \textbf{Eingeschränkte homomorphe Verschlüsselung (somewhat oder leveled):} Sowohl Multiplikation als auch Addition möglich, jedoch beschränkt durch die Anzahl an durchführbaren Berechnungen. 
 \item \textbf{Vollständige homomorphe Verschlüsselung (fully):} Multiplikation und Addition für eine unbegrenzte Anzahl an Berechnungen möglich
 \end{compactitem}
 
@@ -47,13 +51,13 @@ Das System war eingeschränkt homomorph, da die Verschlüsselung auf einem Rausc
 Er erweiterte das System mit einer Technik namens Bootstrapping.
 Dabei wird der Geheimtext ein zweites Mal verschlüsselt, sodass dieser doppelt verschlüsselt ist.
 Anschließend kann mittels des verschlüsselten Schlüssels die ursprüngliche Verschlüsselung homomorph herausgerechnet werden. 
-Dadurch wird das Rauschen den Verschlüsselungssystems zurückgesetzt und eine weitere Berechnung ist möglich. 
-Kann das ursprünglich eingeschränkte homomorphe Verschlüsselungssystem die homomorphe Entschlüsselung und eine weitere Operation durchführen, dann kann es mittels Bootstrapping zu einem vollständig homomorphen System umgewandelt werden.
-So tauschten Van Dijk et al. \cite{P-100} die auf Gittern basierte Verschlüsselung durch eine auf Ganzzahlen basierte, eingeschränkt homomorphe Verschlüsselung aus. 
+Dadurch wird das Rauschen des Verschlüsselungssystems zurückgesetzt und eine weitere Berechnung ist möglich. 
+Kann das ursprünglich eingeschränkte homomorphe Verschlüsselungssystem die homomorphe Entschlüsselung und eine weitere Operation durchführen, dann kann es mittels Bootstrapping zu einem vollständig homomorphen Verschlüsselungssystem umgewandelt werden.
+So nutzen beispielsweise Van Dijk et al. \cite{P-100} diesen Fakt aus, und ersetzten die auf Gittern basierte Verschlüsselung durch eine auf Ganzzahlen basierte, eingeschränkt homomorphe Verschlüsselung aus. 
 
 Brakerski und Vaikuntanathan \cite{P-101} verbesserten die Effizienz des bereits geschilderten Ansatzes.
-Sie nutzen eine eingeschränkte homomorphe Verschlüsselung auf Basis des Lernen mit Fehlern (Learning with errors) Problems zusätzlich zu einem Relinearisierungsschritt.
-Dieser zusätzliche Schritt reduziert die Größe des Geheimtextes, wodurch die homomorphe Entschlüsselung beim Bootstrapping vereinfacht wird.
+Sie nutzen eine eingeschränkte homomorphe Verschlüsselung auf Basis des Lernen mit Fehlern Problems (Learning with errors) zusätzlich zu einem Relinearisierungsschritt.
+Dieser zusätzliche Relinearisierungsschritt reduziert die Größe des Geheimtextes, wodurch die homomorphe Entschlüsselung beim Bootstrapping vereinfacht wird.
 
 Gentry et al. \cite{P-102} stellten eine weitere vollständig homomorphe Verschlüsselung auf Basis des Lernen mit Fehlern Problems vor.
 Die darin eingesetzte, eingeschränkt homomorphe Verschlüsselung stellt den Geheimtext als eine Matrix dar.
@@ -65,14 +69,13 @@ Bei diesem Ansatz ist es jedoch möglich, alleine mit dem Geheimtext Operationen
 
 Theoretisch wäre das Training eines Neuronalen Netzes mittels vollständiger homomorpher Verschlüsselung möglich, jedoch ist es nicht praktikabel. 
 Das Training besteht aus vielen Berechnungsschritten (Inferenze, Berechnen der Verlustfunktion, Gradientenberechnung, Anpassen der Gewichte), welche mit der Größe des Neuronalen Netzes ansteigt.
-So wird bereits bei einem Neuronales Netz mit Konvolutions und insgesamt 7 Schichten, die Trainingszeit auf einer gewöhnlichen CPU, von ungefähr einer Stunde auf ein ganzes Jahr erhöht \cite{P-103}.
+So wird bereits bei einem Neuronales Netz mit 7 Schichten, Faltungsschichten und vollständig verbundene Schichten, die Trainingszeit auf einer gewöhnlichen CPU, von ungefähr einer Stunde auf ein ganzes Jahr erhöht \cite{P-103}.
 Eine Alternative ist es, keine vollständige sondern nur eingeschränkte homomorphe Verschlüsselung zu nutzen.
 Takabi et al. \cite{P-104} zeigen wie dies möglich ist.
 Um das Problem der begrenzten Anzahl an Berechnungen von eingeschränkter homomorphen Verschlüsselung zu umgehen, wird ein zusätzlicher Schritt eingeführt. 
 Wird das Rauschen der Verschlüsselung zu groß und überschreitet einen festgelegten Schwellenwert, muss der aktuelle Zustand entschlüsselt und neu verschlüsselt werden.
-Dadurch wird das Rauschen zurückgesetzt, ohne dass Bootstrapping nötig ist.
-Dies ermöglicht es, andere Verschlüsselungssysteme zu nutzen, die performanter sind.
-
+Hierdurch wird das Rauschen zurückgesetzt, ohne dass Bootstrapping nötig ist.
+Dadurch, dass kein vollständig homomorphes Verschlüsselungssytem genutzt werden muss, können performantere, teilweise homomorphe Verschlüsselungssyteme genutzt werden.
 
 Neben dem Training eines Modells, gibt es eine Vielzahl an Techniken, die Homomorphe Verschlüsselung nur bei der Inferenz der Neuronalen Netze nutzt. 
 Diese werden in Kapitel \ref{sec:krypto_inferenz} genauer beschrieben.

@@ -26,9 +26,9 @@ Zusätzlich kann ein GAN auch Differential Privacy nutzen, um die originalen Dat
 Neben GANs gibt es auch statistische Methoden, künstliche Daten zu erzeugen.
 NIST-MST ist eine dieser Methoden, welche Marginalverteilungen nutzt, um einen synthetischen Datensatz immer mehr dem originalen Datensatz anzugleichen (Kapitel \ref{sec:synthetic_data}).
 
-Differential Privacy im Training zu nutzen, können die Gewichte eines Neuronalen Netzes mittels DP-SGD angepasst werden.
+Differential Privacy im Training zu nutzen, können die Gewichte eines Neuronalen Netzes mittels DPSGD angepasst werden.
 Nach der Berechnung der Gradienten, werden diese mittels des Gauß-Mechanismus verrauscht, bevor die Gewichte angepasst werden.
-Mittels des sogenannten Moments Accountant kann das Privacy Budget $\epsilon$ nicht nur über einzelne Trainingsschritte, sondern den gesamten Trainingsprozess überwacht werden (Kapitel \ref{sec:dp_training}).
+Mittels der sogenannten Moment Berechnung kann das Privacy Budget nicht nur über einzelne Trainingsschritte, sondern den gesamten Trainingsprozess überwacht werden (Kapitel \ref{sec:dp_training}).
 
 Homomorphe Verschlüsselung ist ein moderner kryptografischer Ansatz, welcher ermöglicht, Berechnungen auf verschlüsselten Daten durchzuführen.
 Somit kann der Plattformanbieter nicht mitlesen, wenn ein Modell auf seiner Plattform trainiert wird.

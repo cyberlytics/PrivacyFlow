@@ -16,3 +16,8 @@ HEART_DATA_TOTAL = f"{ROOT_PATH}/data_health/heart_total.csv"
 
 FACE_MI_DATA = f"{ROOT_PATH}/data_faces/faces_mi.csv"
 FACE_BASE_MODEL = f"{ROOT_PATH}/models_trained/face_base_model.pl"
+FACE_DENSE_MODEL = f"{ROOT_PATH}/models_trained/face_dense_model.pl"
+FACE_VIT_MODEL = f"{ROOT_PATH}/models_trained/face_vit_model.pl"
+FACE_VIT_NP_MODEL = f"{ROOT_PATH}/models_trained/face_vit_np_model.pl"
+FACE_CNN_DPSGD = f"{ROOT_PATH}/models_trained/face_cnn_dpsgd_model.pl"
+FACE_VIT_DPSGD = f"{ROOT_PATH}/models_trained/face_vit_dpsgd_model.pl"

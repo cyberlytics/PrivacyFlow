@@ -5,13 +5,31 @@ Nachdem Kapitel \ref{sec:dp} bereits zeigt, wie Differential Privacy definiert w
 Abadi et al. \cite{P-28} zeigen, wie der Trainingsalgorithmus angepasst wird, um Differential Privacy zu unterstützen.
 Die Methode trägt den Namen Differentially private SGD oder auch DPSGD.
 Ein Trainingsschritt mittels DPSGD sieht dabei wie folgt aus:
-\begin{enumerate}
+\begin{compactenum}
+    \item Ein Batch von zufälligen Daten wird als Input des Modells für den Feedforward Schritt genutzt. Dabei kommt jeder Datenpunkt mit der gleichen Wahrscheinlichkeit in einem Batch vor. Anders als bei einem normalen Training könnten einzelne Datensätze auch mehrmals oder gar nicht innerhalb einer Epoche zum Trainieren genutzt werden. 
     \item Die Gradienten werden mittels der Verlustfunktion berechnet. Dies gleicht dem Training ohne Differential Privacy.
-    \item Die maximale Größe der Gradienten wird beschränkt. Dies liegt daran, dass Gradienten potenziell beliebig groß werden könnten, jedoch für die Berechnung des Privacy Budget die maximale Änderung der Funktion, die Sensitivität $\Delta f$, benötigt wird. Diese entspricht der maximalen Größe der Gradienten quadriert.
+    \item Die maximale Größe der Gradienten wird beschränkt. Dies liegt daran, dass Gradienten potenziell beliebig groß werden könnten, was dafür sorgen könnte, dass das berechnete Privacy Budget nicht eingehalten werden könnte.
     \item Anschließend werden die Gradienten durch den Gauß-Mechanismus verrauscht. 
     \item Die Anpassung der Gewichte erfolgt in die umgekehrte Richtung der Gradienten, skaliert mit einer Lernrate. Dies gleicht ebenfalls dem normalen Trainingsvorgehen.
-\end{enumerate}
+\end{compactenum}
 
-Entsprechend der Parameter des Gauß-Mechanismus (Formel \ref{formula:gauß} in Kapitel \ref{sec:dp}), kann gezeigt werden, dass jeder Schritt ($\epsilon$,$\delta$)-Differential Privacy erfüllt.
-Zusätzlich integrieren die Autoren eine Methode, Moments Accountant, welche den Verlust des Privacy Budgets über den Trainingsprozess überwacht.
-Dieses nutzt die stochastischen Momente des Rauschens, um zu zeigen, dass das Privacy Budget $\epsilon$ für den gesamten Trainingsprozess tatsächlich geringer ist als das, was bei der üblichen Multiplikation des Privacy Budgets nach jedem Schritt berechnet wird.
+Ein wichtiger Teil der Methode ist jedoch die Berechnung des $\epsilon$-Werts und des $\delta$-Werts über den Trainingsprozess hinweg.
+Hierbei wird für jeden Batch berechnet, welchen Einfluss dieser über die Gradienten auf die Gewichte des Modells hat.
+Das Rauschen in Schritt 4 wird dabei so gewählt, dass eine Anpassung der Gewichte durch einen Batch ($\epsilon$,$\delta$)-Differential Privacy erfüllt.
+Dadurch, dass ein Batch aus zufälligen Datenpunkten des Datensatzes besteht, kann das sogenannte Privacy Amplification Theorem genutzt werden \cite{P-107}. 
+Dieses besagt, dass jede Anpassung in Bezug auf den ganzen Datenbestand ($\mathcal{O}(q\epsilon)$,$q\delta$)-Differential Privacy erfüllt, wobei $q$ dem Strichprobenverhältnis von Batch Größe zu Datensatzgröße entspricht und $\mathcal{O}$ dabei der Big-$\mathcal{O}$-Notation.
+Die Big-$\mathcal{O}$-Notation zeigt hier, dass das Privacy Budget höchstens so schnell wächst, wie das Stichprobenverhältnis $q$ mit dem $\epsilon$-Wert eines Batches.
+Um nun mehrere Trainingsschritte zu bewerten, könnte das Privacy Budgets eines Schritts mit der Anzahl der Schritte $T$ multipliziert werden. 
+Dadurch erfüllt der Trainingsprozess ($\mathcal{O}(q\epsilon T)$,$q\delta T$)-Differential Privacy.
+
+Bei der beschriebene Berechnung des Privacy Budgets, handelt es sich um eine Obergrenze, welche mathematisch bewiesen werden kann.
+Es ist jedoch vorteilhaft, eine beweisbare Obergrenze zu finden, welche möglichst nahe an dem tatsächlichen Wert liegt. 
+Dies sorgt dafür, dass mehr Rauschen eingefügt werden kann, jedoch die Quantifizierung des Privacy Budgets den gleichen Wert annimmt, was wiederum die tatsächliche Privatsphäre der Daten mehr schützt.
+Eine Möglichkeit die Distanz der berechneten Obergrenze bei DPSGD zu minimieren, ist das Strong Composition Theorem \cite{P-27}.
+Dabei handelt es sich um ein Theorem, welches dafür sorgt, dass das Privacy Budget über mehrere Schritte geringer ansteigt, primär dadurch, dass nicht mehr mit der Anzahl der Schritte $T$ multipliziert werden muss, sondern nur mit der Wurzel davon.
+Formell erfüllt der Trainingsprozess ($\mathcal{O}(q\epsilon \sqrt{T log(1/\delta)})$,$q\delta T$)-Differential Privacy.
+
+Abadi et al. \cite{P-28} zeigen jedoch, dass die Obergrenze sogar noch geringer gesetzt werden kann, als mit dem Strong Composition Theorem.
+Diese Methode wird Moment Berechnung genannt und sorgt dafür, dass der Trainingsprozess mit DPSGD ($\mathcal{O}(q\epsilon \sqrt{T})$,$\delta$)-Differential Privacy erfüllt.
+Da $\delta$ normalerweise kleiner gesetzt wird, als die Inverse der Anzahl an Datensätzen im Datenbestand, sorgt das Wegfallen des Terms $\sqrt{log (1/\delta)}$ im $\epsilon$-Teil, für eine signifikante Verkleinerung des Privacy Budgets über den Trainingsprozess hinweg.
+Zusätzlich entfällt im $\delta$-Teil der Faktor $qT$, wodurch der gesetzte $\delta$-Wert über den Trainingsprozess konstant bleibt.

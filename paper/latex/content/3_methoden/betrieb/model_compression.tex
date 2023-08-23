@@ -3,27 +3,27 @@
 Eigentlich dient die Kompression eines Modells dazu, den Speicherverbrauch zu minimieren und zusätzlich Rechenleistung bei der Vorhersage zu sparen.
 Jedoch gibt es auch einige Ansätze, wie Modellkompression genutzt werden kann, um die Vertraulichkeit der Daten zu sichern.
 
-Ein Ansatz der Modellkompression ist es, ein Teacher Modell zu trainieren und dieses dann dazu zu nutzen, ein Student Modell zu trainieren. 
-Die in Kapitel \ref{sec:pate} beschriebene Methode PATE nutzt auch so eine Teacher Student Architektur. 
+Ein Ansatz der Modellkompression ist es, ein Teacher-Modell zu trainieren und dieses dann dazu zu nutzen, ein Student-Modell zu trainieren. 
+Die in Kapitel \ref{sec:pate} beschriebene Methode PATE nutzt ebenfalls  eine Teacher-Student-Architektur. 
 Jedoch erfordert PATE eine Anpassung des Trainingsprozesses, indem verschiedene Teacher Modelle trainiert werden.
 Andere Techniken können ein bestehendes Modell als Teacher nutzen.
 
 Die Destillation eines Modells wurde erstmals von Hinton et al. \cite{P-61} vorgestellt.
-Dabei handelt es sich auch um eine Teacher Student Architektur, bei welcher ein einzelnes Modell, wie auch ein Ensemble an Modellen als Teacher genutzt werden.
-Das Student Modell, welches eine ähnliche Architektur wie das Teacher Modell hat, soll dabei lernen, die gleiche Wahrscheinlichkeitsverteilung wie das Teacher Modell vorherzusagen.
-Anschließend wird nur das Student Modell genutzt, um Vorhersagen zu berechnen.
-Für das Training des Student Modells kann der gleiche Trainingsdatensatz genutzt werden, jedoch ist auch ein alternativer Datensatz möglich.
-Als Label werden die Vorhersagen des Teacher Modells, beziehungsweise die aggregierte Vorhersage des Teacher Ensembles.
+Dabei handelt es sich auch um eine Teacher-Student-Architektur, bei welcher ein einzelnes Modell, wie auch ein Ensemble an Modellen als Teacher genutzt werden kann.
+Das Student-Modell, welches eine ähnliche Architektur wie das Teacher-Modell hat, soll dabei lernen, die gleiche Wahrscheinlichkeitsverteilung wie das Teacher-Modell vorherzusagen.
+Anschließend wird nur das Student-Modell genutzt, um Vorhersagen zu berechnen.
+Für das Training des Studen- Modells kann der gleiche Trainingsdatenbestand genutzt werden, jedoch ist auch ein alternativer Datenbestand möglich.
+Als Label werden die Vorhersagen des Teacher-Modells, beziehungsweise die aggregierte Vorhersage des Teacher-Ensembles.
 Klassifikatoren haben in der Regel eine Softmax Aktivierungsfunktion in der letzten Schicht, welche die Wahrscheinlichkeiten der einzelnen Klassen ausgibt.
 Die Softmax Funktion hat dabei einen Parameter namens Temperatur, welcher die Entropie der Wahrscheinlichkeiten beeinflusst. 
 Normalerweise ist der Wert der Temperatur auf 1 gesetzt, was dafür sorgt, dass die Wahrscheinlichkeit der vorhergesagten Klasse deutlich größer als die anderen Wahrscheinlichkeiten ist.
 Eine höhere Temperatur hat zur Folge, dass sich die Wahrscheinlichkeiten annähern und die Verteilung dadurch glatter wird.
-Modell Destillation nutzt eine höhere Temperatur im Teacher Modell zum Labeln der Daten und die gleiche Temperatur während des Trainings des Student Modells.
-Dies sorgt dafür, dass das Student Modell die Verteilungen besser lernen kann, da so auch nicht vorhergesagte Klassen mehr Einfluss auf die Gradienten haben.
-Nach dem Training nutzt das Student Modell wieder eine Temperatur von 1.
+Modell Destillation nutzt eine höhere Temperatur im Teacher-Modell zum Labeln der Datensätze und die gleiche Temperatur während des Trainings des Student-Modells.
+Dies sorgt dafür, dass das Student-Modell die Verteilungen besser lernen kann, da so auch nicht vorhergesagte Klassen mehr Einfluss auf die Gradienten haben.
+Nach dem Training nutzt das Student-Modell wieder eine Temperatur von 1.
 Die Autoren zeigen, dass die Temperatur einen deutlichen Einfluss auf die Güte des Modells haben kann. 
 Der Wert kann dabei zwischen 2,5 und 20 schwanken.
-Wang et al. \cite{P-64} zeigen, dass Modell Destillation in Kombination mit Differential Privacy  genutzt werden kann, um ein Student Modell zu erhalten, welches die Vertraulichkeit der Daten schützt. 
+Wang et al. \cite{P-64} zeigen, dass Modell Destillation in Kombination mit Differential Privacy genutzt werden kann, um ein Student-Modell zu erhalten, welches die Vertraulichkeit der Daten schützt. 
 Dabei werden die Outputs der Softmax Funktion mit hoher Temperatur des Teacher Modells mit dem Gauß-Mechanismus verrauscht, bevor diese als Label für das Student Modell genutzt werden.
 
 Die Methode der Destillation wurde von Polino et al. \cite{P-62} durch die sogenannte Quantisierung erweitert.
@@ -35,6 +35,6 @@ Jeder Wert wird dem nähesten dieser Intervalle zugeordnet.
 Es ist dabei anzumerken, dass durch diese Intervalleinteilung ein Rundungsfehler entsteht.
 Dieser Fehler entspricht dem Rauschen einer Gauß Verteilung.
 Dies ähnelt dem Rauschen des Gauß-Mechanismus von Differential Privacy und könnte die Vertraulichkeit schützen.
-Die Autoren gehen aber nicht weiter auf das Thema ein.
+Die Autoren gehen aber nicht weiter auf das Thema ein und es gibt auch keine Berechnung eines Privacy Budgets.
 Quantisierung kann genutzt werden, um die Größe eines Modells zu reduzieren.
-Die Autoren zeigen, dass Quantisierung bei jedem Trainingsdurchlauf der Modell Destillation genutzt werden kann, wodurch das Student Modell noch kleiner im Vergleich zum ursprünglichen Teacher Modell wird, obwohl die Genauigkeit nahezu gleich bleibt.
+Die Autoren zeigen, dass Quantisierung auch in Kombination mit Modell Destillation genutzt werden kann, wodurch das Student Modell noch kleiner im Vergleich zum ursprünglichen Teacher-Modell wird, obwohl die Genauigkeit nahezu gleich bleibt.

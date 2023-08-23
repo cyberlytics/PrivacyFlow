@@ -2,15 +2,15 @@
 
 Für Machine Learning Anwendungen werden, je nach Komplexität der Aufgabe, eine Vielzahl an Daten benötigt.
 Durch Datenlecks können diese, oftmals private, Daten an die Öffentlichkeit oder in die Hände eines Angreifers gelangen.
-Ein Beispiel hierfür wäre das Datenleck von Facebook, bei welchem 50 Millionen Nutzerprofile von dem Datenanalyse-Unternehmen Cambridge Analytica ausgelesen worden sind. 
-Diese wurden genutzt, um die US-Wahl 2016 zu beeinflussen \cite{I-2}.
+Ein Beispiel hierfür wäre das Datenleck von Facebook, bei welchem 50 Millionen Nutzerprofile von dem Datenanalyse-Unternehmen Cambridge Analytica ausgelesen wurden. 
+Diese Daten wurden verwendet, um die US-Wahl 2016 zu beeinflussen \cite{I-2}.
 
 Allerdings kommt es auch vor, dass Unternehmen freiwillig Daten veröffentlichen. 
-Netflix veröffentlichte 2006 einen Datensatz, welcher Filmbewertungen von knapp 500.000 Nutzern enthält \cite{I-3}. 
-Um nicht absichtlich private Daten zu veröffentlichen, war der Datensatz anonymisiert.
-Neben einem Wettbewerb steht dieser Datensatz zu Forschungszwecken öffentlich zur Verfügung.
-Narayanan und Shmatikov \cite{P-29} zeigen jedoch, dass die Anonymisierung des Datensatzes nicht ausreichend war, um private Informationen zu schützen.
-Die Bewertungen der anonymisierten Benutzer, wurden mit den Bewertungen der öffentlichen Filmdatenbank IMDb abgeglichen.
+Netflix veröffentlichte 2006 einen Datenbestand, welcher Filmbewertungen von knapp 500.000 Nutzern enthält \cite{I-3}. 
+Um nicht absichtlich private Daten zu veröffentlichen, war der Datenbestand anonymisiert.
+Neben einem Wettbewerb steht dieser Datenbestand zu Forschungszwecken öffentlich zur Verfügung.
+Narayanan und Shmatikov \cite{P-29} zeigen jedoch, dass die Anonymisierung des Datenbestands nicht ausreichend ist, um private Informationen zu schützen.
+Die Bewertungen der anonymisierten Benutzer, können mit Bewertungen der öffentlichen Filmdatenbank IMDb abgeglichen werden, sodass Nutzerprofile verbunden werden können.
 Dabei genügt es, wenn Präferenzen in Korrelation gesetzt werden können, die genauen Wert sind nicht notwendig.
 Narayanan und Shmatikov \cite{P-29} beschreiben, dass sogar politische oder religiöse Informationen herausgefunden werden können.
-Hierzu werden beispielsweise positive Bewertungen von religiösen Dokumentationsfilmen, die privat auf Netflix abgegeben werden, werden öffentlichen Profilen auf IMDb zugeordnet.
+Hierzu werden beispielsweise positive Bewertungen von religiösen Dokumentationsfilmen, die privat auf Netflix abgegeben werden, den entsprechenden öffentlichen Profilen auf IMDb zugeordnet.

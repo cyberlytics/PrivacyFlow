@@ -1,0 +1,94 @@
+\section{Bewertung kryptografischer Methoden}\label{sec:bw_krypto}
+
+Moderne kryptografische Techniken ermöglichen es, Berechnungen auf verschlüsselten Daten durchzuführen.
+Im Folgenden werden diese Methoden anhand von Beispielen, je eine Methode pro kryptografische Technik, analysiert.
+Dabei wird betrachtet, an welcher Stelle die Methoden angewendet werden können, wie die Rechenleistung und Güte der Modelle beeinflusst wird und ob die Methoden Vertraulichkeit schützen können.
+
+Tabelle \ref{tab:krypto_methods} zeigt die bereits vorgestellten kryptografischen Methoden, welche auf Neuronale Netze angewendet werden können.
+Diese sind nach anhand der zugrundeliegenden Kryptografie gruppiert.
+Die Phase des Modells beschreibt dabei, ob die Methoden das Training oder nur die Inferenz unterstützen.
+
+\input{tables/overview_krypto_methods}
+
+
+\subsubsection*{Phase des Modells}
+
+Jede der dargestellten Methoden unterstützt die Inferenz, doch nicht zwingend den Trainingsprozess selbst.
+Dies liegt daran, dass jeder der kryptografischen Methoden dafür sorgt, dass Berechnungen um ein Vielfaches komplexer werden. 
+Ein Schritt des Trainingsprozesses ist wesentlich komplexer als die Vorhersage. 
+Dies liegt unter anderem daran, dass dieser eine Inferenz enthält.
+Zusätzlich muss für jedes Gewicht ein Gradient anhand der Verlustfunktion berechnet werden, anhand dessen jedes Gewicht angepasst wird.
+Eine Nutzung von Kryptografie an dieser Stelle würde einen wesentlich höheren Mehraufwand, sowohl von der Komplexität als auch der Performance, bedeuten.
+Dieser ist sogar so hoch, dass es (mit aktuellen Techniken) nicht sinnvoll wäre, das Training kryptografisch zu sichern.
+Dies ist der Grund, warum sich kryptografische Methoden auf die Inferenz des Modells fokussieren.
+
+\subsubsection*{Performance}
+
+Da kryptografische Methoden zusätzliche Schritte wie eine Ver- und Entschlüsselung beinhalten, ist es nachvollziehbar, dass Mehraufwand bei Berechnungen entsteht.
+Jedoch ist dieser verhältnismäßig hoch.
+
+Ein Beispiel für homomorphe Verschlüsselung wäre hier CryptoNets \cite{P-54}.
+Zur Evaluation wird ein relativ einfaches Neuronales Netz genutzt, welches aus zwei Faltungsschichten, gefolgt von je einer Aktivierungsfunktion und Pooling Schicht, sowie zwei vollständig verbundenen Schichten besteht.
+Die Autoren zeigen zwar, dass eine Server-CPU in der Lage ist, bei Vollauslastung fast 60.000 Vorhersagen zu treffen, jedoch berücksichtigt dies nicht die Schritte der Ver- und Entschlüsselung.
+Die gleiche CPU ist in der Lage, 25.000 Datensätze (Bilder) pro Stunde zu verschlüsseln und 275.000 Ergebnisse zu entschlüsseln.
+Würde man alle Schritte kombinieren, benötigen die 60.000 Vorhersagen ungefähr 2 Stunden und 25 Minuten für die Verschlüsselung und 15 Minuten für die Entschlüsselung zusätzlich.
+Somit erhöht sich die Gesamtzeit auf 3 Stunden und 40 Minuten.
+Da ein Modell oftmals nicht unter Vollauslastung läuft, ist auch die Inferenzzeit eines einzelnen Datensatzes relevant.
+Die Verschlüsselung benötigt 44,5 Sekunde, die Vorhersage des Modells 250 Sekunden und die Entschlüsselung des Ergebnisses 3 Sekunden. 
+Folglich dauert die Inferenz eines Datensatzes insgesamt 297,5 Sekunden.
+
+Da die Autoren nicht spezifizieren, ob CryptoNets durch Grafikkarten (GPUs) beschleunigt werden könnte, wird ebenfalls mit einer CPU verglichen.
+Dabei wird ein vergleichbares Modell mit dem Framework PyTorch auf einer Desktop-CPU nachgebaut.
+Es ist anzumerken, dass die genutzte Desktop-CPU im Vergleich zu der von CryptoNets genutzten Server-CPU 6 Jahre neuer ist, 2 Kerne mehr hat und eine etwas höhere Taktrate besitzt.
+Die Differenz der Ergebnisse wären bei gleicher Hardware geringer, jedoch sind die Ergebnisse dennoch aussagekräftig.
+Die Klassifikation von 60.000 Datensätzen benötigt weniger als eine Minute und ein einzelnes Bild kann in weniger als einer Sekunden inferiert werden.
+Dementsprechend benötigt CryptoNets bei größeren Datenmengen unter Vollauslastung 150 Mal länger als ein unverschlüsseltes Modell. 
+Bei einem einzigen Datensatz entspricht der Faktor sogar 300.
+Bei größeren Modellen würde sich der Faktor sogar erhöhen, was bedeutet, dass die kryptografische Inferenz mit steigender Modellgröße immer unpraktikabler wird.
+
+
+CryptoNN \cite{P-53}, ein auf funktionaler Verschlüsselung basierendes Framework, bietet eine bessere Performance.
+Dies liegt daran, dass nicht das ganze Modell kryptografisch berechnet wird, sondern nur die erste Schicht des Modells.
+Der dadurch reduzierte Schutz des Modells wird im Laufe des Kapitels genauer beleuchtet.
+Zur Evaluation der Trainingszeit nutzten die Autoren LeNet-5 Modell, ein simples Neuronales Netz mit zwei Faltungsschichten, welches mit der MNIST Datenmenge\cite{D-MNIST} und zwei Epochen trainiert wurde.
+Unverschlüsselt dauert das Training (auf der Hardware der Autoren) 4 Stunden und verschlüsselt 57 Stunden, somit über 14 Mal länger.
+Die Autoren geben keine Zeit für die reine Inferenz an, deshalb wird angenommen, dass der Multiplikationsfaktor der Zeit mindestens gleich groß ist.
+
+Mit dem Chameleon Framework \cite{P-72} wird das ganze Modell verschlüsselt von zwei Parteien mittels Oblivious Transfer und Garbled Circuits inferiert.
+Bei dem gleichen Modell, welches auch CrytoNets zur Evaluation nutzt, zeigen die Autoren, dass die Klassifikation eines Datensatzes 3 Sekunden dauert.
+Jedoch ist der Leistungsvorteil, wenn Daten gebündelt als Batch klassifiziert werden, kleiner als bei CryptoNN.
+Dies sorgt dafür, dass die Klassifikation von 60.000 Bildern, mit einer Batch Größe von 100, ungefähr 26 Stunden benötigen würde.
+Im Vergleich zum unverschlüsselten Modell mit PyTorch, benötigt die Klassifikation eines einzelnen Datensatzes 3 Mal mehr, von 60.000 Bilder jedoch 1560 Mal mehr.
+Zusätzlich ist das Chameleon auf eine schnelle und stabile Netzwerkverbindung angewiesen, was den Leistungunterschied zu den normalen Modellen noch erhöhen könnte.
+
+\subsubsection*{Qualität der Modelle}
+
+Neben dem Mehraufwand der Berechnungen, gibt es zusätzlich Einschränkungen bei der Erstellung des Modells, was auch die Güte des Modells beeinflussen könnte.
+
+Um Leistung zu sparen, setzt CryptoNets \cite{P-54} auf eine eingeschränkte homomorphe Verschlüsselung, welche nur eine begrenzte Anzahl an Operationen ermöglicht.
+CryptoNets ermöglicht nur Polynomberechnungen, was dafür sorgt, dass Funktionen, die sich nicht als Polynom abbilden lassen, nur approximiert werden können.
+Dazu zählen Pooling Schichten, aber auch Aktivierungsfunktionen wie ReLU.
+Bei dem Modell, welches oben beschrieben ist, erreichen die Autoren eine Genauigkeit von knapp 99\%.
+Somit hat die Approximation, zumindest bei kleinen Neuronalen Netzen, kaum Auswirkungen auf die Güte.
+Da CryptoNN \cite{P-53} nur die erste Schicht eines Modells verschlüsselt, muss das Framework nicht jede Art von Schicht unterstützen.
+Faltungsschichten und vollständig verbunden Schichten werden unterstützt, wodurch die Genauigkeit eines Modells nicht negativ beeinflusst wird.
+Das Framework Chameleon \cite{P-72} hat ebenfalls keinen negativen Einfluss auf die Genauigkeit von Modellen.
+Das gleiche Modell wie bei CryptoNets, erreicht mit Chameleon ebenfalls eine Genauigkeit von 99\%.
+
+\subsubsection*{Schutz der Vertraulichkeit}
+
+Public Clouds ermöglichen es, moderne und schnelle Hardware nach Belieben zu buchen und zu nutzen.
+Dies schließt ebenfalls GPUs ein, welche für das Training und die Vorhersage Neuronaler Netze optimiert ist.
+Ein Problem, welches dabei entsteht ist, dass Cloud Provider theoretisch in der Lage wären, Daten auf den Servern mitzulesen.
+Homomorphe Verschlüsselung könnte dieses Problem lösen, da sich weder die Eingabedaten, noch die Vorhersage eines Modells unverschlüsselt auf dem Server befinden.
+Der Modellbetreiber wäre ebenfalls nicht in der Lage, diese Daten einzusehen.
+
+Da bei der funktionalen Verschlüsselung das Ergebnis jeder Schicht im Klartext vorliegt, bedeutet dies folgend, dass das Label der Vorhersage für den Serverbetreiber und den Modellbetreiber erkennbar sind.
+Das Modell, beziehungsweise die Anwendung um das Modell herum, kann so implementiert werden, dass der Serverbetreiber beispielsweise die Labels der Vorhersage nicht zuordnen können.
+Der Modellbetreiber hingegen könnte sogar das Ergebnis der Vorhersage mit Metadaten der Anfrage kombinieren und so dennoch Informationen über den Nutzer des Modells erhalten. 
+Soll ein Modell beispielsweise anhand eines Bildes eine medizinische Diagnose vorhersagen, kann der Modellbetreiber erfahren, welcher Nutzer welche Krankheit hat, ohne jedoch das Bild zu kennen.
+Bei Garbled Circuits kann der Modellbetreiber ebenfalls das Label auslesen, was zu den gleichen Problemen führt, die auch funktionale Verschlüsselung hat.
+
+Ein Vorteil der kryptografischen Methoden ist die mathematische Beweisbarkeit.
+Diese ermöglicht es, den Schutz gegen Angriffe zu quantifizieren, indem die Anzahl an Schritten angegeben werden kann, die ein Angreifer ausführen müsste, um die Verschlüsselung zu knacken.
+Zusätzlich kann die Schlüssellänge erhöht werden, sodass bei Bedarf die Sicherheit auch angepasst ist.

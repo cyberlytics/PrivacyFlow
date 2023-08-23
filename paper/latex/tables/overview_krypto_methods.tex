@@ -1,0 +1,19 @@
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor[HTML]{CBCEFB} 
+Art der Kryptografie                                                                     & Phase des Modells                                              & Methode                                                                                                                         \\ \hline
+                                                                                         & \begin{tabular}[c]{@{}l@{}}Training +\\ Inferenz\end{tabular}  & \begin{tabular}[c]{@{}l@{}}Eingeschränkte homomorphe \\ Verschlüsselung nach \\ Takabi et al. \cite{P-104}\end{tabular}                \\ \cline{2-3} 
+                                                                                         & Inferenz                                                       & CryptoNets \cite{P-54}                                                                                                                 \\ \cline{2-3} 
+\multirow{-3}{*}{\begin{tabular}[c]{@{}l@{}}Homomorphe \\ Verschlüsselung\end{tabular}}  & Inferenz                                                       & \begin{tabular}[c]{@{}l@{}}Eingeschränkt homomorphe \\ Verschlüsselung nach \\ Chabanne et al. \cite{P-55}\end{tabular}                \\ \hline
+                                                                                         & \begin{tabular}[c]{@{}l@{}}Training + \\ Inferenz\end{tabular} & CryptoNN \cite{P-53}                                                                                                                   \\ \cline{2-3} 
+                                                                                         & Inferenz                                                       & \begin{tabular}[c]{@{}l@{}}Funktionale Verschlüsselung \\ für Polynome mit Grad 2 \\ nach Dufour-Sans et al. \cite{P-105}\end{tabular} \\ \cline{2-3} 
+\multirow{-3}{*}{\begin{tabular}[c]{@{}l@{}}Funktionale \\ Verschlüsselung\end{tabular}} & Inferenz                                                       & \begin{tabular}[c]{@{}l@{}}Funktionale Verschlüsselung \\ für Polynome mit Grad 2 \\ nach Ryffel et al. \cite{P-46}\end{tabular}       \\ \hline
+                                                                                         & Inferenz                                                       & DeepSecure \cite{P-71}                                                                                                                 \\ \cline{2-3} 
+                                                                                         & Inferenz                                                       & Chameleon \cite{P-72}                                                                                                                  \\ \cline{2-3} 
+\multirow{-3}{*}{Yao's Garbled Circuits}                                                 & Inferenz                                                       & MiniONN \cite{P-59}                                                                                                                    \\ \hline
+\end{tabular}
+\caption{Übersicht kryptografischer Methoden}
+\label{tab:krypto_methods}
+\end{table}

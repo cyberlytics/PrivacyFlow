@@ -1,0 +1,15 @@
+\section{Kategorisierung anhand technischer Grundlage}
+Kapitel \ref{ch:methoden} gliedert Methoden zur Sicherung der Vertraulichkeit in den Lebenszyklus eines Modells, von der Vorbereitung der Daten bis zum Betrieb des Modells, ein. 
+Eine alternative Kategorisierung erfolgt anhand der technischen und mathematischen Grundlage der Methoden.
+Hier ergeben sich zwei Hauptkategorien: statistische Methoden und kryptografische Methoden.
+
+Kryptografische Methoden, wie der Name bereits andeutet, nutzen Kryptografie, um Daten oder Berechnungen auf diesen Daten zu verschlüsseln.
+Die hier genutzten Basistechniken sind Homomorphe Verschlüsselung, Funktionale Verschlüsselung und andere Secure Multi-Party Computation Methoden wie Garbled Circuits.
+Diese ermöglichen es, den Trainingsprozess und die Vorhersageberechnung des Modells auf verschlüsselten Daten durchzuführen.
+Kapitel \ref{sec:bw_krypto} zeigt, ob und wie diese Methoden sinnvoll genutzt werden können.
+
+Statistische Methoden beeinflussen Daten, oder Berechnungen mit diesen, sodass die Vertraulichkeit dieser geschützt werden kann.
+Anonymisierung ist beispielsweise eine Technik, welche durch Gruppierungen von Merkmalen dafür sorgen kann, dass einzelne Datenpunkte nicht eindeutig zugeordnet werden können.
+Die Technik, die jedoch aktuell im Kontext Machine Learning am populärsten ist, ist Differential Privacy. 
+Unternehmen wie Apple \cite{apple_dp}, Google \cite{google_dp},  Meta \cite{meta_dp} und Snapchat \cite{snapchat_dp} nutzen Differential Privacy bereits in Kombination mit Neuronalen Netzen.
+Aus diesem Grund wird Differential Privacy als Vertreter für statistische Methoden in Kapitel \ref{sec:bw_dp} bewertet.

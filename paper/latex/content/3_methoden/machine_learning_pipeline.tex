@@ -33,11 +33,11 @@ In der Abbildung wird dies durch ein rotes Modell angezeigt, da Gewichte des Mod
 Schritt 3 ist der tatsächliche Trainingsvorgang, bei dem das untrainierte Modell lernt.
 Grob lässt sich das Training in folgende Schritte einteilen, die mehrfach mit jedem Datenpunkt durchgeführt werden können:
 \begin{compactenum}
-\item \textbf{Feedforward: }Ein Datenpunkt oder ein mehrere Datenpunkte (Batch) werden durch das Modell gegeben und die Vorhersage berechnet. Die Abweichung von der tatsächlichen Vorhersage zu dem Label des Datenpunktes wird mittels einer Verlustfunktion quantifiziert.
-\item \textbf{Backpropagation: }Mittels des Wertes der Verlustfunktion lassen sich Gradienten für die Gewichte des Neuronalen Netzes berechnen. Diese können dazu genutzt werden, die aktuellen Gewichte anzupassen. 
+\item \textbf{Feedforward: }Ein Datenpunkt oder mehrere Datenpunkte, auch Batch genannt, werden durch das Modell gegeben und die Vorhersage berechnet. 
+\item \textbf{Backpropagation: }Die Abweichung von der tatsächlichen Vorhersage zu dem Label des Datenpunktes wird mittels einer Verlustfunktion quantifiziert. Mittels des Wertes der Verlustfunktion lassen sich Gradienten für die Gewichte des Neuronalen Netzes berechnen. Diese können dazu genutzt werden, die aktuellen Gewichte anzupassen. 
 \end{compactenum}
-Ein Durchgang der obigen Schritte mit jedem Datenpunkt wird dabei Epoche genannt. 
-Um den Trainingsfortschritt zu beobachten, kann eine Epoche zusätzlich auch eine Evaluierung mittels eines Validierungsdatensatzes enthalten.
+Ein Durchgang der obigen Schritte mit jedem Record wird dabei Epoche genannt. 
+Um den Trainingsfortschritt zu beobachten, kann eine Epoche zusätzlich auch eine Evaluierung mittels eines Validierungsdatenbestands enthalten.
 Grafisch wird das Training durch den Verbund des Dokuments und des untrainierten, roten Modells dargestellt. 
 Es entsteht ein grünes Modell, welches in der Lage ist, sinnvolle Vorhersagen zu erzeugen.
 In der Praxis gibt es hier einige Iterationen des Training, welche zusätzliche Vorgänge, wie beispielsweise eine Validierung, enthalten. 
@@ -47,6 +47,6 @@ Schritt 4 und 5 beschreiben das Deployment und den Betrieb des Modells.
 Dieses soll für vorgesehene Anwender erreichbar sein. 
 Je nach Anwendungsfall kann die Systemarchitektur unterschiedlich aussehen. 
 Einige Modelle werden mit Trainingscode auf öffentlichen Plattformen, wie HuggingFace\footnote{https://huggingface.co/models}, geteilt, wohingegen andere Modelle, wie ChatGPT\footnote{https://chat.openai.com/}, nur über eine spezielle Oberfläche erreichbar sind.
-In Abbildung \ref{fig:ml_pipeline} zeigt deshalb lediglich einen Anwender, der direkt Request an das Modell schickt.
+In Abbildung \ref{fig:ml_pipeline} zeigt deshalb lediglich einen Anwender, der direkt einen Request an das Modell schickt.
 In Kapitel \ref{sec:betrieb} werden Maßnahmen besprochen, die in dieser Phase die Vertraulichkeit sichern. 
 Dabei kann es sich um Transformationen des Modells vor dem Deployment handeln, oder um Mechanismen, die Anfragen und Antworten des Modells abwandeln.

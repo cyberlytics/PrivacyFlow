@@ -19,8 +19,8 @@
 
 
 % details about your thesis
-\newcommand{\titel}{Konzeption und Implementierung eines Frameworks zur Sicherung der Vertraulichkeit bei Neuronalen Netzen}
-\newcommand{\titelEN}{Conceptual Design and Implementation of a Framework for Ensuring Confidentiality in Neural Networks}
+\newcommand{\titel}{Analyse und Bewertung von Methoden zur Sicherung der Vertraulichkeit in Neuronalen Netzen}
+\newcommand{\titelEN}{Analysis and Evaluation of Methods for Ensuring Confidentiality in Neural Networks}
 \newcommand{\artderarbeit}{Masterarbeit}  % {Bachelorarbeit,Masterarbeit}
 \newcommand{\autor}{Sabau Patrick}
 \newcommand{\studiengang}{Künstliche Intelligenz}  % {Informatik,Wirtschaftsinformatik,Medieninformatik}
@@ -66,6 +66,7 @@
 \usepackage[toc]{glossaries}
 \usepackage{pdfpages}
 \usepackage{amsmath}
+\usepackage{multirow}
 
 %\usepackage{emptypage}
 
@@ -117,7 +118,8 @@
     style=ieee,
     natbib=true,
     url=false,
-    doi=true
+    doi=false,
+    eprint=false
 ]{biblatex}
 \addbibresource{refs.bib}
 
@@ -158,10 +160,9 @@
 \include{content/1_einleitung}
 \include{content/2_angriffe_gegen_ml}
 \include{content/3_methoden}
-\include{content/4_konzeption}
-\include{content/5_implementierung}
-\include{content/6_evaluierung}
-\include{content/7_diskussion}
+\include{content/4_bewertung}
+\include{content/5_experimente}
+\include{content/6_diskussion}
 
 
 %\appendix
