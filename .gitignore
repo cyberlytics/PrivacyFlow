@@ -164,3 +164,6 @@ privacyflow/data_faces/**
 
 privacyflow/data_health/**
 !privacyflow/data_health/.gitkeep
+
+privacyflow/models_trained/**
+!privacyflow/models_trained/.gitkeep
