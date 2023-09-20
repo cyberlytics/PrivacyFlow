@@ -30,3 +30,8 @@ FACE_VIT_DPSGD = f"{ROOT_PATH}/models_trained/face_vit_dpsgd_model.pl"
 
 FACE_CNN_NP_DPSGD = f"{ROOT_PATH}/models_trained/face_cnn_np_dpsgd_model.pl"
 FACE_VIT_NP_DPSGD = f"{ROOT_PATH}/models_trained/face_vit_np_dpsgd_model.pl"
+
+
+CIFAR_FOLDER_PATH = f"{ROOT_PATH}/data_cifar"
+
+MI_DATA_FOLDER = f"{ROOT_PATH}/data_mi"

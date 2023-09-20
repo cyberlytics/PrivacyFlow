@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torchvision.models as tv_models
 
+from privacyflow.configs import path_configs
 
 def get_FaceModelDenseNet(output_size: int):
     model = tv_models.densenet121(weights=tv_models.DenseNet121_Weights, memory_efficient=True)
@@ -71,3 +72,22 @@ class FaceMIModelLarge(nn.Module):
         x = torch.relu(self.batch_norm2(self.hidden_layer2(x)))
         x = torch.relu(self.batch_norm3(self.hidden_layer3(x)))
         return torch.sigmoid(self.output_layer(x))
+
+def load_saved_model(model_type:str = "cnn", alt_path:str= None):
+    if model_type == "cnn":
+        model = get_FaceModelResNet(40)
+        path = path_configs.FACE_CNN_MODEL if not alt_path else alt_path
+
+    elif model_type == "transformer":
+        model = get_FaceVisionTransformer(40)
+        path = path_configs.FACE_VIT_MODEL if not alt_path else alt_path
+
+    elif model_type == "dense":
+        model = get_FaceModelDenseNet(40)
+        path = path_configs.FACE_DENSE_MODEL if not alt_path else alt_path
+
+    else:
+        return None
+
+    model.load_state_dict(torch.load(path))
+    return model

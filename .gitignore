@@ -167,3 +167,11 @@ privacyflow/data_health/**
 
 privacyflow/models_trained/**
 !privacyflow/models_trained/.gitkeep
+
+privacyflow/images
+
+privacyflow/data_cifar/**
+!privacyflow/data_cifar/.gitkeep
+
+privacyflow/data_mi/**
+!privacyflow/data_mi/.gitkeep
