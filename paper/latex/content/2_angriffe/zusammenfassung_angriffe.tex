@@ -1,38 +1,46 @@
 \section{Zusammenfassung der Angriffe}
 
+Machine Learning Anwendungen haben, wie jede Softwareanwendung, eine gewisse Abhängigkeit an die Plattform, auf welcher die Anwendung läuft.
+Dabei hat jede Plattform eigene Risiken. 
+Bei einer Public Cloud können beispielsweise falsche Konfigurationen oder fehlende Sicherheitsmaßnahmen für ein Datenleck sorgen (Kapitel \ref{sec:plattform}).
+
 Ein Datenleck ist eines der größten Probleme von datengetriebenen Anwendungen.
-Selbst wenn diese anonymisiert wurden, können diese oftmals zu den Originaldaten zurückgeführt werden.
-Dies erfolgt oftmals statistisch mit einem weiteren (teils öffentlichem) Datensatz (Kapitel \ref{sec:deano}).
+Dabei werden Daten ungewollt veröffentlicht oder von Angreifern entwendet.
+Selbst wenn diese Daten anonymisiert sind, können diese oftmals zu den Originaldaten zurückgeführt werden.
+Dies kann über statistische Methoden erfolgen, indem die anonymisierten Daten mit weiteren, öffentlichen Datenbeständen verbunden werden (Kapitel \ref{sec:deano}).
 
-Jedoch können Daten auch rekonstruiert werden, wenn nur das Modell bereitgestellt wird.
+Jedoch können Daten auch rekonstruiert werden, wenn nur ein Modell bereitgestellt wird.
 Dies wird Model Inversion Attacke genannt.
-Dabei versucht ein Angreifer, die Vorhersage eines Modells zu nutzen, um seinen Datenpunkt näher an den Originaldatenpunkt zu bringen.
-Dies kann über einen iterativen Prozess funktionieren oder auch komplexere, generative Modelle wie Autoencoder nutzen (Kapitel \ref{sec:model_inversion}).
+Dabei versucht ein Angreifer, die Vorhersage eines Modells zu nutzen, um einen Datensatz so anzupassen, dass dieser einem echten Datensatz ähnelt.
+Dafür wird ein iterativer Prozess genutzt, welcher in jedem Schritt den initialen, zufällig erzeugten Datensatz mittels der Vorhersage des Modells anpasst und immer mehr einem echten Datensatz angleicht (Kapitel \ref{sec:model_inversion}).
 
-Wenn das Ziel nicht einzelne Datenpunkte sind, sondern Eigenschaften, die für einen ganzen Datensatz gelten, können diese mit der Property Inference Attacke analysiert werden.
+Wenn das Ziel nicht einzelne Datensätze sind, sondern Eigenschaften, die für eine ganze Datenmenge gelten, können diese mit der Property Inference Attacke analysiert werden.
 Dabei werden Shadow Modelle trainiert, welche versuchen, das originale Modell zu imitieren.
-Das Besondere an diesen Shadow Modellen ist es, dass manche mit einem Datensatz trainiert wurden, der die zu untersuchende Eigenschaft besitzt und andere wiederum nicht.
-Die Shadow Modelle werden genutzt, um einen Klassifikator zu bauen, der bestimmt, ob die Eigenschaft im genutzten Datensatz vorkommt oder nicht.
+Das Besondere an diesen Shadow Modellen ist es, dass manche mit einer Datenmenge trainiert werden, welche die zu untersuchende Eigenschaft besitzt und andere wiederum nicht.
+Die Shadow Modelle werden genutzt, um einen Meta-Klassifikator zu trainieren, welcher bestimmt, ob die Eigenschaft in der genutzten Datenmenge vorkommt oder nicht.
 Wird dies auf das originale Modell angewendet, kann ein Angreifer Aussagen zu dieser Eigenschaft treffen (Kapitel \ref{sec:property_inference}).
 
-Die Membership Inference Attacke nutzt ebenfalls Shadow Modelle, um einen Klassifikator zu trainieren, jedoch diesmal um herauszufinden, ob ein spezifischer Datenpunkt im Training genutzt wurde.
-Alleine dieser Fakt könnte sensibel sein (Kapitel \ref{sec:membership_inference}).
+
+Die Membership Inference Attacke versucht herauszufinden, ob ein spezifischer Datensatz für das Training eines Modells genutzt wurde.
+Dafür werden ebenfalls Shadow Modelle genutzt, anhand dessen Vorhersagewahrscheinlichkeiten ein Meta-Klassifikator trainiert werden kann.
+Dieser bestimmt, ob der spezifische Datensatz in der Trainingsdatenmenge eines Modells ist.
+Alleine dieser Fakt kann sensibel sein (Kapitel \ref{sec:membership_inference}).
+
 
 Sprachmodelle, welche das nächste Wort vorhersagen, sind besonders von der Data Extraction Attacke betroffen.
-Durch lange, fortlaufende Nutzung des Modells wurde ein riesiger Datensatz aus Text gesammelt, welcher nur vom Modell stammt.
-Dabei fanden sich sensible Informationen, die das Modell nur indirekt zum Training nutzte.
-Durch effizientere Sammelmethoden kann die Anzahl an sensiblen Information sogar noch erhöht werden (Kapitel \ref{sec:data_ext}).
+Durch lange, fortlaufende Nutzung eines Sprachmodells wird eine Menge aus Tokenabfolgen gesammelt, welche jeweils vom Modell vorhergesagt werden.
+In diesen Tokenabfolgen können sich sensible Informationen befinden, welche vom Modell gelernt wurden.
+Durch effizientere Sammelmethoden, wie die Anpassung der Eingabetexte oder die Veränderung der Vorhersagewahrscheinlichkeiten, kann die Anzahl an gesammelten, sensiblen Information sogar erhöht werden (Kapitel \ref{sec:data_ext}).
 
-
-Bei der Poisoning Attacke werden manipulierte Daten in den Datensatz integriert, welche dafür sorgen, dass das Training des Modells sabotiert wird.
+Bei der Poisoning Attacke werden manipulierte Daten zu einer Datenmenge hinzugefügt, welche dafür sorgen, dass das Training des Modells sabotiert wird.
 Das resultierende Modell wird verschlechtert oder sogar unbrauchbar gemacht.
 Werden die manipulierten Daten jedoch bewusst gewählt, kann es sein, dass andere Angriffe wie die Membership Inference Attacke wesentlich effektiver werden (Kapitel \ref{sec:poisoning}).
 
 Verteiltes Lernen bringt einige besondere Herausforderungen mit sich.
 Durch das Teilen von beispielsweise Gradienten, können Teilnehmer Rückschlüsse auf Eingabedaten ziehen, was Membership Inference und Property Inference Attacken erleichtert.
-Zusätzlich lassen sich mit den Gradienten auch ganze Datensätze rekonstruieren (Kapitel \ref{sec:angriffe_verteiltes_lernen}).
+Zusätzlich lassen sich mit den geteilten Gradienten auch ganze Datensätze rekonstruieren (Kapitel \ref{sec:angriffe_verteiltes_lernen}).
 
-Die in diesem Kapitel besprochenen Angriffe zeigen, dass Machine Learning Modelle wie Neuronale Netze ein potenzielles Sicherheitsrisiko für die Vertraulichkeit von Daten birgt.
+Die in diesem Kapitel besprochenen Angriffe zeigen, dass Machine Learning Modelle wie neuronale Netze ein potenzielles Sicherheitsrisiko für die Vertraulichkeit von Daten birgt.
 Dieses Risiko ist besonders hoch, wenn der zum Trainieren genutzte Datenbestand private und sensible Informationen enthält.
-Um dieses Risiko zu minimieren oder gar zu neutralisieren gibt es eine Reihe an Methoden, welche die Vertraulichkeit in Neuronalen Netzen sicher.
+Um dieses Risiko zu minimieren oder gar zu neutralisieren, gibt es eine Reihe an Methoden, welche die Vertraulichkeit in neuronalen Netzen sichern.
 Im Folgenden werden diese Methoden genauer betrachtet.

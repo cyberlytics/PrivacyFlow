@@ -1,9 +1,9 @@
 \section{De-Anonymisierung und Re-Identifikation}\label{sec:deano}
 
 Für Machine Learning Anwendungen werden, je nach Komplexität der Aufgabe, eine Vielzahl an Daten benötigt.
-Durch Datenlecks können diese, oftmals private, Daten an die Öffentlichkeit oder in die Hände eines Angreifers gelangen.
-Ein Beispiel hierfür wäre das Datenleck von Facebook, bei welchem 50 Millionen Nutzerprofile von dem Datenanalyse-Unternehmen Cambridge Analytica ausgelesen wurden. 
-Diese Daten wurden verwendet, um die US-Wahl 2016 zu beeinflussen \cite{I-2}.
+Durch Datenlecks können diese, oftmals privaten, Daten an die Öffentlichkeit oder in die Hände eines Angreifers gelangen.
+Ein Beispiel hierfür ist das Datenleck von Facebook, bei welchem 50 Millionen Nutzerprofile von dem Datenanalyse-Unternehmen Cambridge Analytica ausgelesen wurden. 
+Die Daten der Profile wurden genutzt, um zielgerichtete politische Werbung auszuspielen, wodurch die US-Wahl 2016 beeinflusst wurde \cite{I-2}.
 
 Allerdings kommt es auch vor, dass Unternehmen freiwillig Daten veröffentlichen. 
 Netflix veröffentlichte 2006 einen Datenbestand, welcher Filmbewertungen von knapp 500.000 Nutzern enthält \cite{I-3}. 
@@ -12,5 +12,5 @@ Neben einem Wettbewerb steht dieser Datenbestand zu Forschungszwecken öffentlic
 Narayanan und Shmatikov \cite{P-29} zeigen jedoch, dass die Anonymisierung des Datenbestands nicht ausreichend ist, um private Informationen zu schützen.
 Die Bewertungen der anonymisierten Benutzer, können mit Bewertungen der öffentlichen Filmdatenbank IMDb abgeglichen werden, sodass Nutzerprofile verbunden werden können.
 Dabei genügt es, wenn Präferenzen in Korrelation gesetzt werden können, die genauen Wert sind nicht notwendig.
-Narayanan und Shmatikov \cite{P-29} beschreiben, dass sogar politische oder religiöse Informationen herausgefunden werden können.
+Narayanan und Shmatikov \cite{P-29} beschreiben, dass sogar politische oder religiöse Informationen abgeleitet werden können.
 Hierzu werden beispielsweise positive Bewertungen von religiösen Dokumentationsfilmen, die privat auf Netflix abgegeben werden, den entsprechenden öffentlichen Profilen auf IMDb zugeordnet.

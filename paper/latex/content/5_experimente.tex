@@ -1,10 +1,27 @@
 \chapter{Experimente}\label{ch:experiments}
 
-\section{Vergleich technischer Lösungen}
-PyTorch Opacus vs. TensorFlow Privacy vs. Jax Libraries
+Im folgenden Kapitel wird detailliert auf die Nutzung von DPSGD für das Training von neuronalen Netzen eingegangen.
+Dafür werden zuerst die genutzten Use Cases beschrieben.
+Nachdem verglichen wird, welche technischen Lösungen, wie Bibliotheken und Frameworks, existieren, wird im Detail beschrieben, wie DPSGD mit Opacus und PyTorch genutzt wird.
 
-\section{Datensätze und Use Cases}
+Die tatsächliche Evaluierung besteht dabei aus zwei Teilen: der Nutzung von DPSGD und der Effektivität von Angriffen.
+Bei der Nutzung von DPSGD geht es darum, wie Hyperparameter angepasst werden können, um die bestmöglichen Ergebnisse zu erhalten.
+Die jeweiligen Ergebnisse werden, abhängig des $\epsilon$-Werts, in Relation zueinander gesetzt.
+Gegen die resultierenden Modelle, mit und ohne DPSGD, werden anschließend Angriffe ausgeführt und die Effektivität dieser bewertet. 
+Ziel hierbei ist es, herauszufinden, ob die Nutzung von DPSGD einen Einfluss auf die Effektivität der Angriffe hat.
+Der Code der Experimente befindet sich in einem öffentlichen GitHub-Repository\footnote{https://github.com/cyberlytics/PrivacyFlow}.
 
-\section{Angriffe}\label{sec:exp_angriffe}
+\input{content/5_experimente/usecase}
+\input{content/5_experimente/vergleich_solutions}
+\input{content/5_experimente/technischeImple}
+\input{content/5_experimente/hyperparams}
+\input{content/5_experimente/angriffe}
+\input{content/5_experimente/zusammenfassung}
 
-\section{Hyperparameter DPSGD}
+
+
+
+
+
+
+

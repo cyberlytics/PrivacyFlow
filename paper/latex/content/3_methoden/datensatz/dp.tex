@@ -2,21 +2,21 @@
 \subsection{Differential Privacy}\label{sec:dp}
 
 Differential Privacy ist eine Technik, welche 2006 von Cynthia Dwork \cite{P-26} vorgestellt wurde.
-Ziel dabei ist es, Zugriff auf einen Datensatz zu ermöglichen, der sowohl nützliche Erkenntnisse zulässt, als auch die Privatsphäre eines einzelnen Datenpunktes schützt.
+Ziel dabei ist es, Zugriff auf eine Datenmenge zu ermöglichen, welche sowohl nützliche Erkenntnisse zulässt, als auch die Privatsphäre eines einzelnen Datensatzes schützt.
 
 Differential Privacy kann dabei an 3 unterschiedlichen Stellen der Machine Learning Pipeline genutzt werden:
 \begin{compactitem}
-\item \textbf{Vorbereitung der Trainingsdaten:} Diese Methodik wird folgend in diesem Kapitel erläutert.
+\item \textbf{Verfremdung der Trainingsdaten:} Diese Methodik wird folgend in diesem Kapitel erläutert.
 \item \textbf{Trainingsalgorithmus:} Kapitel \ref{sec:dp_training} beschreibt, welche Anpassungen am Trainingsalgorithmus vorgenommen werden können, um Differential Privacy zu gewährleisten.
 \item \textbf{Vorhersage des Modells:} Bevor die Vorhersage des Modells weitergeleitet wird, könnte diese verrauscht werden. Kapitel \ref{sec:betrieb} stellt dieses Vorgehen vor.
 \end{compactitem}
 
-
-Differential Privacy \cite{P-26} sorgt dafür, dass ein Mechanismus, auch Abfrage oder Funktion, welche eine Menge an Datensätzen als Eingabe akzeptiert, keinen konstanten Wert mehr zurück gibt.
+Differential Privacy \cite{P-26} sorgt dafür, dass ein Mechanismus, auch Abfrage oder Funktion, welche eine Menge an Datensätzen als Eingabe akzeptiert, keinen konstanten Wert mehr zurückgibt.
 Stattdessen wird dem Mechanismus zufälliges Rauschen mit einer festgelegten Intensität hinzugefügt.
-Der Mechanismus gibt also eine Stichprobe einer Verteilung zurück, bei der das tatsächlichen Ergebnis dem Erwartungswert entspricht.
+Der Mechanismus gibt also eine Stichprobe einer Verteilung zurück, bei der das tatsächliche Ergebnis dem Erwartungswert entspricht.
 Demnach können eindeutige Feststellungen über Eigenschaften nicht getroffen werden.
-Ziel der Verrauschung ist es, dass wenn der Mechanismus auf zwei Datenmengen, die sich in einem Datensatz unterscheiden, ausgeführt wird, die Ergebnisse sich maximal um einen Faktor $e^\epsilon$ unterscheiden.
+Ziel des Verrauschens ist es, dass wenn der Mechanismus auf zwei Datenmengen, die sich in einem Datensatz unterscheiden, ausgeführt wird, die Ergebnisse sich maximal um einen Faktor $e^\epsilon$ unterscheiden. 
+Demnach ist der Einfluss eines Datensatzes auf eine Berechnung mit der gesamten Datenmenge quantifizierbar und kann begrenzt werden.
 Dabei kann der Wert $\epsilon$, welcher auch Privacy Budget genannt wird, festgelegt werden.
 
 Formal lautet die Definition von $\epsilon$-Differential Privacy wie folgt \cite{P-26}:\\
@@ -27,12 +27,12 @@ Ein randomisierter Mechanismus $M$, welche eine Menge an Datensätzen $D$ auf ei
     P[M(D_{1}) \in R] \leq e^{\epsilon} \times P[M(D_{2}) \in R]
 $}
 \end{equation}
-\textit{$P$ beschreibt dabei die Wahrscheinlichkeit, dass der Erwartungswert gezogen wird}
+\textit{$P$ beschreibt dabei die Wahrscheinlichkeit, dass der Erwartungswert gezogen wird.}
 
 Es gibt unterschiedliche Algorithmen, um das Ergebnis eines Mechanismus zu verrauschen.
 Diese werden im späteren Verlauf des Kapitels genauer beleuchtet.
 
-Dwork und Roth \cite{P-27} fügten der Definition noch einen Parameter $\delta$ hinzu, welcher erlaubt, dass die Voraussetzungen zu einem definierten Grad verletzt werden können.
+Dwork und Roth \cite{P-27} fügten der Definition noch einen Parameter $\delta$ hinzu, welcher erlaubt, dass die Bedingungen von $\epsilon$-Differential Privacy zu einem definierten Grad verletzt werden können.
 Der Wert von $\delta$ sollte dabei niedriger sein, als die Inverse der Anzahl an Datensätzen im Datenbestand.
 Die damit angepasste Definition von ($\epsilon$,$\delta$)-Differential Privacy lautet \cite{P-27}:\\
 %Damit lautet die formale Definition von Differential Privacy wie folgt \cite{P-27}:
@@ -44,7 +44,7 @@ Ein randomisierter Mechanismus $M$, welche eine Menge an Datensätzen $D$ auf ei
 $}
 \end{equation} 
 
-Konkret sagen die Definitionen aus, dass eine randomisierte Funktion $M$, auf zwei Datenbeständen $D_{1}$ und $D_{2}$ mit maximal einem unterschiedlichen Datensatz $||D_{1} - D_{2}||_{1} \leq 1$, jeweils Stichproben einer Verteilung ausgibt, wobei sich die Verteilung nur um den Faktor $\epsilon$ und den Summand $\delta$ unterscheiden dürfen.
+Konkret sagen die Definitionen aus, dass eine randomisierte Funktion $M$, auf zwei Datenbeständen $D_{1}$ und $D_{2}$ mit maximal einem unterschiedlichen Datensatz $||D_{1} - D_{2}||_{1} \leq 1$, jeweils Stichproben einer Verteilung ausgibt, wobei sich die Verteilungen nur um den Faktor $\epsilon$ und den Summand $\delta$ unterscheiden dürfen.
 Dabei bestimmt das Privacy Budget, $\epsilon$ und $\delta$, wie stark sich die Ergebnisse unterscheiden dürfen.
 Wie diese beiden Werte konfiguriert werden können, hängt dabei vom Algorithmus des Rauschens ab.
 
@@ -56,9 +56,9 @@ Abbildung \ref{fig:dp_privacy_budget} zeigt den Einfluss des $\epsilon$-Werts au
 Kleine Werte für $\epsilon$, also ein kleines Privacy Budget, bedeutet dabei, dass die Differenz eines Mechanismus durch einen zusätzlichen Datensatz, sich weniger stark verändern kann, was für einen besseren Schutz der Privatsphäre sorgt.
 Jedoch wirkt sich dies negativ auf die Nützlichkeit der Abfragen aus, da kleine Privacy Budgets für ein großes Rauschen sorgen, was öfters falsche Ergebnisse liefert.
 Dies bedeutet, dass es keinen optimalen Wert für $\epsilon$ gibt, sondern dieser für jeden Use Case mittels einer Abwägung zwischen Sicherheit und Nützlichkeit, neu bestimmt werden muss.
-Nutzt ein Modell beispielsweise nur öffentliche, unsensible Daten, ergibt es keinen Sinn einen niedrigen $\epsilon$-Wert festzulegen, da die Vertraulichkeit der Daten nicht entscheident ist.
+Nutzt ein Modell beispielsweise nur öffentliche, unsensible Daten, ergibt es keinen Sinn einen niedrigen $\epsilon$-Wert festzulegen, da die Vertraulichkeit der Daten nicht entscheidend ist.
 Werden jedoch hochsensible Daten genutzt, kann es sein, dass die Sicherheit der Daten wichtiger eingestuft wird, als die Nützlichkeit des Modells. 
-Hier empfiehlt sich ein niedirger $\epsilon$-Wert.
+Hier empfiehlt sich ein niedriger $\epsilon$-Wert.
 Ein $\epsilon$-Wert von Unendlich bedeutet, dass sich die Ergebnisse von Mechanismen um beliebige Werte unterscheiden dürfen, weshalb kein Rauschen notwendig wäre. 
 Dies ist bei Mechanismen ohne Differential Privacy bereits der Fall.
 
@@ -86,7 +86,7 @@ Differential Privacy bietet einige Algorithmen, wie dieses Rauschen hinzugefügt
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=15cm]{figures/dp}
+    \includegraphics[width=\textwidth]{figures/dp}
     \caption{Beispiel Differential Privacy}
     \label{fig:dp}
 \end{figure} 
@@ -97,9 +97,9 @@ Dwork und Roth \cite{P-27} stellen eine ganze Reihe dieser Mechanismen vor, die 
 
 Bei der Technik der randomisierten Antwort, im Englischen Random Response, wird mit einer festgelegten Wahrscheinlichkeit, ein falsches Ergebnis ausgegeben. 
 Dies entspricht dem Rauschen dieser Methode.
-Wird beispielsweise eine Person gefragt, ob sie eine gewisse Aktivität durchgeführt hat, wird mit 25-prozentiger Wahrscheinlichkeit die falsche Antwort gegeben.
-Ist die Wahrheit \textit{\dq Ja \dq}, dann gilt $P[Antwort = \dq Ja\dq \mid Wahrheit = \dq Ja\dq] = 3/4$ und $P[Antwort = \dq Nein\dq \mid Wahrheit = \dq Ja\dq]$.
-Gleiches gilt, wenn die Wahrheit \textit{\dq Nein \dq} wäre.
+Wird beispielsweise eine Person gefragt, ob sie eine gewisse Aktivität durchgeführt hat, wird mit 25-prozentiger Wahrscheinlichkeit die falsche Antwort selektiert.
+Ist die Wahrheit \textit{\dq Ja\dq}, dann gilt $P[Antwort = \dq Ja\dq \mid Wahrheit = \dq Ja\dq] = 3/4$ und $P[Antwort = \dq Nein\dq \mid Wahrheit = \dq Ja\dq]$.
+Gleiches gilt, wenn die Wahrheit \textit{\dq Nein\dq} wäre.
 Die jeweils ausgegebene Antwort kann dadurch glaubhaft abgestritten werden.
 \begin{equation} \label{formula:random_response}
 \begin{split}
@@ -108,7 +108,7 @@ Die jeweils ausgegebene Antwort kann dadurch glaubhaft abgestritten werden.
 \end{split}
 \end{equation}
 
-Formel \ref{formula:random_response} zeigt, dass eine Antwort, egal ob diese \textit{\dq Ja \dq} oder \textit{\dq Nein \dq} lautet, mit einem Verhältnis von 3 abgestritten werden kann.
+Formel \ref{formula:random_response} zeigt, dass eine Antwort, egal ob diese \textit{\dq Ja\dq} oder \textit{\dq Nein\dq} lautet, mit einem Verhältnis von 3 abgestritten werden kann.
 Der Faktor, um den sich die Wahrscheinlichkeit einer Antwort unterscheidet, wenn sich die Wahrheit ändert, liegt demnach auch bei 3.
 Daraus resultiert, dass die Technik der randomisierten Antwort, mit einer 25-prozentigen Wahrscheinlichkeit einer falschen Antwort, eine ($ln 3$, 0)-Differential Privacy unterstützt.
 Der natürliche Logarithmus $ln$ muss hier genutzt werden, da die Definition von Differential Privacy die Exponentialfunktion als Faktor betrachtet. 
@@ -117,33 +117,40 @@ Demnach erhält man durch $\epsilon = ln 3$ einen Unterschied um den Faktor $e^{
 Eine weitere Technik für Differential Privacy ist der Laplace-Mechanismus.
 Dabei wird das Rauschen, welches über das Ergebnis der Abfrage gelegt wird, aus einer Laplace-Verteilung ermittelt.
 Eine Bedingung ist dabei, dass es sich bei dem Ergebnis der Abfrage um einen Zahlenwert handelt.
-Die Dichtefunktion der Laplace-Verteilung, zentriert bei X=0, lautet
+Die Dichtefunktion der Laplace-Verteilung, zentriert um den Erwartungswert $\mu=0$, mit dem Skalenparameter $\sigma$, lautet \cite{P-27}:
 \begin{equation}
 \resizebox{!}{0.55cm}{$
-    Lap(x|b) = \frac{1}{2b}\times e^{(-\frac{|x|}{b})}
+    Lap(x|\sigma) = \frac{1}{2\sigma}\times e^{(-\frac{|x|}{\sigma})}
 $}
 \end{equation}
-wobei $b$ die Steigung der Funktion beeinflusst.
-Um nun ein geeignetes $b$ zu wählen, muss zuerst ein Wert ermittelt werden, um den sich eine Funktion bei Änderung eines Datenpunktes maximal unterscheiden kann.
+wobei $\sigma$ die Steigung der Funktion beeinflusst.
+Um nun ein geeignetes $\sigma$ zu wählen, muss zuerst ein Wert ermittelt werden, um den sich eine Funktion bei Änderung eines Datenpunktes maximal unterscheiden kann.
 Diese sogenannte Sensitivität wird als $\Delta f$ notiert.
 Geht es beispielsweise um eine Anzahl an Datensätzen, so würde ein neuer Datensatz die Anzahl um den Wert 1 erhöhen.
 Folglich ist $\Delta f = 1$, denn die Anzahl wird sich durch einen neuen Datensatz um den Wert 1 verändern.
 Es gibt jedoch auch Fälle, in denen der Wert der Sensitivität nicht eindeutig ist, beispielsweise bei dem obigen Gehaltsbeispiel.
 Das Gehalt einer neuen Person könnte für eine beliebige Veränderung des Durchschnittsgehalts sorgen, da theoretisch jedes Gehalt möglich wäre.
-Realistisch gesehen, gibt es jedoch eine Gehaltsobergrenze, sodass fachlich eine Sensitivität festgelegt werden muss.
+Realistisch betrachtet gibt es jedoch einen Wertebereich, in dem sich alle Gehälter befinden. 
+Dieser könnte beispielsweise von 0 Euro bis 10 Milliarden Euro reichen. 
+Jedoch sollten die Grenzen möglichst nahe an den echten Grenzen liegen. 
+10 Milliarden Euro ist theoretisch möglich, jedoch ist eine Grenze von 200.000 Euro realistischer.
+Dieser Wertebereich muss also fachlich festgelegt werden.
+In diesem Beispiel wäre die Sensitivität $200.000/n$, wobei $n$ die Anzahl der Mitarbeiter ist.
+
+
 Um ($\epsilon$,0)-Differential Privacy zu erreichen, muss die Ausgabe einer Abfrage $M$ mit zufälligen Werte der Laplace-Verteilung $Lap(x | \Delta f/\epsilon)$ verrauscht werden \cite{P-27}: 
 \begin{equation}
     M(D) = f(D) + (Y_1, ... Y_k),\text{ mit } Y_i \sim Lap(x| \Delta f/\epsilon)
 \end{equation}
 
 
-Eine Abwandlung des Laplace-Mechanismus ist es, anstatt der Laplace-Verteilung, eine Gaußverteilung zu nutzen. Die Dichtefunktion dieser lautet:
+Eine Abwandlung des Laplace-Mechanismus ist es, anstatt der Laplace-Verteilung, eine Gaußverteilung zu nutzen. Die Dichtefunktion dieser zentriert um den Erwartungswert $\mu=0$ lautet \cite{P-27}:
 \begin{equation}\label{formula:gauß}
-\resizebox{!}{0.5cm}{$
-    Gau\text{\textit{ß}}(x|b) = \frac{1}{b\sqrt{2\pi}}\times e^{-\frac{1}{2}(\frac{x}{b})^2}
+\resizebox{!}{0.55cm}{$
+    Gau\text{\textit{ß}}(x|\sigma) = \frac{1}{\sigma\sqrt{2\pi}}\times e^{-\frac{1}{2}(\frac{x}{\sigma})^2}
 $}
 \end{equation}
-Der Gauß-Mechanismus liefert ($\epsilon$,$\delta$)-Differential Privacy, wenn $b = \Delta f \frac{\text{ln}(1/\delta)}{\epsilon}$ ist \cite{P-27}.
+Der Gauß-Mechanismus liefert ($\epsilon$,$\delta$)-Differential Privacy, wenn $\sigma = \Delta f \frac{\text{ln}(1/\delta)}{\epsilon}$ ist \cite{P-27}.
 
 Neben den bereits beschriebenen Mechanismen gibt es noch den Exponential-Mechanismus. 
 Bei diesem wird ein Element aus einer Menge ausgegeben, welches anhand einer Bewertungsfunktion ausgewählt wird.
@@ -158,11 +165,11 @@ $}
 \end{equation}
 
 
-Als Beispiel könnte ein Mechanismus genutzt werden, welcher ausgeben soll, ob Krankheit \dq A\dq oder \dq B\dq häufiger vorkommt.
+Als Beispiel könnte ein Mechanismus genutzt werden, welcher ausgeben soll, ob Krankheit \dq A\dq\ oder \dq B\dq\ häufiger vorkommt.
 Somit wären die möglichen Optionen $R$=\{\dq A\dq,\dq B\dq\}, die Bewertungsfunktion $u(D,r)=\text{Count(r in D)}$.
 Die Sensitivität ist $\Delta u = 1$, da ein zusätzlicher Datensatz die Zählung maximal um die Anzahl 1 verändern kann. 
 Für jede der Optionen in $R$, würde die Ausgabewahrscheinlichkeit mit Formel \ref{formula:exp_mech} berechnet werden. 
-Anschließend gibt der Mechanismus entweder \dq A\dq oder \dq B\dq zurück, abhängig der zuvor berechneten Ausgabewahrscheinlichkeiten.
+Anschließend gibt der Mechanismus entweder \dq A\dq\ oder \dq B\dq\ zurück, abhängig der zuvor berechneten Ausgabewahrscheinlichkeiten.
 Das Rauschen des Exponential-Mechanismus ist demnach, dass nicht immer die Option $r \in R$ mit dem größten Nutzwert ausgegeben wird. 
 
 Eine alternative Möglichkeit, neben dem Exponential-Mechanismus, einen Wert aus einem Datensatz mittels Ausgabewahrscheinlichkeiten zu bestimmen, ist die sogenannte Report Noisy Max Methode. 
@@ -174,7 +181,7 @@ Das Ziel von Differential Privacy, die Vertraulichkeit eines Datensatzes zu sch�
 Jedoch bringt Differential Privacy eine Reihe weiterer nützlicher Eigenschaften mit sich \cite{P-27}:
 \begin{compactitem}
     \item \textbf{Gruppen Privacy:} Differential Privacy betrachtet zwei Datenbestände, die sich in einem Datensatz unterscheiden. Jedoch gelten die gleichen Regeln für Datenbestände, die sich in mehreren Datensätzen unterscheiden, wobei $\epsilon$ dabei mit der Anzahl der unterschiedlichen Datensätze multipliziert wird.
-    \item \textbf{Resistenz gegen Nachbearbeitung:} Das Ergebnis eines Mechanismus, welcher Differential Privacy nutzt, ist geschützt und es gibt keinen Mechanismus, welcher dies umkehren könnte.
+    \item \textbf{Resistenz gegen Umkehrung bei der Weiterverarbeitung:} Das Ergebnis eines Mechanismus, welcher Differential Privacy nutzt, ist geschützt und es gibt keinen Mechanismus, welcher dies umkehren könnte. Somit sind geschützte Weiterverarbeitungen der Ergebnisse möglich.
     \item \textbf{Quantifizierung der Vertraulichkeit:} Mit den Parametern $\epsilon$ und $\delta$ kann angegeben werden, wie stark die Vertraulichkeit der Daten geschützt wird.
     \item \textbf{Bewertung zusammengesetzter Mechanismen:} Durch die Quantifizierung der Vertraulichkeit, können auch zusammengesetzte und parallele Berechnungen bewertet werden.
 \end{compactitem}
@@ -207,7 +214,7 @@ Ziel davon ist es, eine Obergrenze für $\epsilon$ zu beschreiben, welche näher
 
 \subsubsection*{Vorverarbeitung der Trainingsdaten}
 Um die Trainingsdaten eines Modells mit Differential Privacy zu schützen, ist es möglich, die Daten vor der Eingabe in das Modell zu verrauschen.
-Der Feedforward Schritt wird demnach nicht auf den echten Daten ausgeführt, sondern auf den jeweils geschützten Versionen der einzelnen Datensätze.
+Der Forward-Pass eines Modells wird demnach nicht auf den echten Daten ausgeführt, sondern auf den jeweils verrauschten Versionen der einzelnen Datensätze.
 
 Um einen einzelnen Datensatz zu verrauschen, muss jedes Attribut des Datensatzes individuell betrachtet werden. 
 Dabei ist die Sensitivität individuell zu setzen, beeinflusst von statistischen Merkmalen des Attributes.

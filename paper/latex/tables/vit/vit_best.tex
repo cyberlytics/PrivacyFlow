@@ -1,0 +1,14 @@
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{CBCEFB} 
+Epsilon  & Clipping-Norm & Batch-Größe & \begin{tabular}[c]{@{}l@{}}Anzahl\\ Epochen\end{tabular} & \begin{tabular}[c]{@{}l@{}}Daten-\\ augmentierung\end{tabular} & Genauigkeit \\ \hline
+$\infty$ & $\infty$      & 64          & 10 & nein & 83,0 \%     \\ \hline
+1        & $10^{-5}$     & 128         & 5 & nein & 80,0 \%     \\ \hline
+5        & $10^{-5}$     & 128         & 5 & nein  & 80,0 \%     \\ \hline
+10       & $10^{-5}$     & 128         & 5 & nein  & 80,3 \%     \\ \hline
+\end{tabular}
+\caption{Übersicht der besten Vision Transformer Modelle mit DPSGD}
+\label{tab:vit_best}
+\end{table}

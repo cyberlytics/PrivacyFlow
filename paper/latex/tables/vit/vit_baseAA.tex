@@ -1,0 +1,14 @@
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\rowcolor[HTML]{CBCEFB} 
+Epsilon  & \begin{tabular}[c]{@{}l@{}}Anzahl\\ Epochen\end{tabular} & \begin{tabular}[c]{@{}l@{}}vortrainiert,\\ mit AutoAugment\\ Batch-Größe=64\end{tabular} & \begin{tabular}[c]{@{}l@{}}nicht-vortrainiert,\\ mit AutoAugment\\ Batch-Größe=64\end{tabular} \\ \hline
+$\infty$ & 1  & 80,0 \% & 80,0 \%  \\ \hline
+$\infty$ & 3  & 80,8 \%  & 80,6 \% \\ \hline
+$\infty$ & 5                                                        & 81,7 \%                                                                                  & 81,4 \%                                                                                        \\ \hline
+$\infty$ & 10                                                       & 82,9 \%                                                                                  & 82,4 \%                                                                                        \\ \hline
+\end{tabular}
+\caption{Vision Transformer Modell mit AutoAugment ohne Differential Privacy}
+\label{tab:vit_baseAA}
+\end{table}

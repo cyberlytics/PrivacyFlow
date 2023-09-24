@@ -1,3 +1,11 @@
+@inproceedings{celeba,
+  title = {Deep Learning Face Attributes in the Wild},
+  author = {Liu, Ziwei and Luo, Ping and Wang, Xiaogang and Tang, Xiaoou},
+  booktitle = {Proceedings of International Conference on Computer Vision (ICCV)},
+  month = {12},
+  year = {2015} 
+}
+
 @software{twitter_algo,
   author = {{Twitter Inc.}},
   title = {Twitter's Recommendation Algorithm},
@@ -5,48 +13,48 @@
   date = {2023-05-22},
 }
 
-@misc{siri,
-  author = {Siri Team},
+@online{siri,
+  author = {{Siri Team}},
   title = {{Hey Siri: An On-device DNN-powered Voice Trigger for Apple’s Personal Assistant}},
-  howpublished = "\url{https://machinelearning.apple.com/research/hey-siri}",
-  year = {2017}, 
-  addendum = "[Online; Abgerufen 19.Juni 2023]"
+  url = {https://machinelearning.apple.com/research/hey-siri},
+  urldate = {2023-09-23},
+  year = {2017}
 }
 
-@misc{google_dp,
+@online{google_dp,
   author = {Sundar Pichai},
   publisher = {Google LLC},
   title = {{Keeping your private information private}},
-  howpublished = "\url{https://blog.google/technology/safety-security/keeping-private-information-private/amp/}",
-  year = {2020}, 
-  addendum = "[Online; Abgerufen 13.August 2023]"
+  url = {https://blog.google/technology/safety-security/keeping-private-information-private/amp/},
+  year = {2020},
+  urldate = {2023-09-23}
 }
 
-@misc{snapchat_dp,
-  author = {Snapchat},
-  publisher = {Snapchat},
+@online{snapchat_dp,
+  author = {{Snapchat}},
+  publisher = {{Snapchat}},
   title = {{Differential Privacy at Snapchat}},
-  howpublished = "\url{https://eng.snap.com/differential-privacy-at-snapchat}",
+  url = {https://eng.snap.com/differential-privacy-at-snapchat},
   year = {2022}, 
-  addendum = "[Online; Abgerufen 13.August 2023]"
+  urldate = {2023-09-23}
 }
 
-@misc{meta_dp,
+@online{meta_dp,
   author = {Amaç Herdağdelen and Alex Dow and Bogdan State and Payman Mohassel and Alex Pompe},
   publisher = {Meta},
   title = {{Protecting privacy in Facebook mobility data during the COVID-19 response}},
-  howpublished = "\url{https://research.facebook.com/blog/2020/06/protecting-privacy-in-facebook-mobility-data-during-the-covid-19-response/}",
+  url = {https://research.facebook.com/blog/2020/06/protecting-privacy-in-facebook-mobility-data-during-the-covid-19-response/},
   year = {2020}, 
-  addendum = "[Online; Abgerufen 13.August 2023]"
+  urldate = {2023-09-23}
 }
 
-@misc{apple_dp,
-  author = {Apple Differential Privacy Team},
+@online{apple_dp,
+  author = {{Apple Differential Privacy Team}},
   publisher = {Apple Inc.},
   title = {{Learning with Privacy at Scale}},
-  howpublished = "\url{https://machinelearning.apple.com/research/learning-with-privacy-at-scale}",
+  url = {https://machinelearning.apple.com/research/learning-with-privacy-at-scale},
   year = {2017}, 
-  addendum = "[Online; Abgerufen 13.August 2023]"
+  urldate = {2023-09-23}
 }
 
 @software{openpilot,
@@ -57,12 +65,12 @@
   date = {2023-05-24},
 }
 
-@misc{translation,
+@online{translation,
   author = {Isaac Caswell and Bowen Liang},
   title = {Recent Advances in Google Translate},
-  howpublished = "\url{https://ai.googleblog.com/2020/06/recent-advances-in-google-translate.html}",
+  url = {https://ai.googleblog.com/2020/06/recent-advances-in-google-translate.html},
   year = {2020},
-  addendum = "[Online; Abgerufen 19.Juni 2023]"
+  urldate = {2023-09-23}
 
 }
 
@@ -85,24 +93,227 @@
     url = {https://kaggle.com/competitions/titanic}
 }
 
+@misc{att,
+    author = {{AT\&T Laboratories Cambridge}},
+    title = {The Database of Faces},
+    year = {1994},
+    url = {https://cam-orl.co.uk/facedatabase.html}
+}
+
 
 
 @article{D-MNIST,
   title={MNIST handwritten digit database},
   author={LeCun, Yann and Cortes, Corinna and Burges, CJ},
-  journal={ATT Labs [Online]. Available: http://yann.lecun.com/exdb/mnist},
+  journal={ATT Labs},
   volume={2},
   year={2010}
 }
 
-@misc{I-1,
+@software{SEAL,
+  author = {{Microsoft}},
+  title = {Microsoft SEAL},
+  url = {https://github.com/Microsoft/SEAL},
+  version = {4.1.1},
+  date = {2023-01-11},
+}
+
+@article{helib,
+  title={Design and implementation of HElib: a homomorphic encryption library},
+  author={Halevi, Shai and Shoup, Victor},
+  journal={Cryptology ePrint Archive},
+  year={2020}
+}
+
+@inproceedings{mp-spdz,
+    author = {Marcel Keller},
+    title = {{MP-SPDZ}: A Versatile Framework for Multi-Party Computation},
+    booktitle = {Proceedings of the 2020 ACM SIGSAC Conference on
+    Computer and Communications Security},
+    year = {2020},
+    doi = {10.1145/3372297.3417872},
+    url = {https://doi.org/10.1145/3372297.3417872},
+}
+
+@online{HuggingFace,
+  author = {{Hugging Face}},
+  title = {Hugging Face Models},
+  year = 2023,
+  howpublished = "\url{https://huggingface.co/models}",
+  urldate = {2023-09-23}
+}
+
+@incollection{pytorch,
+title = {PyTorch: An Imperative Style, High-Performance Deep Learning Library},
+author = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
+booktitle = {Advances in Neural Information Processing Systems 32},
+pages = {8024--8035},
+year = {2019},
+publisher = {Curran Associates, Inc.},
+url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
+}
+
+@misc{tensorflow,
+title={ {TensorFlow}: Large-Scale Machine Learning on Heterogeneous Systems},
+url={https://www.tensorflow.org/},
+author={
+    Mart\'{i}n~Abadi and
+    Ashish~Agarwal and
+    Paul~Barham and
+    Eugene~Brevdo and
+    Zhifeng~Chen and
+    Craig~Citro and
+    Greg~S.~Corrado and
+    Andy~Davis and
+    Jeffrey~Dean and
+    Matthieu~Devin and
+    Sanjay~Ghemawat and
+    Ian~Goodfellow and
+    Andrew~Harp and
+    Geoffrey~Irving and
+    Michael~Isard and
+    Yangqing Jia and
+    Rafal~Jozefowicz and
+    Lukasz~Kaiser and
+    Manjunath~Kudlur and
+    Josh~Levenberg and
+    Dandelion~Man\'{e} and
+    Rajat~Monga and
+    Sherry~Moore and
+    Derek~Murray and
+    Chris~Olah and
+    Mike~Schuster and
+    Jonathon~Shlens and
+    Benoit~Steiner and
+    Ilya~Sutskever and
+    Kunal~Talwar and
+    Paul~Tucker and
+    Vincent~Vanhoucke and
+    Vijay~Vasudevan and
+    Fernanda~Vi\'{e}gas and
+    Oriol~Vinyals and
+    Pete~Warden and
+    Martin~Wattenberg and
+    Martin~Wicke and
+    Yuan~Yu and
+    Xiaoqiang~Zheng},
+  year={2015},
+}
+
+@article{transformer,
+  title={Attention is all you need},
+  author={Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, {\L}ukasz and Polosukhin, Illia},
+  journal={Advances in neural information processing systems},
+  volume={30},
+  year={2017}
+}
+
+@software{Tensorflowprivacy,
+  author = {Galen Andrew and Steve Chien and Nicolas Papernot},
+  title = {TensorFlow Privacy},
+  url = {https://github.com/tensorflow/privacy},
+  version = {0.8.10},
+  year = {2023},
+  month = {06},
+  day = {28}
+}
+
+@software{jax,
+  author = {James Bradbury and Roy Frostig and Peter Hawkins and Matthew James Johnson and Chris Leary and Dougal Maclaurin and George Necula and Adam Paszke and Jake Vander{P}las and Skye Wanderman-{M}ilne and Qiao Zhang},
+  title = {{JAX}: composable transformations of {P}ython+{N}um{P}y programs},
+  url = {http://github.com/google/jax},
+  version = {0.3.13},
+  year = {2018},
+}
+
+@software{jaxprivacy,
+  author = {Balle, Borja and Berrada, Leonard and De, Soham and Hayes, Jamie and Smith, Samuel L and Stanforth, Robert},
+  title = {{JAX}-{P}rivacy: Algorithms for Privacy-Preserving Machine Learning in JAX},
+  url = {http://github.com/deepmind/jax_privacy},
+  version = {0.2.0},
+  year = {2022},
+}
+
+@article{opacus,
+  title={Opacus: {U}ser-Friendly Differential Privacy Library in {PyTorch}},
+  author={Ashkan Yousefpour and Igor Shilov and Alexandre Sablayrolles and Davide Testuggine and Karthik Prasad and Mani Malek and John Nguyen and Sayan Ghosh and Akash Bharadwaj and Jessica Zhao and Graham Cormode and Ilya Mironov},
+  journal={arXiv preprint arXiv:2109.12298},
+  year={2021}
+}
+
+
+
+@Article{         numpy,
+ title         = {Array programming with {NumPy}},
+ author        = {Charles R. Harris and K. Jarrod Millman and St{\'{e}}fan J.
+                 van der Walt and Ralf Gommers and Pauli Virtanen and David
+                 Cournapeau and Eric Wieser and Julian Taylor and Sebastian
+                 Berg and Nathaniel J. Smith and Robert Kern and Matti Picus
+                 and Stephan Hoyer and Marten H. van Kerkwijk and Matthew
+                 Brett and Allan Haldane and Jaime Fern{\'{a}}ndez del
+                 R{\'{i}}o and Mark Wiebe and Pearu Peterson and Pierre
+                 G{\'{e}}rard-Marchant and Kevin Sheppard and Tyler Reddy and
+                 Warren Weckesser and Hameer Abbasi and Christoph Gohlke and
+                 Travis E. Oliphant},
+ year          = {2020},
+ month         = sep,
+ journal       = {Nature},
+ volume        = {585},
+ number        = {7825},
+ pages         = {357--362},
+ doi           = {10.1038/s41586-020-2649-2},
+ publisher     = {Springer Science and Business Media {LLC}},
+ url           = {https://doi.org/10.1038/s41586-020-2649-2}
+}
+
+@software{cifer,
+  author = {{FENTEC}},
+  title = {CiFEr},
+  url = {https://github.com/fentec-project/CiFEr},
+  version = {4.1.1},
+  date = {2023-01-11},
+}
+
+
+@article{adam,
+  title={Adam: A method for stochastic optimization},
+  author={Kingma, Diederik P and Ba, Jimmy},
+  journal={arXiv preprint arXiv:1412.6980},
+  year={2014}
+}
+
+
+@inproceedings{resnet,
+  title={Deep residual learning for image recognition},
+  author={He, Kaiming and Zhang, Xiangyu and Ren, Shaoqing and Sun, Jian},
+  booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
+  pages={770--778},
+  year={2016}
+}
+
+@inproceedings{autoaugment,
+  title={Autoaugment: Learning augmentation strategies from data},
+  author={Cubuk, Ekin D and Zoph, Barret and Mane, Dandelion and Vasudevan, Vijay and Le, Quoc V},
+  booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+  pages={113--123},
+  year={2019}
+}
+
+@article{vit,
+  title={An image is worth 16x16 words: Transformers for image recognition at scale},
+  author={Dosovitskiy, Alexey and Beyer, Lucas and Kolesnikov, Alexander and Weissenborn, Dirk and Zhai, Xiaohua and Unterthiner, Thomas and Dehghani, Mostafa and Minderer, Matthias and Heigold, Georg and Gelly, Sylvain and others},
+  journal={arXiv preprint arXiv:2010.11929},
+  year={2020}
+}
+
+@online{I-1,
   title = {ChatGPT reaches 100 million users two months after launch},
   author= {Dan Milmo},
   year = {2023},
-  howpublished = "\url{https://www.theguardian.com/technology/2023/feb/02/chatgpt-100-million-users-open-ai-fastest-growing-app}",
+  url = {https://www.theguardian.com/technology/2023/feb/02/chatgpt-100-million-users-open-ai-fastest-growing-app},
   month = {2},
   day = {2},
-  addendum = "[Online; Abgerufen 07.Mai 2023]"
+  urldate = {2023-09-23}
 }
 
 @misc{I-2,
@@ -111,41 +322,40 @@
   year = {2018},
   month = {3},
   day = {17},
-  howpublished = "\url{https://www.theguardian.com/news/2018/mar/17/cambridge-analytica-facebook-influence-us-election}",
-  addendum = "[Online; Abgerufen 08.Mai 2023]"
+  url ={https://www.theguardian.com/news/2018/mar/17/cambridge-analytica-facebook-influence-us-election},
+  urldate = {2023-09-23}
 }
 
 @inproceedings{I-3,
   title={The netflix prize},
   author={Bennett, James and Lanning, Stan},
   booktitle={Proceedings of KDD cup and workshop},
-  volume={2007},
   pages={35},
   year={2007},
   organization={New York}
 }
 
-@misc{I-4,
+@online{I-4,
   title={The 2023 MAD (ML/AI/Data) Landscape},
   author={FirstMark},
   year ={2023},
-  howpublished = "\url{https://mad.firstmark.com/}",
-  addendum = "[Online; Abgerufen 09.Mai 2023]"
+  url = {https://mad.firstmark.com/},
+  urldate = {2023-09-23}
 
 }
 
-@misc{I-5,
+@online{I-5,
  title = {Class action against GitHub Copilot},
  author = {Jonathan Corbet},
  year = {2022},
  month = {11},
- howpublished = "\url{https://lwn.net/Articles/914150/}",
- addendum = "[Online; Abgerufen 09.Mai 2023]"
+ url = {https://lwn.net/Articles/914150/},
+ urldate = {2023-09-23}
 }
 
 %B-1
 @inbook{bsi_it_grundschutz,
-    title = {{IT-Grundschutz-Kompendium}},
+    title = {IT-Grundschutz-Kom\-pen\-di\-um},
     publisher = {{Bundesamt für Sicherheit in der Informationstechnik, Bonn}},
     year = {2023},
     isbn = { 978-3-8462-0906-6 },
@@ -153,20 +363,26 @@
     totalpages = {856},
     timestamp={2023.01.02},
     url = {https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/Kompendium/IT_Grundschutz_Kompendium_Edition2023.pdf},
-    pages= {42}
-    
+    pages= {42}   
+}
+
+@inbook{bsi_200_2,
+    title = {{BSI-Standard 200.2 IT-Grundschutz-Methodik}},
+    publisher = {{Bundesamt für Sicherheit in der Informationstechnik, Bonn}},
+    year = {2017},
+    author = {{Bundesamt für Sicherheit in der Informationstechnik}},
+    pages= {52--54}   
 }
 
 @book{B-2,
   title={Moderne Algebra},
   author={Van der van der Waerden, B.E.L. and Artin, E. and Noether, E.},
   isbn={9783662356043},
-  %series={Grundlehren der mathematischen Wissenschaften},
+  series={Grundlehren der mathematischen Wissenschaften},
   url={https://books.google.de/books?id=0QbdoAEACAAJ},
   year={1937},
   publisher={Springer Berlin Heidelberg},
-  %bookpagination={paragraph},
-  bookpagination={none},
+  bookpagination={paragraph},
   pages={§10}
 }
 
@@ -1038,7 +1254,6 @@ series = {ASIACCS '18}
       year = {2019},     
       url = {https://eprint.iacr.org/2019/1365}
 }
-%addendum = {\url{https://eprint.iacr.org/2019/1365}},
 
 @inproceedings{P-74,
 author = {Mohassel, Payman and Rindal, Peter},
@@ -1179,13 +1394,12 @@ primaryClass={cs.CL}
   publisher={ACM New York, NY, USA}
 }
 
-@misc{P-87,
-      title={The Secret Sharer: Evaluating and Testing Unintended Memorization in Neural Networks}, 
-      author={Nicholas Carlini and Chang Liu and Úlfar Erlingsson and Jernej Kos and Dawn Song},
-      year={2019},
-      eprint={1802.08232},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+@inproceedings{P-87,
+  title={The secret sharer: Evaluating and testing unintended memorization in neural networks},
+  author={Carlini, Nicholas and Liu, Chang and Erlingsson, {\'U}lfar and Kos, Jernej and Song, Dawn},
+  booktitle={28th USENIX Security Symposium (USENIX Security 19)},
+  pages={267--284},
+  year={2019}
 }
 
 @inproceedings{P-88,
@@ -1402,15 +1616,15 @@ url={https://doi.org/10.1007/s12083-021-01076-8}
   year={2019}
 }
 
-@article{P-107,
-  title={Private empirical risk minimization, revisited},
-  author={Bassily, Raef and Smith, Adam and Thakurta, Abhradeep},
-  journal={rem},
-  volume={3},
-  pages={19},
-  year={2014},
-  publisher={Citeseer}
+@conference {P-107,
+	title = {Private Empirical Risk Minimization, Re\-visited},
+	booktitle = {ICML 2014 Workshop on Learning, Security and Privacy},
+	year = {2014},
+	month = 6,
+	address = {Beijing, China},
+	author = {Raef Bassily and Smith, Adam and Abhradeep Thakurta}
 }
+
 
 @inproceedings{P-108,
   title={A style-based generator architecture for generative adversarial networks},
@@ -1418,4 +1632,103 @@ url={https://doi.org/10.1007/s12083-021-01076-8}
   booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
   pages={4401--4410},
   year={2019}
+}
+
+@online{opacus_blog_part3,
+    author={Sablayrolles,Alex and Yousefpour,Ashkan and Prasad,Karthik and Romov,Peter and Testuggine,Davide and Shilov,Igor and Mironov,Ilya},
+    title={Differential Privacy Series Part 3 | Efficient Per-Sample Gradient Computation for More Layers in Opacus},
+    year={2022},
+    month={11},
+    day={4},
+    url = {https://pytorch.medium.com/differential-privacy-series-part-3-efficient-per-sample-gradient-computation-for-more-layers-in-39bd25df237},
+   urldate = {2023-09-23}
+}
+
+@misc{opacus_blog_part2,
+    author={Yousefpour,Ashkan and Testuggine,Davide and Sablayrolles,Alex and Mironov,Ilya},
+    title={Differential Privacy Series Part 2 | Efficient Per-Sample Gradient Computation in Opacus},
+    year={2021},
+    month={09},
+    day={16},
+    url = {https://medium.com/pytorch/differential-privacy-series-part-2-efficient-per-sample-gradient-computation-in-opacus-5bf4031d9e22},
+    urldate = {2023-09-23}
+}
+
+@article{cifar10,
+  title={Learning multiple layers of features from tiny images},
+  author={Krizhevsky, Alex and Hinton, Geoffrey and others},
+  year={2009},
+  pages={32--35},
+  publisher={Toronto, ON, Canada}
+}
+
+@article{adaclip,
+  title={Differentially private learning with adaptive clipping},
+  author={Andrew, Galen and Thakkar, Om and McMahan, Brendan and Ramaswamy, Swaroop},
+  journal={Advances in Neural Information Processing Systems},
+  volume={34},
+  pages={17455--17466},
+  year={2021}
+}
+
+
+@INPROCEEDINGS{neumann,
+  title={{Security Challenges for Cloud or Fog Computing-Based AI Applications}},
+  author={Amir Pakmehr and Andreas A{\ss}muth and Christoph P. Neumann and Gerald Pirkl},
+  booktitle={IARIA Cloud Computing 2023: 14th International Conference on Cloud Computing, GRIDs, and Virtualization},
+  _organization={International Academy, Research, and Industry Association (IARIA)},
+  address = {Nice, France},
+  month=jun,
+  year={2023},
+  _url = {https://www.thinkmind.org/index.php?view=article&articleid=cloud_computing_2023_2_10_28004},
+  issn = {2308-4294},
+  pages = {21--29},
+}
+
+@techreport{owasp_llm,
+  author = {{OWASP Foundation}},
+  month = 8,
+  title = {OWASP Top 10 for LLM Applications},
+  version = {1.0.1},
+  type = {Publication},
+  url = {https://llmtop10.com/assets/downloads/OWASP-Top-10-for-LLM-Applications-v101.pdf},
+  year = 2023
+}
+
+@book{Goodfellow-et-al-2016,
+    title={Deep Learning},
+    author={Ian Goodfellow and Yoshua Bengio and Aaron Courville},
+    publisher={MIT Press},
+    note={\url{http://www.deeplearningbook.org}},
+    year={2016}
+}
+
+@online{stable_diffusion_explained, 
+  title={The Illustrated Stable Diffusion},
+  author={Alammar, J},
+  year={2022},
+  url = {https://jalammar.github.io/illustrated-stable-diffusion/},
+  urldate = {2023-09-23}
+}
+
+@article{stable_diffusion_xl_paper,
+  title={SDXL: improving latent diffusion models for high-resolution image synthesis},
+  author={Podell, Dustin and English, Zion and Lacey, Kyle and Blattmann, Andreas and Dockhorn, Tim and M{\"u}ller, Jonas and Penna, Joe and Rombach, Robin},
+  journal={arXiv preprint arXiv:2307.01952},
+  year={2023}
+}
+
+@article{laion,
+  title={Laion-5b: An open large-scale dataset for training next generation image-text models},
+  author={Schuhmann, Christoph and Beaumont, Romain and Vencu, Richard and Gordon, Cade and Wightman, Ross and Cherti, Mehdi and Coombes, Theo and Katta, Aarush and Mullis, Clayton and Wortsman, Mitchell and others},
+  journal={Advances in Neural Information Processing Systems},
+  volume={35},
+  pages={25278--25294},
+  year={2022}
+}
+
+@misc{EU-DSGVO,
+  author = {{Verordnung (EU) 2016/679}},
+  title = {Verordnung (EU) 2016/679 des Europäischen Parlaments und des Rates vom 27. April 2016 zum Schutz natürlicher Personen bei der Verarbeitung personenbezogener Daten, zum freien Datenverkehr und zur Aufhebung der Richtlinie 95/46/EG (Datenschutz-Grundverordnung) (Text von Bedeutung für den EWR)},
+  year = 2016
 }

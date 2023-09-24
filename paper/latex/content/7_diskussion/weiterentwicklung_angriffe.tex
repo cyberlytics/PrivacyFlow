@@ -1,0 +1,67 @@
+\section{Weiterentwicklung von Angriffen durch moderne Modelle}
+
+ChatGPT ist ein Large Language Modell, welches eine Vielzahl von Aufgaben übernehmen kann.
+Die Generierung von Bildern gehört bislang nicht dazu.
+Jedoch hat OpenAI, das Unternehmen hinter ChatGPT, ein anderes Modell, welches dies kann.
+Dieses heißt DALL-E. 
+DALL-E 2 ist seit 2022 verfügbar und die neuste Version, DALL-3, wird planmäßig im Oktober 2023 veröffentlicht\footnote{https://openai.com/dall-e-3}.
+DALL-E 3 wird voraussichtlich in die ChatGPT Anwendung integriert werden.
+Stable Diffusion, \bzw Stable Diffusion XL\footnote{https://stability.ai/blog/stable-diffusion-sdxl-1-announcement}, ist eine Open-Source Alternative zu DALL-E.
+
+Sowohl DALL-E als auch Stable Diffusion erzeugen aus einer Texteingabe ein hochauflösendes Bild.
+Die Texteingabe kann dabei den Inhalt des Bildes, als auch den Stil von diesem beschreiben.
+Um das Bild zu erzeugen, wird die Texteingabe zuerst in einen latenten Vektorraum konvertiert \cite{stable_diffusion_explained}. 
+Diese Konvertierung erfolgt mittels eines Sprachmodells.
+Dieser Vektor wird anschließend mittels eines neuronalen Netzes zu einem Bild hochskaliert.
+Die Hochskalierung entspricht dabei dem Decoder eines Autoencoders \cite{stable_diffusion_explained}.
+Stable Diffusion wurde auf dem LAION-5B Datenbestand trainiert, welcher 5,85 Milliarden Bilder mit einer zugehörigen Beschreibung enthält \cite{laion}.
+Sowohl DALL-E als auch Stable Diffusion können qualitativ hochwertige und hochauflösende Bilder erzeugen.
+Abbildung \ref{fig:stable_diff} zeigt vier Bilder, welche von Stable Diffusion XL generiert sind\footnote{https://clipdrop.co/stable-diffusion}. Die zugehörige Texteingabe lautet: 
+\dq\textit{Panda bear eating a bowl of japanese ramen in an anime style}\dq.
+
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}[h]{0.22\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/stable_diff/p4.jpg}
+\end{subfigure}
+\begin{subfigure}[h]{0.22\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/stable_diff/p2.jpg}
+\end{subfigure}
+\begin{subfigure}[h]{0.22\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/stable_diff/p3.jpg}
+\end{subfigure}
+\begin{subfigure}[h]{0.22\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/stable_diff/p1.jpg}
+\end{subfigure}
+\caption{Stable Diffusion XL Beispiele}
+\label{fig:stable_diff}
+\end{figure}
+
+Diese Modelle zeigen, wozu moderne generative Modelle in der Lage sind.
+Diverse Angriffe, wie beispielsweise die Model Inversion Attacke, nutzen ebenfalls generative Modelle. 
+Dies ermöglicht verbesserte Versionen des Angriffs.
+Beispielsweise könnte die Hochskalierung einer Model Inversion Attacke nicht mehr von einem eigens trainierten Autoencoder übernommen werden, sondern von einem riesigen, öffentlichen Modell wie Stable Diffusion.
+Zusätzlich könnten auch neue Arten von Angriffen entwickelt werden.
+Eine denkbare Alternative einer Model Inversion Attacke ist es, mittels Stable Diffusion Bilder zu erzeugen, welche vom anzugreifenden Modell klassifiziert werden. 
+Die Vorhersagewahrscheinlichkeiten des anzugreifenden Modells können anschließend genutzt werden, um die Eingabetexte von Stable Diffusion iterativ anzupassen.
+Dies wird so lange wiederholt, bis das Modell die gewünschte Klasse vorhersagt.
+Dabei handelt es sich um einen hypothetischen Angriff, welcher aktuell noch nicht erforscht ist.
+
+Generell besteht das Risiko, dass Fortschritte in der Forschung von neuronalen Netzen dafür sorgen, dass neue Angriffe entstehen und bestehende Angriffe optimiert werden.
+Wird beispielsweise eine automatische Evaluierung von Angriffen in einer Deployment-Pipeline eines Modells vorgenommen, sollte darauf geachtet werden, dass aktuelle Angriffe mit fortschrittlichen Angreifermodellen genutzt werden. 
+
+Zusätzlich gibt es die Möglichkeit Penetrationstests von Anwendungen und Infrastruktur auszuweiten oder anzupassen, sodass auch Machine Learning Modelle evaluiert werden.
+Dabei werden Angriffe gegen die Vertraulichkeit bei neuronalen Netzen evaluiert, jedoch zusätzlich auch andere Angriffe, welche \zB das Ziel haben, die Güte des Modells zu verschlechtern.
+Diese Art von Penetrationstests ist aktuell nicht weit verbreitet, allerdings steigt die Relevanz eines solchen Tests für neuronale Netze.
+
+
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\rowcolor[HTML]{CBCEFB} 
+Epsilon  & \begin{tabular}[c]{@{}l@{}}Anzahl\\ Epochen\end{tabular} & \begin{tabular}[c]{@{}l@{}}vortrainiert,\\ mit AutoAugment\\ Batch-Größe=128\end{tabular} & \begin{tabular}[c]{@{}l@{}}nicht-vortrainiert,\\ mit AutoAugment\\ Batch-Größe=128\end{tabular} \\ \hline
+$\infty$ & 1                                                        & 86,6 \%                                                                                   & 88,6 \%                                                                                         \\ \hline
+$\infty$ & 3                                                        & 89,8 \%                                                                                   & 89,7 \%                                                                                         \\ \hline
+$\infty$ & 5                                                        & 91,5 \%                                                                                   & 91,4 \%                                                                                         \\ \hline
+$\infty$ & 10                                                       & 92,4 \%                                                                                   & 92,3 \%                                                                                         \\ \hline
+\end{tabular}
+\caption{Resnet-18 Modell mit AutoAugment ohne Differential Privacy}
+\label{tab:r18_base}
+\end{table}

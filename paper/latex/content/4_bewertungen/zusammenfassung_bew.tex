@@ -1,1 +1,19 @@
 \section{Zusammenfassung der Bewertungen}
+
+Methoden zur Sicherung der Vertraulichkeit können in kryptografische und statistische Methoden eingeteilt werden.
+Kryptografische Methoden lassen sich in drei Arten einteilen: homomorphe Verschlüsselung, funktionale Verschlüsselung und andere Secure Multi-Party Computation Protokolle.
+Die Methoden sind primär für die Inferenz von Modellen ausgelegt, da die kryptografischen Techniken für einen hohen Mehraufwand sorgen.
+Obwohl nur die Inferenz eines Modells verschlüsselt ausgeführt wird, ist der Mehraufwand erheblich. 
+Je nach Wahl der Methode und Anpassung an das Modell dauert eine Inferenz hunderte bis tausende Male so lang wie ohne Kryptografie.
+Außerdem steigt dieser Faktor mit Komplexität der Modelle.
+Ein Vorteil der kryptografischen Techniken ist jedoch der Schutz, den diese bringen können. Homomorphe Verschlüsselung ermöglicht es beispielsweise, ein neuronales Netz auf einem Cloud-Server zu nutzen, sodass weder der Anbieter der Anwendung, noch der Server-Provider die Möglichkeit haben, die persönlichen Daten unverschlüsselt zu lesen. Dadurch könnten also Modelle genutzt werden, ohne die eigenen Daten zu offenbaren, was sogar mathematisch beweisbar ist (Kapitel \ref{sec:bw_krypto}).
+
+Als wichtigste statistische Methode zum Schutz der Vertraulichkeit in neuronalen Netzen wird Differential Privacy genauer bewertet.
+Dabei wird Differential Privacy in einer Vielzahl von Methoden genutzt, welche in unterschiedlichen Phasen des Modellzyklus genutzt werden können.
+DPSGD ist dabei eine der gängigsten Methoden, um Differential Privacy in Kombination mit neuronalen Netzen zu nutzen.
+Bei dieser werden die Gradienten der Modellparameter während des Trainingsprozesses verrauscht.
+Die Qualität der Modelle hängt dabei von der Wahl des $\epsilon$-Werts und der Hyperparameter ab.
+Die Wahl von des $\epsilon$-Werts beeinflusst ebenfalls die Sicherheit, die mit dieser Methode erzielt wird (Kapitel \ref{sec:bw_krypto}).
+
+Die technische Nutzung von DPSGD, sowie die Wahl der Hyperparameter wird folgend in Kapitel \ref{ch:experiments} evaluiert.
+Zusätzlich werden ebenfalls zwei Angriffe, die Membership Inference Attacke sowie die Model Inversion Attacke, beleuchtet und deren Effektivität gegen exemplarische Use Cases bewertet.

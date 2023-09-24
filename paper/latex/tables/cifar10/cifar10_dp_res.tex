@@ -1,0 +1,17 @@
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{CBCEFB} 
+Epsilon  & \begin{tabular}[c]{@{}l@{}}Anzahl\\ Epochen\end{tabular} & Batch-Größe &Clipping-Norm & Genauigkeit \\ \hline
+
+1  & 30 & 512 & $10^{-5}$  & 46,7 \% \\ \hline
+5  & 30 & 512 & $10^{-5}$  & 55,0 \% \\ \hline
+10 & 30 & 512 & $10^{-5}$  & 59,4 \% \\ \hline
+20 & 30 & 512 & $10^{-5}$  & 60,5 \% \\ \hline
+30 & 30 & 512 & $10^{-5}$  & 61,9 \% \\ \hline
+50 & 30 & 512 & $10^{-5}$  & 63,2 \% \\ \hline
+\end{tabular}
+\caption{Genauigkeit von CIFAR-10 Modellen mit DPSGD}
+\label{tab:c10_dpsgd_res}
+\end{table}

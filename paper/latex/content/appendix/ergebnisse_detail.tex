@@ -1,0 +1,54 @@
+\chapter{Ergebnisse im Detail}\label{ch:ergebnisse_detail}
+Im Folgenden befinden sich die Messungen der Experimente in ausführlicher Fassung.
+Einige Werte wurden bereits in Kapitel \ref{ch:experiments} beschrieben.
+
+\section{Hyperparametertuning DPSGD CIFAR-10 Modell}
+Tabelle \ref{tab:c10_base} zeigt die Genauigkeit des CIFAR-10 Modells ohne die Nutzung von Differential Privacy.
+Dabei werden verschiedene Batch-Größen und Anzahl an trainierten Epochen betrachtet.
+Zusätzlich ist Datenaugmentierung mittels AutoAugment aktiviert, welche in \ref{tab:c10_base2} nicht genutzt wird.
+In Tabelle \ref{tab:c10_exp1} wird DPSGD benutzt, jedoch ohne eine Anpassung von Parametern. 
+Die Clipping-Norm ist auf 1,0 gesetzt und Datenaugmentierung wird in Form von AutoAugment genutzt.
+Die Datenaugmentierung fällt in Tabelle \ref{tab:c10_exp2} jedoch weg.
+Tabelle \ref{tab:c10_exp3} zeigt die Genauigkeit des Modells mit einer angepassten Clipping-Norm von $10^{-5}$.
+\input{tables/cifar10/cifar10_base_AA}
+\input{tables/cifar10/cifar10_base_ohneAA}
+\input{tables/cifar10/cifar10_augments_clip1}
+\input{tables/cifar10/cifar10_clip1}
+\input{tables/cifar10/cifar10_clip10-4}
+\clearpage
+
+\section{Hyperparametertuning DPSGD CelebA ResNet-18 Modell}
+In Tabelle \ref{tab:r18_base} wird die Genauigkeit von zwei ResNet-18 Modellen gezeigt, wobei eines dieser Modelle zu Beginn vortrainiert war.
+Dabei wurden die Daten über AutoAugment erweitert, was in Tabelle \ref{tab:r18_base2} jedoch entfernt wurde.
+Tabelle \ref{tab:r18_exp1} zeigt, wie sich die Genauigkeit dieser Modelle bei Nutzung von DPSGD verändert. 
+Hierbei sind jedoch noch keine Parameter optimiert.
+Dies ist erst bei Tabelle \ref{tab:r18_exp2} der Fall, wo die virtuelle Batch-Größe erhöht ist und die Clipping-Norm verkleinert ist.
+Jedoch ist Datenaugmentierung über AutoAugment zusätzlich integriert.
+Tabelle \ref{tab:r18_vergleichAA} vergleicht, wie sich die Nutzung von Datenaugmentierung auf das Modell auswirkt.
+\input{tables/resnet18/base}
+\input{tables/resnet18/base_ohneAA}
+\input{tables/resnet18/b64_aa_clip1}
+\input{tables/resnet18/b256_clip10-5_mitAA}
+\input{tables/resnet18/vergleichAA}
+\clearpage
+
+
+\section{Hyperparametertuning DPSGD CelebA Vision Transformer Modell}
+Tabelle \ref{tab:vit_baseAA} zeigt die Genauigkeit der Vision Transformer Modelle, ohne die Nutzung von DPSGD, jedoch mit Datenaugmentierung.
+Die Datenaugmentierung ist in Tabelle \ref{tab:vit_base_noAA} jedoch deaktiviert.
+Tabellen \ref{tab:vit_dpsgd1} zeigt, wie sich die Genauigkeit bei der Nutzung von DPSGD ohne Parameteroptimierung verändert. 
+Die Batch-Größe ist dabei auf 16 gesetzt, da die nächstgrößere Zweierpotenz als Batch-Größe den Speicher der Grafikkarte überladen würde.
+In Tabelle \ref{tab:vit_dpsgd2} wird deshalb eine virtuelle Batch-Größe von 128 genutzt. 
+Außerdem wurde die Datenaugmentierung deaktiviert.
+Tabelle \ref{tab:vit_dpsgd3} reduziert zusätzlich die Clipping-Norm auf einen Wert von $10^{-5}$.
+\input{tables/vit/vit_baseAA}
+\input{tables/vit/vit_base_noAA}
+\input{tables/vit/vit_dpsgd_1}
+\input{tables/vit/vit_dpsgd_2}
+\input{tables/vit/vit_dpsgd_3}
+\clearpage
+
+\section{Membership Inference Attacke CIFAR-10 Modell}
+Tabelle \ref{tab:mi_cifar10_total} zeigt die Effektivität der Membership Inference Attacke gegen das CIFAR-10 Modell. 
+Dabei werden unterschiedliche $\epsilon$-Werte, sowie eine steigende Anzahl an Shadow Modellen betrachtet
+\input{tables/mi_attack/cifar_10_total}

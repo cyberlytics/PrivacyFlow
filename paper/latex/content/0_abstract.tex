@@ -1,9 +1,25 @@
 \thispagestyle{empty}
 \section*{Kurzdarstellung}
 \label{sec:kurzdarstellung}
-Hier steht eine deutsche Zusammenfassung der Arbeit
+Die steigende Popularität von neuronalen Netzen sorgt dafür, dass die Anzahl und Variation der Angriffe auf diese zu nimmt.
+Dabei können Eigenschaften der genutzten Trainingsdaten ermittelt werden oder sogar einzelne Datensätze rekonstruiert werden.
+Um dies zu verhindern, gibt es kryptografische und statistische Methoden, welche die Vertraulichkeit der Daten in neuronalen Netzen schützen. 
+Kryptografische Methoden verschleiern dabei die Berechnungen, sodass der Anbieter des Modells keinen Zugriff auf die Daten des Anwenders erhält. 
+Statistische Methoden beeinflussen die Daten, um einzelne Datensätze zu schützen.
+Hierbei ist die Technik Differential Privacy im Fokus. 
+Diese macht den maximalen Einfluss eines Datensatzes auf eine Datenmenge quantifizierbar und kann diesen sogar einschränken.
+Differential Privacy kann während des Modelltrainings genutzt werden, um neuronale Netze und die Vorhersagen dieser zu schützen.
+Diese Arbeit stellt ein Handlungsmodell vor, welches den Einsatz von Differential Privacy in Kombination mit neuronalen Netzen nur empfiehlt, wenn die Effektivität der Angriffe einen festgelegten Schwellwert überschreitet.
 
 
 \section*{Abstract}
 \label{sec:abstract}
-This is the location of the abstract
+The popularity of neural networks leads to an increase in the number and variety of attacks against them. 
+In the process, characteristics of the utilized training data can be determined, or even individual data records can be reconstructed. 
+To prevent this, there are cryptographic and statistical methods that protect the confidentiality of data in neural networks.
+Cryptographic methods obscure the computations, so that the model provider can't gain access to the user's data.
+Statistical methods influence the data to protect individual data records. 
+In this context, the technique of Differential Privacy is in focus. 
+This makes the maximum impact of a data record on a dataset quantifiable and can even restrict it. 
+Differential Privacy can be used during model training to protect neural networks and their predictions.
+This work presents an action model that recommends the use of Differential Privacy in combination with neural networks only when the effectivness of attacks exceeds a specified threshold.

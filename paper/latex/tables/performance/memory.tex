@@ -1,0 +1,15 @@
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{CBCEFB} 
+Modell                   & Batch-Größe & \begin{tabular}[c]{@{}l@{}}Speicherverbrauch\\ ohne DPSGD\end{tabular} & \begin{tabular}[c]{@{}l@{}}Speicherverbrauch\\ mit DPSGD\end{tabular} & \begin{tabular}[c]{@{}l@{}}Faktor \\ Differenz\end{tabular} \\ \hline
+CIFAR-10 Modell          & 64          & 2,8 GB VRAM                                                         & 5,1 GB VRAM                                                         & 1,8                                                         \\ \hline
+CIFAR-10 Modell          & 128         & 2,9 GB VRAM                                                          & 10,2 GB VRAM                                                        & 3,5                                                         \\ \hline
+CIFAR-10 Modell          & 256         & 3,3 GB VRAM                                                          & 16,4 GB VRAM                                                        & 5,0                                                           \\ \hline
+CelebA ResNet-18          & 64          & 4,6 GB VRAM                                                          & 12,8 GB VRAM                                                        & 2,8                                                         \\ \hline
+CelebA ViT & 16          & 12,8 GB VRAM                                                         & 20,8 GB VRAM                                                        & 1,6                                                         \\ \hline
+\end{tabular}
+\caption{Speicherverbrauch mit und ohne Differential Privacy}
+\label{tab:memory}
+\end{table}

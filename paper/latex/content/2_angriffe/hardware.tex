@@ -1,0 +1,32 @@
+\section{Abhängigkeit von der Plattform}\label{sec:plattform}
+
+Machine Learning Anwendungen werden oftmals in einer Public Cloud trainiert.
+Dafür gibt es eine Vielzahl an Gründen \cite{neumann}:
+\begin{compactitem}
+    \item \textbf{Rechenleistung}: Die Komplexität eines neuronalen Netzes steigt mit der Komplexität der zu bewältigenden Aufgabe und der Menge an verfügbaren Daten. 
+    Mehr Komplexität bedeutet auch, dass mehr Rechenleistung benötigt wird. 
+    Eine Public Cloud hat die Möglichkeit, genügend Ressourcen bereitzustellen, um diese Rechenleistung zu bewältigen.
+    \item \textbf{Flexibilität}: Das Training eines neuronalen Netzes ist rechenintensiver als die Inferenz von diesem. 
+    Durch dir Nutzung einer Public Cloud lässt sich die Rechenleistung so anpassen, dass während dem Betrieb des Modells, weniger Ressourcen genutzt werden, als während des Trainings. 
+    Diese Flexibilität sorgt für eine Kosteneffizienz.
+    Zusätzlich bieten spezielle Hardware, spezielle Infrastruktur und spezielle Software die Möglichkeit, die Plattform für den Use Case anzupassen.
+    \item \textbf{Hardware}: Neuronale Netze werden auf spezieller Hardware trainiert.
+    Dazu zählen Grafikkarten, auch Graphics Processing Units oder GPUs genannt, und Tensor Processing Units, auch TPUs genannt.
+    Bei der Nutzung der Public Cloud fällt die Anschaffung dieser Hardware weg.
+    Stattdessen wird die Nutzungszeit der Hardware berechnet.
+    \item \textbf{Integration}: Neben Services für die Entwicklung von Machine Learning Anwendungen gibt es eine Reihe weiterer Services in einer Public Cloud. 
+    Diese reichen von Datenbanken bis hin zu Visualisierungen.
+    Dabei sind die Services so ausgelegt, dass die Integration verschiedener Services ohne großen Aufwand möglich ist.
+\end{compactitem}
+
+Durch die Nutzung einer Public Cloud entstehen jedoch zusätzliche Sicherheitsrisiken.
+\mbox{Neben} gängigen Angriffen gegen jede Art von Webanwendungen, wie Ransomware-Angriffe oder Denial-of-Service-Attacken, gibt es eine Reihe weiterer Sicherheitsrisiken, welche die Vertraulichkeit der Daten angreifen \cite{neumann}.
+
+Ein Datenleck ist ein nicht autorisierter Zugriff auf Daten und stellt damit eine große Gefahr bei der Nutzung von sensiblen Daten dar.
+Dabei können Daten von einem Angreifer gestohlen werden oder durch andere Fehler an die Öffentlichkeit gelangen.
+In einer Public Cloud können diese Datenlecks durch falsche Konfigurationen oder mangelnde Sicherheitsmaßnahmen entstehen \cite{neumann}.
+Zusätzlich können Sicherheitslücken in der Software für ein Datenleck sorgen.
+Die Sicherheitslücken können dabei in dem eigenen Programmcode integriert sein, oder durch die Nutzung von Software von Drittanbietern stammen \cite{neumann}.
+
+Die Public Cloud ist dabei nur ein Beispiel für die Abhängigkeit von Machine Learning Anwendungen an die darunterliegende Plattform.
+Ebenfalls kann der Betrieb eigener Server die gleichen Sicherheitsrisiken aufweisen.

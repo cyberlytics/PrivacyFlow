@@ -1,0 +1,27 @@
+\section{Zusammenfassung der Experimente}
+
+PyTorch stellt mit Opacus eine Bibliothek zur Verfügung, welche die Nutzung von DPSGD durch einige Wrapper-Klassen ermöglicht.
+Opacus bietet über die Klasse \textbf{PrivacyEngine} einen simplen Weg, die PyTorch Objekte entsprechend umzuwandeln. 
+Anschließend erfolgt das Training mit normalem PyTorch Code, weshalb die Nutzung von DPSGD mit Opacus kein aufwendiges Refactoring benötigt.
+Da jedoch die Funktionsweise von PyTorch durch Opacus angepasst wird, steigt der Speicherverbrauch, sowie die Trainingsdauer einer Epoche (Kaptiel \ref{sec:opacu_implementierung}). 
+
+Durch die richtige Wahl von Hyperparametern kann die Güte von neuronalen Netzen mit DPSGD optimiert werden.
+Dazu sollte eine möglichst große Batch-Größe, ein geringer Wert der Clipping-Norm und eine verhältnismäßig hohe Anzahl an Trainingsepochen gewählt werden.
+Ein höherer $\epsilon$-Wert sorgt ebenfalls für eine bessere Güte des Modells.
+Die Hyperparameter wurden anhand von drei Modellen evaluiert:
+\begin{compactitem}
+    \item \textbf{CIFAR-10 Modell}: Das CIFAR-10 Modell ist ein neuronales Netz, welches eine ResNet-Architektur mit 10 Schichten nutzt und den CIFAR-10 Datenbestand in 10 unterschiedliche Klassen einteilt. Bei der ResNet-Architektur handelt es sich um ein neuronales Netz mit Faltungsschichten, welches zusätzlich sogenannte Skip Connections nutzt.
+    \item \textbf{ResNet-18 Modell}: Das ResNet-18 Modell ist ein neuronales Netz mit 18 Schichten, welches ebenfalls die ResNet-Architektur nutzt. Dieses Modell erkennt 40 Merkmale aus Bildern von menschlichen Gesichtern.
+    \item \textbf{Vision Transformer Modell}: Das Vision Transformer Modell erkennt ebenfalls 40 Merkmale aus Bildern von menschlichen Gesichtern.
+    Jedoch basiert dieses auf der Transformer-Architektur, welche Embeddings, Aufmerksamkeitsmechanismen und Encoder nutzt.
+\end{compactitem}
+Die Differenz der Genauigkeit des CIFAR-10 Modells mit DPSGD und ohne DPSGD fällt dabei am größten aus. 
+Bei einem $\epsilon$-Wert von 10, sinkt die Genauigkeit von 82,9 \% ohne DPSGD auf eine Genauigkeit von 59,4 \%.
+Die Differenz fällt bei dem ResNet-18 Modell und bei dem Vision Transformer Modell geringer aus. 
+Bei dem ResNet-18 Modell sinkt die Genauigkeit bei einem $\epsilon$-Wert von 10 um 5,5 Prozentpunkte.
+Die Genauigkeit des Vision Transformer Modells sinkt bei einem $\epsilon$-Wert von 10 nur um 2,7 Prozentpunkte (Kapitel \ref{sec:hyperparams}).
+
+Die Wahl von $\epsilon$ und der damit einhergehende Schutz ist abhängig von der benötigten Sicherheit.
+Jedoch wird gezeigt, dass die Membership Inference Attacke und die Model Inversion Attacke bei den genutzten Use Cases nicht effektiv ist. 
+Sogar bei den Modellen ohne DPSGD sind die Angriffe unwirksam (Kapitel \ref{sec:exp_angriffe}).
+

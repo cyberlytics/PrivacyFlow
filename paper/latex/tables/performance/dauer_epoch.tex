@@ -1,0 +1,15 @@
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{CBCEFB} 
+Modell                    & Batch-Größe & \begin{tabular}[c]{@{}l@{}}Dauer Epoche\\ ohne DPSGD\end{tabular} & \begin{tabular}[c]{@{}l@{}}Dauer Epoche\\ mit DPSGD\end{tabular} & \begin{tabular}[c]{@{}l@{}}Faktor \\ Differenz\end{tabular} \\ \hline
+CIFAR-10 Modell           & 64          & 7 Sekunden                                                     & 22 Sekunden                                                   & 3,1              \\ \hline
+CIFAR-10 Modell           & 128         & 7 Sekunden                                                     & 18 Sekunden                                                   & 2,6              \\ \hline
+CIFAR-10 Modell           & 256         & 14 Sekunden                                                    & 18 Sekunden                                                   & 1,3              \\ \hline
+CelebA ResNet-18           & 64          & 3 Minuten                                                      & 30 Minuten                                                    & 10,0               \\ \hline
+CelebA ViT & 16          & 11 Minuten                                                     & 50 Minuten                                                    & 4,5              \\ \hline
+\end{tabular}
+\caption{Dauer des Trainings einer Epoche mit und ohne Differential Privacy}
+\label{tab:dauer_epoch}
+\end{table}

@@ -1,37 +1,41 @@
 \section{Membership Inference Angriff}\label{sec:membership_inference}
 
-Bei der Membership Inference Attacke versucht ein Angreifer herauszufinden, ob ein Datenpunkt Bestandteil der Trainingsdatenmenge eines Modells ist. 
-Dies bedroht die Vertraulichkeit, da beispielsweise herausgefunden werden kann, ob eine bestimmte Person Teil eines Datenmenge für die Diagnose einer Krankheit ist und folglich auch mit der entsprechenden Krankheit diagnostiziert ist \cite{P-2}.
+Bei der Membership Inference Attacke versucht ein Angreifer herauszufinden, ob ein Datensatz Bestandteil der Trainingsdatenmenge eines Modells ist. 
+Dies bedroht die Vertraulichkeit, da beispielsweise herausgefunden werden kann, ob eine bestimmte Person Teil einer Datenmenge für die Diagnose einer Krankheit ist und folglich auch mit der entsprechenden Krankheit diagnostiziert ist \cite{P-2}.
 
-Shokri et al. \cite{P-2} zeigen eine Membership Inference Attacke, welche nur die Vorhersage des anzugreifenden Modells nutzt. 
-Dies wird auch Black-Box Angriff genannt, da die internen Gewichte des Modells nichts ersichtlich sind und damit wie eine Art Black Box.
-Die Attacke wird durchgeführt, indem eine Reihe Modelle trainiert wird, die ähnlich dem Angriffsziel-Modell sind.
-Diese Modelle werden auch Shadow Modelle genannt.
+Shokri \etal \cite{P-2} zeigen eine Membership Inference Attacke, welche nur die Vorhersage des anzugreifenden Modells nutzt. 
+Dies wird auch Black-Box Angriff genannt, da die internen Gewichte des Modells nicht ersichtlich sind und damit das Modell wie eine Art Black-Box fungiert.
+Die Attacke wird durchgeführt, indem eine Reihe von Modellen trainiert wird, die ähnlich dem Angriffsziel-Modell sind.
+Diese Modelle sind Shadow Modelle.
 Ähnlich bedeutet hier, dass sowohl die Architektur der Modelle, als auch der Trainingsdatenbestand, mit dem angegriffenen Modell vergleichbar sind.
-Da es sich hier um einen Black-Box Angriff handelt, kann der Angreifer die Architektur nur anhand vergleichbarer Use Cases herleiten und schätzen. 
+Da es sich hier um einen Black-Box Angriff handelt, kann der Angreifer die Architektur nur anhand vergleichbarer Use Cases herleiten oder anhand öffentlicher Architekturen nachahmen. 
 Als Trainingsdaten kann ein Angreifer öffentliche Datenbestände nutzen.
-Für jedes Shadow Modell wird ein eigener Trainingsdatenbestand zusammengesetzt, wobei ein zu untersuchender Record in manchen dieser Bestände drinnen ist und in anderen wiederum nicht.
-Somit haben einige der trainierten Shadow Modelle den zu untersuchenden Record in den Trainingsdaten, andere hingegen nicht.
-Anschließend wird ein binärer Meta-Klassifikator trainiert (ähnlich zu der Property Inference Attacke in Kapitel \ref{sec:property_inference}), welcher anhand der Vorhersagen der Shadow Modelle, Label und Confidence Score, lernt, ob ein Record im Training des entsprechenden Modells genutzt wurde.
-Wird in diesen Meta-Klassifikator die Vorhersage des angegriffenen Modells als Input genutzt, so erhält man die Antwort, ob der Record für das Modelltraining genutzt wurde oder nicht.
-Laut Shokri et al. \cite{P-2} funktioniert dieser Angriff, da ähnliche Modelle, die mit einem ähnlichen Datenbestand trainiert werden, sich auch ähnlich verhalten. 
-Somit kann bei den selbst trainierten Modellen, welche den zu untersuchenden Record enthalten, ein Muster gelernt werden, welches auch auf andere Modelle anwendbar ist. 
-Overfitting eines Modells und eine hohe Anzahl an Klassen die vorhergesagt werden, erhöhen die Wahrscheinlichkeit eines erfolgreichen Angriffs auf ein Modell.
+Die Shadow Modelle werden dabei jeweils nur auf Teildatenmengen trainiert. 
+Dadurch weiß der Angreifer, welche Datensätze in welchem Shadow Modell zum Training genutzt wurden und welche nicht.
+Anschließend wird mit den Shadow Modellen eine Datenmenge erzeugt, welcher die Wahrscheinlichkeiten der Klassifikationen der einzelnen Modelle enthält, so wie ein Label, ob das entsprechende Shadow Modell den besagten Datensatz in der Trainingsdatenmenge enthält oder nicht. 
+Diese Datenmenge dient als Trainingsdaten für einen binären Meta-Klassifikator, welcher anhand der Vorhersagewahrscheinlichkeiten eines Modells bestimmen kann, ob ein bestimmter Datensatz in der Trainingsdatenmenge enthalten ist.
+Wird in diesem Meta-Klassifikator die Vorhersage des angegriffenen Modells als Input genutzt, so erhält man die Antwort, ob der zu untersuchende Datensatz für das Modelltraining genutzt wurde oder nicht.
+Laut Shokri \etal \cite{P-2} funktioniert dieser Angriff, da ähnliche Modelle, die mit einem ähnlichen Datenbestand trainiert werden, sich auch ähnlich verhalten. 
+Somit kann bei den selbst trainierten Modellen, welche den zu untersuchenden Datensatz enthalten, ein Muster gelernt werden, welches auch auf andere Modelle anwendbar ist. 
+Overfitting eines Modells und eine hohe Anzahl an Klassen, welche vorhergesagt werden, erhöhen die Wahrscheinlichkeit eines erfolgreichen Angriffs auf ein Modell.
+Overfitting bedeutet, dass ein Modell sehr stark an die Trainingsdaten angepasst ist und deshalb nicht mehr gut generalisiert.
 
 
+Carlini \etal \cite{P-13} zeigen eine Alternative des Angriffs, bei welcher kein Meta-Klassifikator genutzt wird.
+Die Shadow Modelle werden analog zu der bereits beschriebenen Methode trainiert. 
+Ebenfalls werden die Shadow Modelle genutzt, um Vorhersagewahrscheinlichkeiten zu ermitteln, von Datensätzen, die im Training genutzt wurden oder nicht.
+Anstatt damit einen Meta-Klassifikator zu trainieren, werden die Vorhersagewahrscheinlichkeiten genutzt, um jeweils eine Gaußverteilung zu modellieren.
+Gaußverteilungen von Datensätzen, welche im Training genutzt werden, haben dabei andere statistische Merkmale, \zB Mittelwerte und Standardabweichungen, wie die Gaußverteilungen von Datensätzen, welche nicht im Training genutzt werden.
+Die Vorhersagewahrscheinlichkeiten eines anzugreifenden Modells, mit einem speziellen Datensatz, können anschließend über einen Likelihood-Quotienten-Test den ähnlicheren Verteilungen zugeordnet werden.
+Dies entspricht dabei der Aussage, ob der spezielle Datensatz im Trainingsdatenbestand enthalten ist oder nicht.
+Ein Vorteil dieser Methode liegt darin, dass weniger Shadow Modelle trainiert werden müssen, um eine vergleichbare Qualität des Angriffs zu erhalten.
 
-Carlini et al. \cite{P-13} zeigen eine Alternative des Angriffs, bei welcher kein Meta-Klassifikator genutzt wird.
-Die Shadow Modelle werden analog zu \cite{P-2} trainiert. 
-Anstatt mit den Vorhersagen dieser Modelle nun einen Meta-Klassifikator zu trainieren, werden zwei Gaußverteilungen gebildet, jeweils über die Confidence Scores der Modelle, wo der Datenpunkt im Training enthalten war oder nicht.
-Mittels eines Likelihood-Quotienten-Tests wird anschließend vorhergesagt, in welcher Verteilung der Confidence Score des angegriffenen Modells wahrscheinlicher liegt.
-Ein Vorteil dieser Methode liegt darin, dass weniger Shadow Modelle trainiert werden müssen, da bereits mit relativ wenig Werten eine Gaußverteilung modelliert werden kann.
 
-
-Eine Voraussetzung bei Shokri et al. \cite{P-2} ist es, dass der Confidence Score mit ausgegeben wird.
-Choquette-Choo et al. \cite{P-7} wandeln den Angriff ab, sodass dieser Score nicht mehr benötigt wird.
-Der Angriff funktioniert simultan zu \cite{P-2}, jedoch wird nicht nur der Record selber in die Modelle als Input gegeben, sondern auch Abwandlung davon. 
+Eine Voraussetzung bei Shokri \etal \cite{P-2} ist es, dass der Confidence Score mit ausgegeben wird.
+Choquette-Choo \etal \cite{P-7} wandeln den Angriff ab, sodass dieser Score nicht mehr benötigt wird.
+Der Angriff funktioniert simultan zu \cite{P-2}, jedoch wird nicht nur der Datensatz selber in die Modelle als Input gegeben, sondern auch Abwandlung davon. 
 Diese Abwandlungen könnte das Hinzufügen von zufälligem Rauschen sein, oder bei Bilddateien beispielsweise Rotation oder Translation.
-Die Hypothese der Autoren ist, dass das Modell bei Records, die im Training genutzt wurden, robuster gegenüber diesen Abwandlungen ist und dennoch den Datenpunkt korrekt klassifiziert.
+Die Hypothese der Autoren ist, dass das Modell bei Datensätzen, die im Training genutzt wurden, robuster gegenüber diesen Abwandlungen ist und dennoch den Datenpunkt korrekt klassifiziert.
 Zusätzlich könnten Abwandlungen der Daten über einen Data Augmentation Schritt auch direkt vom Modell gelernt worden sein.
-Werden diese Abwandlungen also falsch klassifiziert, ist dies ein Indiz dafür, dass der Record nicht im Trainingsdatenbestand des anzugreifenden Modells ist.
+Werden diese Abwandlungen also falsch klassifiziert, ist dies ein Indiz dafür, dass der Datensatz nicht im Trainingsdatenbestand des anzugreifenden Modells ist.
 

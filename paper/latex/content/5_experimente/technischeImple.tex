@@ -1,0 +1,222 @@
+\section{Technische Implementierung von DPSGD}\label{sec:opacu_implementierung}
+Opacus ist eine Bibliothek, welches das Framework PyTorch erweitert, indem das Training eines neuronalen Netzes mittels DPSGD ermöglicht wird \cite{opacus}.
+Der Großteil des PyTorch Codes bleibt dabei unverändert, wird jedoch um einige Wrapper-Klassen der Opacus Bibliothek erweitert.
+
+\begin{lstlisting}[language=Python,caption={Training einer Epoche in PyTorch},captionpos=b,showstringspaces=false,label={lst:torch_default}]
+import torch
+
+model:torch.nn.Module = <...> 
+criterion:torch.nn.Module._Loss = torch.nn.CrossEntropyLoss()
+optimizer:torch.optim.Optimizer = torch.optim.Adam(model.parameters(), 
+                                                   lr=0.01)
+train_dataloader:torch.utils.data.DataLoader = <...> 
+
+for epoch in range(10):
+    for inputs, labels in train_dataloader:
+        optimizer.zero_grad()
+        model_outputs = model(inputs)
+        loss = criterion(model_outputs, labels)
+        loss.backward()
+        optimizer.step()
+\end{lstlisting}
+
+Listing \ref{lst:torch_default} zeigt die wichtigsten Komponenten beim Training eines neuronalen Netzes mit PyTorch.
+Die Zeilen 3 bis 7 definieren die Objekte, die für das Training genutzt werden. 
+Das Modell, welches trainiert werden soll, ist dabei vom Datentyp \textbf{torch.nn.Module} und wird in Zeile 3 als Platzhalter definiert.
+Zeile 4 definiert die Verlustfunktion, welche in diesem Beispiel \textbf{torch.nn.CrossEntropyLoss} ist.
+Als \textbf{Optimizer} wird \textbf{torch.optim.Adam} in Zeile 5 und 6 deklariert.
+Bei einem \textbf{Dataloader} handelt es sich um ein Objekt, welches Batches von Datensätzen und die zugehörigen Labels über einen Iterator ausgibt.
+Die Zeilen 10 bis 15 trainieren eine Epoche. 
+Dabei wird jeder Batch, welche von dem \textbf{Dataloader} in Zeile 10 stammen, durch das Modell inferiert (Zeile 12). 
+Mittels der Verlustfunktion werden die Gradienten der einzelnen Gewichte bestimmt (Zeile 13 und 14).
+Der \textbf{Optimizer} passt anschließend die Gewichte in die entgegengesetzte Richtung der Gradienten, skaliert mit der Lernrate, an (Zeile 15).
+Das Einbetten der Trainingslogik in eine For-Schleife ermöglicht das Training mehrerer Epochen hintereinander.
+
+Opacus bietet Wrapper-Klassen, welche die Nutzung von DPSGD ermöglicht. 
+Listing \ref{lst:opacus_pe1} zeigt, wie diese genutzt werden.
+Zuerst wird ein Objekt des Typs \textbf{PrivacyEngine} in Zeile 3 deklariert.
+Der Parameter \dq \textit{rdp}\dq \ als \dq \textit{accountant}\dq \ sorgt dafür, dass die Moments Berechnung aus Kapitel \ref{sec:dp_training} verwendet wird.
+Die \textit{make\_private()}-Methode der \textbf{PrivacyEngine} akzeptiert das \textbf{Modell}, den \textbf{Optimizer} und den \textbf{Dataloader} und gibt diese jeweils in einer Wrapper-Klasse zurück.
+Das Modell ist anschließend vom Datentyp \textbf{GradSampleModule\mbox} der Opacus Bibliothek. 
+Normale PyTorch Modelle, vom Typ \textbf{torch.nn.Module\mbox}, berechnen aggregiert die Gradienten pro Batch, wohingegen die Wrapper-Klasse von Opacus\mbox, \textbf{GradSampleModule\mbox}, für jeden Datensatz eines Batches die Gradienten berechnet.
+Grund dafür ist, dass die einzelnen Gradienten für das Clipping und das Verrauschen benötigt werden \cite{P-28}.
+Das Clipping und Verrauschen übernimmt jedoch die Wrapper-Klasse des Optimizers. 
+Diese ist vom Datentyp \textbf{DPOptimizer} der Opacus Bibliothek.
+Der PyTorch \textbf{Dataloader\mbox} wird zu einem Opacus \textbf{DPDataloader} transformiert, welcher anschließend Batches mittels des Poisson-Samplings zusammenstellt.
+Die \textit{make\_private()}-Methode benötigt noch zwei weitere Parameter: \textit{max\_grad\_norm} und \textit{noise\_multiplier}. 
+Bei dem Wert von \textit{max\_grad\_norm} handelt es sich um die maximale Größe eines Gradienten, welche durch das Clipping beschränkt wird.
+Der \textit{noise\_multiplier} definiert dabei die Stärke des Rauschens.
+Diese wird mit der \textit{max\_grad\_norm} multipliziert und anschließend als Standardabweichung $\sigma$ des Gauß-Mechanismus, welcher für das Verrauschen der Gradienten zuständig ist, genutzt.
+
+\begin{lstlisting}[language=Python,caption={Opacus Wrapper für DPSGD},captionpos=b,showstringspaces=false,label={lst:opacus_pe1}]
+import opacus
+
+privacy_engine = opacus.PrivacyEngine(accountant="rdp")
+model, optimizer, data_loader = privacy_engine.make_private(
+    module=model,
+    optimizer=optimizer,
+    data_loader=data_loader,
+    noise_multiplier=1.0,
+    max_grad_norm=1.0
+)
+#Hinterher normales Training des Modells
+\end{lstlisting}
+
+Nachdem die \textit{make\_private()}-Methode aufgerufen wurde und die entsprechenden Objekte von Opacus in Wrapper-Klassen umgewandelt wurden, wird das Modell mit gewöhnlichen PyTorch Code (Listing \ref{lst:torch_default}) trainiert. 
+Um den $\epsilon$-Wert des Privacy Budgets zu begrenzen, kann nach jedem Training eines Batches oder einer Epoche der aktuelle $\epsilon$-Wert abgefragt werden und beim Überschreiten eines Grenzwerts das Training vorzeitig beendet werden.
+Listing \ref{lst:calc_epsilon} zeigt den entsprechenden Methodenaufruf.
+Dabei wird der $\delta$-Wert des Privacy Budgets als Parameter mitgegeben. 
+Dieser wird im Voraus definiert und sollte kleiner als die Inverse der Anzahl an Datensätzen des Trainingsdatenbestands sein.
+
+\begin{lstlisting}[language=Python,caption={Berechnung von Epsilon},captionpos=b,showstringspaces=false,label={lst:calc_epsilon}]
+privacy_engine.accountant.get_epsilon(delta=1e-5)
+\end{lstlisting}
+
+Ein Nachteil der Nutzung der \textit{make\_private()}-Methode besteht darin, dass ein Wert für das Rauschen im Voraus festgelegt werden muss.
+Bei einer zufälligen Wahl dieses Werts, ist unklar, wie viele Epochen trainiert werden können, bevor ein gewisses Privacy Budget überschritten wird. 
+Um dieses Problem zu umgehen, kann als Alternative die Methode \textit{make\_private\_with\_epsilon()\mbox} genutzt werden.
+Diese ist in Listing \ref{lst:opacus_pe2} zu sehen.
+Anstatt dass hier eine Stärke des Rauschens übergeben wird, werden die gewünschte Anzahl an Epochen sowie das gewünschte Privacy Budget angegeben.
+Anschließend berechnet Opacus die Stärke des Rauschens, sodass in etwa nach der festgelegten Anzahl an Epochen das Privacy Budget erreicht ist.
+Jedoch kann der Wert des Privacy Budgets leicht abweichen. 
+Dies liegt daran, dass durch das Poisson-Sampling die Anzahl an Datensätzen je Batch abweichen kann. 
+Dadurch werden unterschiedlich viele Gradienten in jeder Epoche verrauscht.
+Die Abweichung ist deshalb bei einer kleinen Anzahl an Epochen am größten.
+Im Durchschnitt sollte die Größe der Batches jedoch der konfigurierten Batch-Größe entsprechen, sodass sich diese Abweichung über mehrere Epochen hinweg ausgleicht.
+
+
+\begin{lstlisting}[language=Python,caption={Opacus Wrapper mit definiertem Epsilon},captionpos=b,showstringspaces=false,label={lst:opacus_pe2}]
+import opacus
+
+privacy_engine = opacus.PrivacyEngine(accountant="rdp")
+model, optimizer, data_loader = privacy_engine.make_private_with_epsilon(
+    module=model,
+    optimizer=optimizer,
+    data_loader=data_loader,
+    epochs=10,
+    target_epsilon=10,
+    target_delta=1e-5,
+    max_grad_norm=1.0
+)
+#Hinterher normales Training des Modells
+\end{lstlisting}
+
+
+
+\subsubsection*{Einschränkungen der Modellarchitektur}
+
+Nicht jede Schicht eines Modells wird von DPSGD unterstützt und kann deshalb genutzt werden. 
+Opacus bietet eine Klasse \textbf{ModuleValidator\mbox} an, welche überprüft, ob ein Modell kompatibel ist und bei Bedarf inkompatible Schichten austauscht.
+Listing \ref{lst:modulevalidator} zeigt, wie diese Klasse genutzt werden kann.
+Die \textit{validate()}-Methode aus Zeile 1 gibt dabei lediglich eine Liste mit inkompatiblen Schichten, sowie jeweils einer kurzen Erklärung dazu, zurück.
+Um die inkompatiblen Schichten mit kompatiblen, alternativen Schichten ausgetauscht werden, kann die \textit{fix()}-Methode aufgerufen werden. 
+\begin{lstlisting}[language=Python,caption={Opacus ModuleValidator} ,captionpos=b,showstringspaces=false,label={lst:modulevalidator}]
+incompatible_layers = opacus.validators.ModuleValidator.validate(model)
+model = opacus.validators.ModuleValidator.fix(model)
+\end{lstlisting}
+
+Ein Beispiel für eine nicht kompatible Schicht ist die sogenannte \textbf{BatchNorm}-Schicht.
+Diese Schicht berechnet Mittelwerte und Standardabweichung über mehrere Datensätze eines Batches und nutzt diese anschließend für die Normalisierung der Datensätze.
+Folglich wird ein Datensatz durch andere Datensätze in dem gleichen Batch beeinflusst, was jedoch nicht gewünscht ist. 
+Dies liegt daran, dass laut DPSGD (Kapitel \ref{sec:dp_training}) ein Datensatz ($\epsilon$,$\delta$)-Differential Privacy in Bezug auf einen Batch erfüllen soll \cite{P-28}.
+Alternative Schichten sind die \textbf{LayerNorm}-Schicht, die \textbf{InstanceNorm}-Schicht oder die \textbf{GroupNorm}-Schicht.
+All diese Schichten dienen ebenfalls der Normalisierung, jedoch nicht anhand anderer Datensätze eines Batches \cite{opacus_blog_part3}.
+
+\subsubsection*{Laufzeit und Speicherverbrauch}
+Wie bereits erwähnt, berechnen normale PyTorch Modelle die Gradienten der Gewichte aggregiert über einen Batch.
+Der Grund dafür ist die Performance, denn die Berechnung von Gradienten einzelner Datensätze, ist beim Training ohne Differential Privacy nicht nötig. 
+DPSGD benötigt jedoch genau diese Gradienten einzelner Datensätze, um diese per Clipping und Verrauschen zu verändern \cite{P-28}, weshalb diese in Opacus berechnet werden \cite{opacus}.
+Jedoch sorgt dies für eine längere Laufzeit, sowie einen erhöhten Speicherverbrauch.
+
+Der Faktor, um welchen sich die Laufzeit erhöht, hängt dabei primär von den Arten der Schichten eines neuronalen Netzes ab. 
+Faltungsschichten, Normalisierungsschichten und sogenannte Multi-Head-Attention-Schichten sorgen für eine Erhöhung der Laufzeit um den Faktor 1,2 bis 2,9.
+Bei vollständig verbundenen Schichten und den sogenannten Embedding-Schichten\mbox, skaliert der Faktor der Laufzeit mit der Batch-Größe \cite{opacus}.
+Der Speicherverbrauch skaliert ebenfalls mit der Batch-Größe.
+Dies liegt daran, dass für jedes Gewicht nicht nur ein Gradient im Speicher gehalten wird, sondern jeweils ein Gradient für jeden Datensatz eines Batches \cite{opacus}.
+
+Das Poisson-Sampling von DPSGD sorgt dafür, dass die tatsächliche Batch-Größe von der festgelegten Batch-Größe abweichen kann. 
+Dies kann jedoch zu einem Problem werden, wenn die festgelegte Batch-Größe so ausgewählt wurde, dass der zur Verfügung stehende Speicher der GPU nahezu vollständig ausgenutzt wird.
+Weicht die Batch-Größe nach oben ab, hat also mehr Datensätze als festgelegt, kann es sein, dass der Speicher nicht ausreicht und eine sogenannte \textbf{OutOfMemoryException} geworfen wird.
+Dies sorgt für einen Abbruch des Trainings, woraufhin der Speicher geleert werden müsste und das Training neu gestartet werden müsste.
+Um dies zu verhindert, bietet Opacus eine Lösung in Form der Klasse \textbf{BatchMemoryManager} an.
+Diese Klasse wrappt den Dataloader nochmals in eine Wrapper-Klasse, bei welcher ein Parameter \dq \textit{max\_physical\_batch\_size}\dq\ mitgegeben wird. 
+Der neue, zurückgegebene Dataloader beschränkt die tatsächliche Batch-Größe auf die als Maximum festgelegte Batch-Größe, sodass ein Überlaufen des Speichers verhindert wird.
+Listing \ref{lst:memory_manager} zeigt, wie der BatchMemoryManager in den Trainingsprozess integriert wird.
+Außerdem kann dieser auch genutzt werden, um mit virtuellen Batches zu trainieren. 
+Dabei kann die Batch-Größe des Dataloaders höher konfiguriert werden, als die maximale Batch-Größe des BatchMemoryManagers. 
+Dies sorgt dafür, dass die einzelnen Gradienten jeden Datensatzes anhand der kleineren Batches des BatchMemoryManagers berechnet werden.
+Jedoch erfolgt die Aggregierung der Gradienten und das Anpassen der Gewichte erst, wenn die konfigurierte Batch-Größe des Dataloaders erreicht wurde.
+
+\begin{lstlisting}[language=Python,caption={Opacus BatchMemoryManager},captionpos=b,showstringspaces=false,label={lst:memory_manager}]
+with BatchMemoryManager( 
+    data_loader=train_dataloader,
+    max_physical_batch_size=64,
+    optimizer=optimizer) 
+as memory_safe_data_loader:
+        for model_inputs,labels in mmemory_safe_data_loader:
+            # Training ...
+\end{lstlisting}
+
+Tabelle \ref{tab:memory} zeigt, wie hoch der Speicherverbrauch bei den bereits beschriebenen Use Cases ist. 
+Dabei wird der Speicher der Grafikkarte, auch VRAM genannt, betrachtet, da dieser oftmals ein limitierender Faktor ist.
+Für das CIFAR-10 Modell, welches eine ResNet-Architektur nutzt, steigt der Speicherverbrauch bei der Nutzung von DPSGD mit Opacus um den Faktor 1,8 bis 5,0.
+Für beide Modelle, welche Merkmale aus Gesichtern erkennen, wurde jeweils nur eine Batch-Größe betrachtet.
+Dabei ist die Batch-Größe eine Zweierpotenz, die so gewählt ist, dass der entsprechende Batch mit DPSGD und Opacus noch in den Speicher passt. 
+Der maximale Speicher der genutzten Hardware liegt bei 24 GB VRAM (siehe Anhang \ref{ch:hard_software}).
+Der Speicherverbrauch des ResNet-18-Modells steigt um den Faktor 2,8 bei einer Batch-Größe von 64.
+Für das Vision Transformer Modell kann jedoch nur eine Batch-Größe von 16 ausgewählt werden, da hier mit 20,8 GB Speicherauslastung fast das Limit der Hardware erreicht ist.
+Die relativ geringe Batch-Größe sorgt lediglich für eine Differenz von 1,6 Mal so viel Speicherauslastung, wie ohne DPSGD.
+\input{tables/performance/memory}
+
+Tabelle \ref{tab:memory} zeigt, wie die Trainingsdauer einer Epoche für die Modelle variieren kann.
+Dabei wurden die gleichen Batch-Größen gewählt, wie bei der Messung des Speicherverbrauchs.
+Die Trainingsdauer des CIFAR-10 Modells erhöht sich um einen Faktor von 1,3 bis 3,1.
+Da eine Epoche jedoch nur wenige Sekunden benötigt, fällt die absolute Differenz relativ gering aus.
+Die Modelle der Merkmalserkennung sind demgegenüber komplexer und benötigen ohne DPSGD bereits mehrere Minuten für das Training einer Epoche. 
+Jedoch erhöht sich der Faktor hier auf 4,5 oder 10,0. 
+Dies liegt zum einen an den Arten der Schichten und zum anderen an einem Softwarefehler des Frameworks.
+Das ResNet-18-Modell nutzt einige Normalisierungsschichten, das Vision Transformer Modell nutzt einige Multi-Head-Attention Schichten für die Implementierung eines Aufmerksamkeitsmechanismus.
+Die zusätzliche Laufzeit dieser Schichten, skaliert bei Opacus mit der Batch-Größe, wodurch hier ein höherer Multiplikationsfaktor entstehen kann.
+Zusätzlich gibt es einen Softwarefehler des Dataloaders in Kombination mit Opacus, welcher dazu führt, dass das Laden von Daten nur in einem Thread ausgeführt werden kann und nicht zeitgleich in mehreren.
+Der Fehler wird im folgenden genauer beleuchtet.
+Der gleiche Fehler existiert auch bei den CIFAR-10 Modellen, fällt da jedoch weniger ins Gewicht, da das Laden der Bilder aufgrund der geringeren Auflösung weniger Zeit benötigt.
+\input{tables/performance/dauer_epoch}
+
+\subsubsection*{Softwarefehler}
+
+Da Opacus eine optionale Erweiterung von PyTorch ist, ist die Bibliothek weniger genutzt.
+Dies ist über die Statistiken von GitHub erkennbar. 
+Während es auf GitHub fast 304.000 Repositories gibt, die PyTorch benutzen\footnote{https://github.com/pytorch/pytorch}, sind es bei Opacus lediglich knapp 600\footnote{https://github.com/pytorch/opacus}.
+Laut diesen Zahlen, nutzen nur \ca 0,2 \% der Projekte mit PyTorch zusätzlich noch Opacus.
+Dies kann ein Grund sein, warum deutlich weniger Ressourcen in die Entwicklung von Opacus fließen.
+Bei PyTorch haben fast 3000 Personen über GitHub etwas zur Entwicklung des Frameworks beigetragen, wohingegen bei Opacus lediglich 55 Personen beteiligt waren.
+Dies könnte ein Grund sein, warum Opacus einige Softwarefehler hat, oder warum einige Features nicht vollumfänglich funktionieren.
+
+Ein Softwarefehler, der die Trainingsdauer der Epoche erhöht, entsteht bei der Parallelisierung des Dataloaders.
+Der Dataloader kann über einen Parameter \dq\textit{num\_workers}\dq\ eine vorgegebene Anzahl an Threads starten. 
+Jeder dieser Threads lädt dabei einen Batch an Datensätzen in den Speicher, sodass nach dem Training eines Batches bereits der nächste Batch zur Verfügung steht.
+Durch die Wrapper-Klasse in Opacus, welche das Poisson-Sampling implementiert, ist diese Parallelisierung nicht mehr möglich.
+Dies sorgt dafür, dass wenn die GPU einen Batch zum Training genutzt hat, es sein kann, dass der nächste Batch noch nicht geladen ist und somit die GPU auf diesen warten muss.
+Je komplexer die Daten und die Prozesse des Ladens sind, desto länger dauert das Laden eines Batches.
+Bei dem CelebA Datenbestand muss jedes Bild, welches jeweils eine Dimension von $178\times218\times3$ hat, von der Festplatte der Hardware geladen werden.
+Dies ist der Grund, warum das CelebA ResNet-18-Modell mit DPSGD die 10-fache Trainingsdauer einer Epoche erreicht, als im Vergleich zum Training ohne DPSGD.
+
+Ein Beispiel für ein Feature, welches nicht vollumfänglich funktioniert, ist die Nutzung eines adaptiven Werts für das Clipping.
+Die Technik mit dem Namen AdaClip sorgt dafür, dass die Clipping-Norm variabel ist und sich den Gradienten anpasst \cite{adaclip}.
+Dadurch könnte der Wert möglichst gering sein, was auch das hinzugefügte Rauschen verkleinern würde.
+Die Klasse, welche die entsprechende Logik enthält, existiert in Opacus unter dem Namen \textbf{AdaClipDPOptimizer}.
+Jedoch gibt es zwei Probleme, welche die Nutzung der Klasse erschweren oder nicht möglich machen.
+Das erste Problem ist, dass die Übergabe der Parameter nicht korrekt funktioniert. 
+Die \textit{make\_private()}-Methode kann über den Parameter \dq\textit{clipping}\dq\ mit dem Wert \dq\textit{adaptive}\dq\ so aufgerufen werden, dass der AdaClipDPOptimizer genutzt werden würde.
+Jedoch braucht diese Klasse zusätzliche Parameter, welche nicht über die \textit{make\_private()}-Methode weitergegeben werden können.
+Um dieses Problem zu umgehen, müssen die Wrapper-Klassen manuell konfiguriert werden.
+Das zweite Problem liegt in der Klasse selber.
+PyTorch hat einige Kontrollen integriert, welche sicherstellen sollen, dass das Training in einem vorgegebenen Rahmen ausgeführt wird. 
+Eine dieser Kontrollen ist es, dass die Gradienten vor dem Training eines Batches zurückgesetzt werden, damit Gradienten nicht mehrfach genutzt werden.
+Bei Nutzung der Klasse AdaClipDPOptimizer kommt es jedoch zu einem Fehler dieser Kontrolle.
+
+Obwohl die Behebung diverser Fehler und das Hinzufügen fehlender Funktionalität große Relevanz hat, ist dies im Rahmen der Arbeit nicht möglich.
+Deshalb werden mögliche Fehler umgangen.
+Die nicht mögliche Parallelisierung des Dataloaders schränkt die Funktionalität nicht ein, sondern erhöht nur die Laufzeit. 
+Im Gegensatz dazu, ist die Nutzung der adaptiven Clipping-Norm nicht ohne entsprechenden Aufwand möglich, weshalb im folgenden lediglich konstante, festgelegte Werte für das Clipping betrachtet werden.
+

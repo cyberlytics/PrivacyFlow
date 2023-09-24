@@ -1,11 +1,12 @@
 \section{Anpassung und Betrieb des Modells}\label{sec:betrieb}
 
-Nachdem ein Neuronales Netz trainiert wurde, muss dieses für Nutzer zugänglich gemacht werden.
+Nachdem ein neuronales Netz trainiert wurde, muss dieses für Nutzer zugänglich gemacht werden.
 Häufig wird das Modell dabei auf einem Server bereitgestellt und über eine API direkt angeboten oder in ein bestehendes Produkt integriert.
 Dabei ist es möglich, zusätzlich die Vertraulichkeit zu sichern.
 Grundsätzlich ist ein Modell, welches über eine API bereitgestellt wird, wie ein Stück Software zu behandeln. 
-Best Practices der Softwareentwicklung (wie z. B. Authentifizierung) können und sollten bei Bedarf genutzt werden, um grundlegende Sicherheit zu gewährleisten.
-Jedoch gibt es einige Methoden, die speziell für Machine Learning Modelle und damit auch Neuronale Netze genutzt werden können.
+Best Practices der Softwareentwicklung (wie \zB Authentifizierung) können und sollten genutzt werden, um grundlegende Sicherheit zu gewährleisten.
+Dabei können die Sicherheitsmechanismen, abhängig von der Plattform, variieren.
+Jedoch gibt es einige Methoden, die speziell für Machine Learning Modelle und damit auch neuronale Netze genutzt werden können.
 
 Das Ergebnis eines Modells kann beispielsweise mittels Differential Privacy (Kapitel \ref{sec:dp}) verrauscht werden, bevor es über die API zurückgegeben wird. 
 Bei einer Regression, wo die Vorhersage ein Zahlenwert ist, könnte entweder der Gauß-Mechanismus oder der Laplace-Mechanimus genutzt werden. 
@@ -13,7 +14,7 @@ Bei einer Klassifikation kann der Exponential-Mechanismus genutzt werden.
 Die Wahl des Privacy Budget $\epsilon$ ist dabei abhängig von der Sensibilität der Daten.
 
 Im Folgenden werden weitere Methoden betrachtet, welche die Berechnung der Vorhersage verändern.
-Dies geschieht beispielsweise durch Nutzung von zusätzlichen kryptografischen Methoden wie Homomorpher Verschlüsselung, aber auch durch eine Transformation des Modells.
+Dies geschieht beispielsweise durch Nutzung von zusätzlichen kryptografischen Methoden wie homomorpher Verschlüsselung, aber auch durch eine Transformation des Modells.
 
 \input{content/3_methoden/betrieb/krypto_inferenz}
 \input{content/3_methoden/betrieb/model_compression}

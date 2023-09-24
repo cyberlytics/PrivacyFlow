@@ -1,31 +1,37 @@
 \section{Data Extraction Attacke}\label{sec:data_ext}
 
-Bei der Data Extraction Attacke versucht ein Angreifer, Informationen eines Modells zu extrahieren, die gelernt wurden, obwohl dies (oftmals) nicht der Fall sein sollte \cite{P-87}.
+Bei der Data Extraction Attacke versucht ein Angreifer, Informationen eines Modells zu extrahieren, die gelernt wurden, obwohl dies generell nicht der Fall sein sollte \cite{P-87}.
 Der Angriff unterscheidet sich von der Model Inversion Attacke (Kapitel \ref{sec:model_inversion}) und von der Property Inference Attacke (Kapitel \ref{sec:property_inference}), indem Daten direkt aus dem Modell extrahiert werden und nicht anhand der Vorhersage des Modells nachgebildet werden.
 
-Carlini et al. \cite{P-87} beschreiben, dass konkrete Zeichenketten oder Werte, wie eine Kreditkartennummer oder eine Sozialversicherungsnummer, von einem ungewollt Sprachmodell gelernt werden können.
-Um dies zu evaluieren, wurde ein Sprachmodell mit der Penn Treebank Datenmenge trainiert, welche ca. 5MB groß ist. 
-Zusätzlich wurde ein Satz eingefügt, welcher mit den Worten \textit{\dq My social security number is \dq} beginnt und anschließend eine Zahlenfolge beinhaltet.
+Carlini \etal \cite{P-87} beschreiben, dass konkrete Zeichenketten oder Werte, wie eine Kreditkartennummer oder eine Sozialversicherungsnummer, von einem Sprachmodell ungewollt gelernt werden können.
+Um dies zu evaluieren, wird ein Sprachmodell mit der Penn Treebank Datenmenge trainiert, welche \ca 5 MB groß ist. 
+Zusätzlich wurde ein Satz eingefügt, welcher mit den Worten \dq \textit{My social security number is}\dq\ beginnt und anschließend eine Zahlenfolge beinhaltet.
 Die Funktionalität des Modells liegt darin, das nächste Wort oder Zeichen vorherzusagen, wenn eine Zeichenkette eingegeben wird.
 Anzumerken ist hierbei noch, dass dieses Modell signifikant kleiner als 5 MB ist, was folglich bedeutet, dass nicht alle Trainingsdaten in dem Modell gespeichert sein können.
-Die Experimente von Carlini et al. \cite{P-87} zeigen, dass dieses Modell die Zahlenfolge ungewollt gelernt hatte und als mögliche Vorhersage ausgibt, wenn der oben genannte Satz als Input genutzt wird.
+Die Experimente von Carlini \etal \cite{P-87} zeigen, dass dieses Modell die Zahlenfolge ungewollt gelernt hatte und als mögliche Vorhersage ausgibt, wenn der oben genannte Satz als Input genutzt wird.
 
 In einem anderen Forschungsprojekt, ebenfalls unter der Leitung von Carlini \cite{P-88}, zeigen die Autoren eine Data Extraction Attacke am Beispiel des Sprachmodells GPT-2. 
-Dabei handelt es sich um ein Sprachmodell des Unternehmens OpenAI, welches der Vorgänger von ChatGPT (siehe Kapitel \ref{sec:introduction}) ist und Open Source zur Verfügung steht.
+Dabei handelt es sich um ein Sprachmodell des Unternehmens OpenAI, welches der Vorgänger von ChatGPT (siehe Kapitel \ref{sec:introduction}) ist und Open-Source zur Verfügung steht.
 Obwohl voller Zugriff auf das Modell besteht, wird lediglich die Ausgabe des Modells betrachtet. 
 Folglich bedeutet dies, dass der Angriff auf jedes Sprachmodell mit der gleichen Funktionsweise anwendbar wäre.
 Ziel des Angriffs ist es, Tokens vom Modell vorgeschlagen zu bekommen, welche sensible Informationen enthalten.
 Bei Token handelt es sich um Wörter, Teile von Wörtern, Zahlen oder Zeichen, mit welchen ein Sprachmodell trainiert wird.
-Zur Durchführung des Angriffs wird lediglich ein Starttoken, in das Modell eingegeben und anschließend vielfach das vorgeschlagene Folgetoken gesammelt. 
+Zur Durchführung des Angriffs wird lediglich ein Starttoken in das Modell eingegeben und anschließend vielfach das vorgeschlagene Folgetoken gesammelt. 
 Wird dies lang genug wiederholt, erhält man eine lange Tokenabfolge, welche Sätzen entspricht, die vom Modell gelernt wurden. 
-Dabei kann es sich um öffentliche Texte handeln, wie beispielsweise der Text der MIT Open Source Lizenz, aber auch private Daten wie Email-Adressen sind in der erhaltenen Tokenabfolge vorhanden.
+Dabei kann es sich um öffentliche Texte handeln, wie beispielsweise der Text der MIT Open-Source-Lizenz, aber auch private Daten wie E-Mail-Adressen kommen in der gesammelten Tokenabfolge vor.
 Diese Variation des Angriffs kann in gewissem Maße funktionieren, liefert jedoch oftmals gleiche Wortabfolgen und hat zusätzlich eine hohe Falsch-positiv-Rate.
-Carlini et al. \cite{P-88} variieren deshalb die Methodik, mit der die Tokenabfolge gesammelt wird.
+Carlini \etal \cite{P-88} variieren deshalb die Methodik, mit der die Tokenabfolge gesammelt wird.
 Bevor GPT-2 das wahrscheinlichste Folgewort vorschlägt, werden die Wahrscheinlichkeiten in den Wertebereich (0,1) transformiert und so skaliert, dass diese Werte addiert 1 ergeben.
-Dies entspricht der Softmax Funktion.
-Wird der Softmax Funktion ein Hyperparameter namens Temperatur mit einem Wert über 1 mitgegeben, wird das Modell unsicherer und erhöht dadurch die Diversität der Vorhersagen des Modells.
-Folglich werden bei öfters unterschiedliche Tokens vorgeschlagen, die bisher noch nicht gesammelt wurden.
-Neben dem Setzen der Temperatur einer Softmax Funktion, wird eine zweite Verbesserung vorgeschlagen. 
+Dies entspricht der Softmax-Funktion.
+Wird der Softmax-Funktion ein Hyperparameter namens Temperatur mit einem Wert über 1 mitgegeben, wird das Modell unsicherer und erhöht dadurch die Diversität der Vorhersagen des Modells.
+Folglich werden öfters unterschiedliche Tokens vorgeschlagen, die bisher noch nicht gesammelt wurden.
+Neben dem Setzen der Temperatur einer Softmax-Funktion, wird eine zweite Verbesserung vorgeschlagen. 
 Anstatt nur einen Starttoken zu nutzen, werden die ersten Wörter von verschiedenen, öffentlichen Datenquellen genutzt.
 Mit diesen zwei Verbesserungen können mehr unterschiedliche Arten von Texten, die das Modell gelernt hat, extrahiert werden. 
-Neben Newsartikeln oder Forumsbeiträgen, befinden sich auch Kontaktdaten einiger Privatpersonen in diesen Tokenabfolgen.
+Neben Newsartikeln oder Forumsbeiträgen befinden sich auch Kontaktdaten einiger Privatpersonen in diesen Tokenabfolgen.
+
+Large Language Modelle, kurz LLMs, haben durch die Veröffentlichung von ChatGPT enorm an Beliebtheit gewonnen \cite{I-1}. 
+Jedoch sorgt die Beliebtheit ebenfalls dafür, dass Angreifer diese Modelle als Ziel betrachten.
+Die Open Web Application Security Project Foundation, kurz OWASP Foundation, hat deshalb ein Ranking der 10 größten Sicherheitsrisiken von LLMs und Anwendungen, die auf diesen aufbauen, veröffentlicht \cite{owasp_llm}.
+In diesem Ranking findet sich auch der Punkt \dq\textit{Sensitive Information Disclosure}\dq, welcher die Preisgabe von sensiblen Informationen beschreibt.
+Die eben beschriebenen Data Extraction Angriffe zielen auf dieses Sicherheitsrisiko.

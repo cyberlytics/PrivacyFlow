@@ -1,0 +1,23 @@
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|llll|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+\multicolumn{4}{|l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}Celeb A Vision Transformer Modell\\ mit Delta=$10^{-6}$, ohne Augmentation,\\ virtuelle Batch-Größe=128 und Clipping bei $10^-5$\end{tabular}}                \\ \hline
+\rowcolor[HTML]{CBCEFB} 
+\multicolumn{1}{|l|}{\cellcolor[HTML]{CBCEFB}Epsilon} & \multicolumn{1}{l|}{\cellcolor[HTML]{CBCEFB}\begin{tabular}[c]{@{}l@{}}Anzahl\\ Epochen\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{CBCEFB}vortrainiert} & nicht-vortrainiert \\ \hline
+\multicolumn{1}{|l|}{1}                               & \multicolumn{1}{l|}{1}                                                                                & \multicolumn{1}{l|}{80,1 \%}                              & 80,0 \%            \\ \hline
+\multicolumn{1}{|l|}{1}                               & \multicolumn{1}{l|}{3}                                                                                & \multicolumn{1}{l|}{79,9 \%}                              & 80,1 \%            \\ \hline
+\multicolumn{1}{|l|}{1}                               & \multicolumn{1}{l|}{5}                                                                                & \multicolumn{1}{l|}{80,0 \%}                              & 79,7 \%            \\ \hline
+\multicolumn{1}{|l|}{}                                & \multicolumn{1}{l|}{}                                                                                 & \multicolumn{1}{l|}{}                                     &                    \\ \hline
+\multicolumn{1}{|l|}{5}                               & \multicolumn{1}{l|}{1}                                                                                & \multicolumn{1}{l|}{79,3 \%}                              & 79,1 \%            \\ \hline
+\multicolumn{1}{|l|}{5}                               & \multicolumn{1}{l|}{3}                                                                                & \multicolumn{1}{l|}{79,5 \%}                              & 79,2 \%            \\ \hline
+\multicolumn{1}{|l|}{5}                               & \multicolumn{1}{l|}{5}                                                                                & \multicolumn{1}{l|}{80,0 \%}                              & 79,7 \%            \\ \hline
+\multicolumn{1}{|l|}{}                                & \multicolumn{1}{l|}{}                                                                                 & \multicolumn{1}{l|}{}                                     &                    \\ \hline
+\multicolumn{1}{|l|}{10}                              & \multicolumn{1}{l|}{1}                                                                                & \multicolumn{1}{l|}{79,8 \%}                              & 78,4 \%            \\ \hline
+\multicolumn{1}{|l|}{10}                              & \multicolumn{1}{l|}{3}                                                                                & \multicolumn{1}{l|}{80,0 \%}                              & 79,9 \%            \\ \hline
+\multicolumn{1}{|l|}{10}                              & \multicolumn{1}{l|}{5}                                                                                & \multicolumn{1}{l|}{80,1 \%}                              & 80,3 \%            \\ \hline
+\end{tabular}
+\caption{Vision Transformer Modell ohne Augmentation, virtuelle Batch-Größe=128 und Clipping bei $10^{-5}$}
+\label{tab:vit_dpsgd3}
+\end{table}

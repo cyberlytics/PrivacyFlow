@@ -1,0 +1,35 @@
+\section{Wahl des Frameworks}
+
+Viele der Methoden aus Kapitel \ref{ch:methoden} besitzen ein öffentliches Repository, in denen exemplarisch ein Beispiel umgesetzt und evaluiert wird.
+Einige dieser Repositories sind seit Jahren nicht mehr gepflegt, weshalb die Wahl der entsprechenden Bibliotheken entscheidend sein kann.
+Bei kryptografischen Methoden empfiehlt sich der Einsatz von bewährten, erforschten und gepflegten Bibliotheken.
+Für Homomorphe Verschlüsselung gibt es beispielsweise die SEAL Bibliothek \cite{SEAL}, welche von Microsoft entwickelt wird, oder auch die HElib \cite{helib}.
+Diverse Secure Multi-Party Computation Methoden, wie Yao's Garbled Circuits, werden in einer Bibliothek namens MP-SPDZ \cite{mp-spdz} implementiert.
+Allerdings sind Bibliotheken für funktionale Verschlüsselung weniger gepflegt. So hat die Bibliothek CiFEr \cite{cifer} seit mehr als zwei Jahren keine Aktualisierung erhalten.
+
+Um Differential Privacy zu nutzen, ist nicht zwingend eine spezialisierte Bibliothek notwendig. 
+Die populäre Python Bibliothek NumPy \cite{numpy}, die in vielen Machine Learning Projekten eingesetzt wird, bietet bereits Funktionalität, um beispielsweise Werte mittels einer Laplace-Verteilung oder Gauß-Verteilung zu verrauschen.
+Lediglich die Berechnung des Privacy Budgets fehlt in NumPy.
+
+Die größten Frameworks für die Entwicklung von neuronalen Netzen sind PyTorch \cite{pytorch}, TensorFlow \cite{tensorflow} und JAX \cite{jax}. 
+Tabelle \ref{tab:framworks} zeigt die Anzahl der Modelle, die jeweils mit dem entsprechenden Framework trainiert wurden und auf Hugging Face, einer Plattform zum Teilen von neuronalen Netzen, hochgeladen wurden \cite{HuggingFace}.
+Das Framework PyTorch wurde dabei für fast 7 Mal so viele Modelle genutzt, wie die anderen beiden Frameworks zusammen.
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{CBCEFB} 
+{\color[HTML]{000000} Framework} & Anzahl Modelle auf Hugging Face     \\ \hline
+PyTorch & 122.061          \\ \hline
+TensorFlow & 9.326             \\ \hline
+JAX  & 8.560          \\ \hline
+
+\end{tabular}
+\caption{Anzahl Modelle je Framework auf Hugging Face \cite{HuggingFace}}
+\label{tab:framworks}
+\end{table}
+
+PyTorch und TensorFlow besitzen beide ein offizielles Modul, welches den Einsatz von Differential Privacy während des Trainings eines neuronalen Netzes ermöglicht. 
+Diese heißen Opacus \cite{opacus} und TensorFlow Privacy \cite{Tensorflowprivacy}.
+Für das Framework JAX gibt es keine offizielle Erweiterung für Differential Privacy, lediglich ein paar Open-Source-Bibliotheken wie JAX-Privacy \cite{jaxprivacy}.
+Für die nachfolgenden Experimente wird das Framework PyTorch mit der Erweiterung Opacus genutzt.

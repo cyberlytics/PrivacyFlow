@@ -1,0 +1,20 @@
+\begin{table}[ht!]
+\centering
+\begin{tabular}{llll}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+\multicolumn{4}{|l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}CelebA ResNet-18-Modell mit Delta=10-6, nicht vortrainiert,\\ physische Batch-Größe=64, virtuelle Batch-Größe=256 und Clipping bei $10^{-5}$\end{tabular}}                                                                \\ \hline
+\rowcolor[HTML]{CBCEFB} 
+\multicolumn{1}{|l|}{\cellcolor[HTML]{CBCEFB}Epsilon} & \multicolumn{1}{l|}{\cellcolor[HTML]{CBCEFB}\begin{tabular}[c]{@{}l@{}}Anzahl \\ Epochen\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{CBCEFB}mit AutoAugments} & \multicolumn{1}{l|}{\cellcolor[HTML]{CBCEFB}ohne Augmentation} \\ \hline
+\multicolumn{1}{|l|}{1}                               & \multicolumn{1}{l|}{3}                                                                                 & \multicolumn{1}{l|}{81,8 \%}                                  & \multicolumn{1}{l|}{83,6 \%}                                    \\ \hline
+\multicolumn{1}{|l|}{1}                               & \multicolumn{1}{l|}{10}                                                                                & \multicolumn{1}{l|}{82,1 \%}                                  & \multicolumn{1}{l|}{83.6 \%}                                          \\ \hline
+                                                      &                                                                                                        &                                                               &                                                                \\ \hline
+\multicolumn{1}{|l|}{5}                               & \multicolumn{1}{l|}{3}                                                                                 & \multicolumn{1}{l|}{83,7 \%}                                  & \multicolumn{1}{l|}{85,0 \%}                                    \\ \hline
+\multicolumn{1}{|l|}{5}                               & \multicolumn{1}{l|}{10}                                                                                & \multicolumn{1}{l|}{84,4\%}                                   & \multicolumn{1}{l|}{86,4 \%}                                          \\ \hline
+                                                      &                                                                                                        &                                                               &                                                                \\ \hline
+\multicolumn{1}{|l|}{10}                              & \multicolumn{1}{l|}{3}                                                                                 & \multicolumn{1}{l|}{85,0 \%}                                  & \multicolumn{1}{l|}{85,7 \%}                                    \\ \hline
+\multicolumn{1}{|l|}{10}                              & \multicolumn{1}{l|}{10}                                                                                & \multicolumn{1}{l|}{85,1 \%}                                  & \multicolumn{1}{l|}{86,8 \%}                                          \\ \hline
+\end{tabular}
+\caption{Resnet-18-Modell mit und ohne Augmentation}
+\label{tab:r18_vergleichAA}
+\end{table}

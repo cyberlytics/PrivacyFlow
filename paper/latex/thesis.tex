@@ -43,8 +43,6 @@
   \thechapter.\enskip}
 
 
-
-
 % \RedeclareSectionCommand[tocindent=0pt]{section}
 % \RedeclareSectionCommand[tocindent=0pt]{subsection}
 % \RedeclareSectionCommand[tocnumwidth=70pt]{chapter}
@@ -54,7 +52,8 @@
 % other packages
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{lmodern,relsize,textcomp,csquotes}
+\usepackage[lighttt]{lmodern}
+\usepackage{relsize,textcomp,csquotes}
 \usepackage{amsmath,amsfonts}
 \usepackage[ngerman]{babel} 
 \usepackage[final]{graphicx}
@@ -63,10 +62,11 @@
 \usepackage{makeidx}
 \usepackage{paralist,ifthen,todonotes}
 \usepackage{url}
-\usepackage[toc]{glossaries}
+\usepackage[toc,xindy,acronym]{glossaries}
 \usepackage{pdfpages}
 \usepackage{amsmath}
 \usepackage{multirow}
+\usepackage{subcaption}
 
 %\usepackage{emptypage}
 
@@ -103,20 +103,38 @@
 
 % configure your listings style
 \usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
 \lstset{
-	tabsize=3,
-	extendedchars=true,
-	frame=single,
-	showstringspaces=true,
-	numbers=left,
-	numberstyle=\small,
-	breakautoindent=true
+  backgroundcolor=\color{backcolour}, 
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny,
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,         
+  breakautoindent=true
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2,
+  extendedchars=true
 }
 
 \usepackage[
     backend=biber,
-    style=ieee,
     natbib=true,
+    style=ieee,
+    isbn=false,
     url=false,
     doi=false,
     eprint=false
@@ -134,6 +152,7 @@
 
 % some commands
 \newcommand{\ua}{\mbox{u.\,a.\ }}
+\newcommand{\ca}{\mbox{ca.\ }}
 \newcommand{\zB}{\mbox{z.\,B.\ }}
 \newcommand{\dahe}{\mbox{d.\,h.,\ }}
 \newcommand{\bzw}{\mbox{bzw.\ }}
@@ -141,9 +160,7 @@
 \newcommand{\eg}{\mbox{e.\,g.\ }}
 \newcommand{\ie}{\mbox{i.\,e.\ }}
 \newcommand{\wrt}{\mbox{w.\,r.\,t.\ }}
-\newcommand{\etal}{\mbox{\emph{et.\,al.\ }}}
-
-
+\newcommand{\etal}{\mbox{et.\,al.\ }}
 
 \begin{document}
 
@@ -162,12 +179,12 @@
 \include{content/3_methoden}
 \include{content/4_bewertung}
 \include{content/5_experimente}
-\include{content/6_diskussion}
+\include{content/6_handlungsempfehlung}
+\include{content/7_diskussion}
+\include{content/8_zusammenfassung}
 
-
-%\appendix
-%\include{content/a1_supplemental}
-
+{
+\emergencystretch=1.5em
 \backmatter
 \listoffigures
 \cleardoublepage
@@ -175,10 +192,15 @@
 \listoftables
 \cleardoublepage
 
-\renewcommand{\lstlistlistingname}{Auflistungen}
+\renewcommand{\lstlistlistingname}{Quellcodeverzeichnis}
 \lstlistoflistings
 \cleardoublepage
 
-\printbibliography
+\printbibliography[title=Literaturverzeichnis]
+\cleardoublepage
+}
+
+\appendix
+\include{content/appendix}
 
 \end{document}

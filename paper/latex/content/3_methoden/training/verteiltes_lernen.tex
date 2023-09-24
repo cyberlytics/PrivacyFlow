@@ -1,10 +1,10 @@
 \subsection{Verteiltes Lernen}\label{sec:verteiltes_lernen}
 
-Das Verteilte Lernen bietet einige besondere Herausforderungen, die bereits in Kapitel \ref{sec:angriffe_verteiltes_lernen} betrachtet wurden. 
-Einige bereits beschriebene Methoden lassen sich problemlos auf das Verteilte Lernen anwenden.
+Verteiltes Lernen bietet einige besondere Herausforderungen, die bereits in Kapitel \ref{sec:angriffe_verteiltes_lernen} betrachtet wurden. 
+Einige bereits beschriebene Methoden lassen sich problemlos auf das verteilte Lernen anwenden.
 Sollen beispielsweise die Daten der einzelnen Teilnehmer geteilt werden, so ist es möglich, diese mit den Methoden aus Kapitel \ref{sec:aufbereitung_datensatz} vorzuverarbeiten.
-So sind die beispielsweise die einzelnen Datenbestände jedes Teilnehmers disjunkte Teile des gesamten Datenbestandes aller Teilnehmer, wodurch sich Differential Privacy in der Vorverarbeitung von jedem Teilnehmer anwenden lässt und dennoch eine Quantifizierung der Privatsphäre möglich ist.
-Jedoch gibt es auch spezielle Methoden, die auf das Verteilte Lernen ausgerichtet sind.
+So sind beispielsweise die einzelnen Datenbestände jedes Teilnehmers disjunkte Teile des gesamten Datenbestandes aller Teilnehmer, wodurch sich Differential Privacy in der Vorverarbeitung von jedem Teilnehmer anwenden lässt und dennoch eine Quantifizierung der Privatsphäre möglich ist.
+Jedoch gibt es auch spezielle Methoden, die für das verteilte Lernen ausgerichtet sind.
 Im Folgenden werden einige davon genauer beschrieben.
 
 \subsubsection*{Distributed Selective SGD}
@@ -17,37 +17,36 @@ Die heruntergeladenen Parameter ersetzen die alten Parameter an der entsprechend
 Anschließend wird dieses lokale Modell mit den eigenen Daten trainiert und im Nachhinein eine festgelegte Menge an Gradienten übertragen. 
 Diese können dabei entweder randomisiert ausgewählt werden, wobei eine Sortierung nach Größe empfohlen wird.
 Alle Teilnehmer wählen die zu teilenden Gradienten ihres lokalen Modells mit der gleichen Strategie aus und behalten diese Strategie über den Trainingsprozess bei.
-Zusätzlich ist es möglich, die Gradienten vor dem Teilen noch mit in der Größe zu begrenzen oder Rauschen mittels Differential Privacy hinzuzufügen.
-Abbildung \ref{fig:dssgd} zeigt die Architektur von Distributed Selective SGD.
+Zusätzlich ist es möglich, die Gradienten vor dem Teilen noch in der Größe zu begrenzen oder Rauschen mittels Differential Privacy hinzuzufügen.
+% Abbildung \ref{fig:dssgd} zeigt die Architektur von Distributed Selective SGD.
 
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[width=12cm]{figures/dssgd}
-    \caption{Distributed Selective SGD \cite{P-78}}
-    \label{fig:dssgd}
-\end{figure} 
+% \begin{figure}[!htb]
+%     \centering
+%     \includegraphics[width=12cm]{figures/dssgd}
+%     \caption{Distributed Selective SGD \cite{P-78}}
+%     \label{fig:dssgd}
+% \end{figure} 
 
 Durch das eingeschränkte Teilen der Gradienten werden so wenig Information wie nötig geteilt, jedoch ist die Güte des Modells kaum schlechter als bei normalem Training.
 Die Autoren begründen dies damit, dass das lokale Modell lokale Minima durch das Ersetzen von Parametern aus dem geteilten Modell verlassen kann und so weiter in Richtung globales Minimum konvergiert. 
 Zwei Parameter steuern dabei die Performance des Modells beim Training mit Distributed Selective SGD: das Privacy Budget $\epsilon$ und die Anzahl der zu teilenden Gradienten.
-Jeder Teilnehmer, kann mit der Moment Berechnung von DPSGD \cite{P-28} das die Privatsphäre seines eigenen Trainingsdatensatzes überwachen.
-Da jedoch nicht alle Gradienten geteilt werden, fällt das tatsächliche Privacy Budget geringer aus, als mit der Moment Berechnung ermittelt wird, da die Moment Berechnung sich auf alle Gradienten bezieht.
+Jeder Teilnehmer, kann mit der Moment-Berechnung von DPSGD \cite{P-28} die Privatsphäre seines eigenen Trainingsdatensatzes überwachen.
+Da jedoch nicht alle Gradienten geteilt werden, fällt das tatsächliche Privacy Budget geringer aus, als mit der Moment-Berechnung ermittelt wird, da die Moment-Berechnung sich auf alle Gradienten bezieht.
 Werden also weniger Gradienten nach jedem Schritt von jedem Teilnehmer geteilt, so kann das Privacy Budget $\epsilon$ größer konfiguriert werden.
 Werden hingegen viele oder sogar alle Gradienten geteilt, sollte das Privacy Budget kleiner angesetzt werden.
 
 \subsubsection*{Anspruchsvolle kryptografische Methoden}
 
-Takabi et al. \cite{P-104} nutzen Homomorphe Verschlüsselung, um ein Modell zu trainieren, welches Daten von mehreren Teilnehmern nutzen kann. 
+Takabi \etal \cite{P-104} nutzen homomorphe Verschlüsselung, um ein Modell zu trainieren, welches Daten von mehreren Teilnehmern nutzen kann. 
 Die Funktionsweise der Methode mit einem Teilnehmer wurde bereits in Kapitel \ref{sec:homomorphe_verschlüsselung} beschrieben.
-Diese lässt sich problemlos auf mehrere Teilnehmer erweitern, indem abwechselnd Daten jedes Teilnehmers verschlüsselt an den Server übertragen wird und diese für das Training des Modells mittels Homomorpher Verschlüsselung genutzt wird.
+Diese lässt sich problemlos auf mehrere Teilnehmer erweitern, indem abwechselnd Daten jedes Teilnehmers verschlüsselt an den Server übertragen wird und diese für das Training des Modells mittels homomorpher Verschlüsselung genutzt wird.
 Da Daten jeweils verschlüsselt sind, ist es nicht möglich, Daten anderer Teilnehmer zu extrahieren.
 
-Auch das auf Funktionaler Verschlüsselung basierende Framework CryptoNN \cite{P-53}, welches in Kapitel \ref{sec:funktionale_verschlüsselung} vorgestellt wurde, kann für Verteiltes Lernen genutzt werden. 
+Auch das auf funktionaler Verschlüsselung basierende Framework CryptoNN \cite{P-53}, welches in Kapitel \ref{sec:funktionale_verschlüsselung} vorgestellt wurde, kann für verteiltes Lernen genutzt werden. 
 Die Rolle des Clients können dabei mehrere Teilnehmer übernehmen, wohingegen die Autorität jedoch von einem separaten System oder Teilnehmer übernommen werden muss. 
 Anschließend können auch bei dieser Methode abwechselnd Daten von verschiedenen Teilnehmern zum Trainieren genutzt werden.
 
-
-Ein weiterer Ansatz für Verteiltes Lernen, welches auf Funktionaler Verschlüsselung basiert, wurde von Xu et al. \cite{P-33} mit dem Namen HybridAlpha vorgestellt.
+Ein weiterer Ansatz für das verteiltes Lernen, welches auf funktionaler Verschlüsselung basiert, wurde von Xu \etal \cite{P-33} mit dem Namen HybridAlpha vorgestellt.
 Ähnlich zu dem bereits beschriebenen CryptoNN Framework, gibt es auch eine Autorität, welche die benötigten kryptografischen Schlüssel an den Server und die Teilnehmer (Clients) verteilt.
 
 Jedoch übertragen die Teilnehmer keine Daten an den Server.
@@ -56,19 +55,20 @@ Nach jeder Epoche können die aktualisierten Modellparameter mit dem Laplace-Mec
 Die Autoren geben jedoch nicht an, wie das Privacy Budget über den Trainingsprozess mehrere Teilnehmer getrackt werden kann.
 Anschließend verschlüsselt jeder Teilnehmer die Modellparameter mit dem Public Key $pk_i$, welchen sie von der Autorität bekommen.
 Diese verschlüsselten Werte, werden an den Server übertragen.
-Hat der Server alle verschlüsselten Modellparameter jedes Teilnehmers gesammelt, wird mittels Funktionaler Verschlüsselung die Summe der Gewichte jedes Neurons gebildet.
+Hat der Server alle verschlüsselten Modellparameter jedes Teilnehmers gesammelt, wird mittels funktionaler Verschlüsselung die Summe der Gewichte jedes Neurons gebildet.
 Daraus kann der Server anhand der Anzahl an Teilnehmern, den Durchschnittswert für jedes Gewicht jedes Neurons bilden und aktualisiert damit das globale Modell.
 Den dafür benötigten spezifischen Secret Key $sk_n$, erhält der Server von der Autorität.
-Die Autoren zeigen anhand des MNIST Datensatze \cite{D-MNIST}, dass die Güte eines Modells, welches mit HyrbidAlpha ohne Differential Privacy trainiert wurde, sehr nahe der Güte eines Modells ist, welches in einem Verteilten Lernen Szenario ohne HyrbidAlpha gelernt wurde. 
+Die Autoren zeigen anhand der MNIST Datenmenge \cite{D-MNIST}, dass die Güte eines Modells, welches mit HyrbidAlpha ohne Differential Privacy trainiert wurde, sehr nahe der Güte eines Modells ist, welches in einem verteilten Lernen Szenario ohne HyrbidAlpha gelernt wurde. 
 Wird jedoch zusätzlich Differential Privacy genutzt, sinkt die Güte des Modells. 
 
 
 \subsubsection*{Secure Multi-Party Computation}
 
 Bei der Secure Multi-Party Computation handelt es sich um einen Forschungsbereich mit dem Ziel, dass Teilnehmer gemeinsam eine Funktion berechnen können, ohne dass die einzelnen Eingabewerte aufgedeckt werden. 
-Methoden dieses kryptografischen Forschungsgebiets können auch für Neuronale Netze genutzt werden.
+Homomorphe Verschlüsselung und funktionale Verschlüsselung können, je nach Definition, ebenfalls Teil dieses Forschungsgebiets sein.
+Zusätzlich gibt es weitere Methoden dieses kryptografischen Forschungsgebiets, welche für neuronale Netze genutzt werden können.
 
-Rouhani et al. \cite{P-71} stellten ein Framework namens DeepSecure vor, welches Oblivious Transfer, zu Deutsch vergessliche Übertragung, und Garbled Circuits, zu Deutsch verdrehte Schaltkreise, nutzt.
+Rouhani \etal \cite{P-71} stellten ein Framework namens DeepSecure vor, welches Oblivious Transfer, zu Deutsch vergessliche Übertragung, und Garbled Circuits, zu Deutsch verdrehte Schaltkreise, nutzt.
 Oblivious Transfer ist ein kryptografisches Protokoll zwischen einem Sender und einem Empfänger, bei dem der Empfänger einen Index zwischen 1 und $n$ auswählt und der Sender die Nachricht mit dem entsprechenden Index übermittelt. 
 Der Sender weiß dabei jedoch nicht, welcher Index ausgewählt wurde.
 Diese Methodik wird auch 1-aus-$n$ Oblivious Transfer genannt.
@@ -84,18 +84,18 @@ Die erhaltene Nachricht und das eigene Label können nun genutzt werden, um die 
 Bob führt dies für jedes Gatter des Schaltkreises aus.
 Am Ende erhält Bob den Output des letzten Gatters, welchen jedoch einer der randomisierten Bitfolgen ist. 
 Er übermittelt diesen an Alice und erhält dadurch den entsprechenden 0 oder 1 Wert.
-DeepSecure wendet Garbled Circuits auf Neuronale Netze an.
+DeepSecure wendet Garbled Circuits auf neuronale Netze an.
 Alice würde in diesem Fall die Daten besitzen und Bob das Modell, welches trainiert wird.
-Der Feedforward Schritt würde dabei durch einen Booleschen Schaltkreis aus XOR und XNOR Gattern implementiert werden, wodurch die Berechnung der Vorhersage erfolgt.
-Dadurch kann Bob den Wert der Verlustfunktion und anschließend der Gradienten bestimmen, ohne die Daten von Alice zu kennen.
+Der Forward-Pass würde dabei durch einen Booleschen Schaltkreis aus XOR und XNOR Gattern implementiert werden, wodurch die Berechnung der Vorhersage erfolgt.
+Dadurch kann Bob den Wert der Verlustfunktion und anschließend die Gradienten der Gewichte bestimmen, ohne die Daten von Alice zu kennen.
 Alice würde jedoch auch nicht die genauen Gewichte des Modells kennen.
-Allerdings ist die Anzahl an benötigten Gattern, um ein Neuronales Netz darzustellen, enorm.
+Allerdings ist die Anzahl an benötigten Gattern, um ein neuronales Netz darzustellen, enorm.
 Einige Operationen, wie die Anwendung einer Aktivierungsfunktion, benötigt mehrere tausende Gatter.
 Jedes dieser Gatter sorgt ebenfalls dafür, dass eine Menge an Daten übertragen werden muss.
-Ein Neuronales Netz, welches $28\times28$ Pixel Bilder als Input nimmt, zwei Hidden Layers mit 300 und 100 Knoten (Sigmoid Aktivierungsfunktion) besitzt und eine Softmax Output Layer mit 10 Knoten hat, würde circa 171.300.000 Gatter ausmachen und in einem Feedforward Schritt ungefähr 2 Gigabyte an Daten übertragen.
+Ein neuronales Netz, welches $28\times28$ Pixel Bilder als Input nimmt, zwei Hidden Layers mit 300 und 100 Knoten (Sigmoid Aktivierungsfunktion) besitzt und eine Softmax Output Layer mit 10 Knoten hat, würde circa 171.300.000 Gatter ausmachen und in einem Forward-Pass ungefähr 2 Gigabyte an Daten übertragen.
 
 \subsubsection*{Aggregation}
-Eine alternative Methode wird von Bonawitz et al. \cite{P-36} vorgestellt.
+Eine alternative Methode wird von Bonawitz \etal \cite{P-36} vorgestellt.
 Diese basiert auf sicherer Aggregation, welche mehrere Daten von unterschiedlichen Teilnehmern verbindet, ohne dass die Daten eines einzelnen Teilnehmers erkenntlich werden.
 Teilnehmer trainieren ein lokales Modell mit den eigenen privaten Daten. 
 Bevor die angepassten Parameter aber an das globale Modell übertragen werden, werden die Parameter mit den Parametern anderer Teilnehmer kryptografisch aggregiert.

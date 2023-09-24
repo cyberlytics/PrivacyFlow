@@ -2,43 +2,44 @@
 
 Machine Learning ist spätestens seit der Veröffentlichung von ChatGPT\footnote{https://openai.com/blog/chatgpt} im Mainstream angelangt. 
 Dabei handelt es sich um einen Chatbot des Unternehmens OpenAI, welcher mittels natürlicher Sprache mit Nutzern kommuniziert und eine Vielzahl an Aufgaben bewältigen kann.
-Bereits nach zwei Monaten nutzen über 100 Millionen verschiedene Personen den Chatbot und machen diesen damit zu der am schnellsten wachsenden Plattform überhaupt.
-Im Hintergrund von ChatGPT läuft ein sogenanntes Large Language Model, welches anhand von menschlichem Feedback optimiert wurde \cite{P-84}. 
+Bereits nach zwei Monaten nutzen über 100 Millionen verschiedene Personen den Chatbot und machen diesen damit zu der am schnellsten wachsenden Plattform überhaupt \cite{I-1}.
+Im Hintergrund von ChatGPT läuft ein sogenanntes Large Language Modell, kurz LLM, welches anhand von menschlichem Feedback optimiert wurde \cite{P-84}. 
 
-Jedoch ist Machine Learning bereits seit Jahren in vielen Produkten verankert.
-So sortieren beispielsweise Soziale Medien Beiträge mittels Machine Learning nach der Beliebtheit \cite{twitter_algo}, Sprachassistenten nutzen Neuronale Netze, um schneller auf Nutzereingaben zu reagieren \cite{siri}, autonomes Fahren wird auf Basis von Machine Learning erforscht \cite{openpilot} und für Übersetzungen wird Machine Learning genutzt \cite{translation}.
+Neuronale Netze und Machine Learning bilden die Grundlage von ChatGPT und sind bereits seit vielen Jahren in einer Vielzahl an Produkten integriert.
+So sortieren beispielsweise soziale Netzwerke Beiträge mittels Machine Learning nach der Beliebtheit \cite{twitter_algo}, Sprachassistenten nutzen neuronale Netze, um schneller auf Nutzereingaben zu reagieren \cite{siri}, autonomes Fahren wird auf Basis von Machine Learning erforscht \cite{openpilot} und für Übersetzungen wird ebenfalls Machine Learning genutzt \cite{translation}.
 Sogar im Bereich der Medizin und Biologie wird Machine Learning genutzt, um die Forschung voranzutreiben. 
-So gibt es AlphaFold \cite{AlphaFold}, ein Neuonales Netz welches die Faltung von Proteinen vorhersagt, um unter anderem die Entwicklung von Medikamenten zu beschleunigen.
-Jeder große Cloud Provider bietet Services an, die Machine Learning für Kunden ermöglichen, darunter Google Cloud Platform\footnote{https://cloud.google.com/products/ai}, Amazon Web Services\footnote{https://aws.amazon.com/de/machine-learning/} und Microsoft Azure\footnote{https://azure.microsoft.com/de-de/solutions/ai}.
-Die Venture Capital Gesellschaft FirstMark gibt ein Überblick über Unternehmen, die im Machine Learning Umfeld tätig sind und Produkte, die diese Technologien unterstützen \cite{I-4}.
+So gibt es AlphaFold \cite{AlphaFold}, ein neuronales Netz, welches die Faltung von Proteinen vorhersagt, um unter anderem die Entwicklung von Medikamenten zu beschleunigen.
+Jeder große Cloud-Provider bietet Services an, die Machine Learning für Kunden ermöglichen sollen, darunter Google Cloud Platform\footnote{https://cloud.google.com/products/ai}, Amazon Web Services\footnote{https://aws.amazon.com/de/machine-learning/} und Microsoft Azure\footnote{https://azure.microsoft.com/de-de/solutions/ai}.
+Die Venture-Capital Gesellschaft FirstMark gibt ein Überblick über Unternehmen, die Produkte im Machine Learning Umfeld entwickeln und anbieten \cite{I-4}. 
+Dabei werden hunderte Unternehmen und Produkte dargestellt, welche den kompletten Lebenszyklus von Machine Learning Modellen abdecken, von der Datensammlung bis hin zur Integration in einen nutzbaren Service.
 
 Eine Voraussetzung für diese Anwendungen sind Daten, viele Daten.
-Teilweise sind diese Daten privat.
-Diese werden von Unternehmen gesammelt und dazu genutzt, Produkte zu verbessern oder sogar neue Services zu entwickeln und anzubieten. 
-Beispielsweise nutzen Soziale Medien die Interessen der Nutzer, um die Reihenfolge von Beiträgen zu sortieren \cite{twitter_algo}. 
-Jedoch sind diese Daten nicht immer sicher. 
-So wurde beispielsweise über 50 Millionen Profile des Sozialen Netzwerks Facebook ausgelesen, und anschließend wurden diese Personen in Bezug auf die US Wahl 2016 manipuliert \cite{I-2}.
+Nicht nur öffentliche Daten, sondern auch private, sensible Daten.
+Diese werden von Unternehmen gesammelt und dazu genutzt, Produkte zu verbessern und neue Services zu entwickeln und anzubieten. 
+Beispielsweise nutzen soziale Netzwerke die Interessen und Leidenschaften der Nutzer, um die Reihenfolge von Beiträgen zu sortieren \cite{twitter_algo}, Sprachassistenten hören ganze Gespräche mit, um jederzeit verfügbar zu sein und Systeme des autonomen Fahrens filmen die Umgebung und lesen den Standort des Fahrers aus, um Fahrsituationen meistern zu können.
+Die Kontrolle über die eigenen Daten an Unternehmen weiterzugeben, bring eine Vielzahl an Risiken mit sich.
+So wurden beispielsweise über 50 Millionen Profile des sozialen Netzwerks Facebook ausgelesen, ausgewertet und anschließend genutzt, um die Personen hinter den Profilen, in Bezug auf die US-Wahl 2016 zu manipulieren \cite{I-2}.
 Solche Datenlecks oder auch Sammelklagen gegen Machine Learning Modelle, wie das Beispiel GitHub Copilot \cite{I-5}, zeigen, dass die Vertraulichkeit von Daten noch besser geschützt werden kann.
 
-Das Bundesamt für Sicherheit in der Informationstechnik, kurz BSI, definiert das Schutzziel der Vertraulichkeit wie folgt \cite{bsi_it_grundschutz}: \textit{\dq Vertraulichkeit ist der Schutz vor unbefugter Preisgabe von Informationen. Vertrauliche Daten und Informationen dürfen ausschließlich Befugten in der zulässigen Wiese zugänglich sein\dq}. 
-Da Machine Learning Anwendungen, darunter auch Neuronale Netze, vertrauliche Daten zum Training als auch für eine Vorhersage nutzen, gilt es auch hier, das Schutzziel der Vertraulichkeit zu gewähren.
+Das Bundesamt für Sicherheit in der Informationstechnik, kurz BSI, definiert das Schutzziel der Vertraulichkeit wie folgt \cite{bsi_it_grundschutz}: \textit{\dq Vertraulichkeit ist der Schutz vor unbefugter Preisgabe von Informationen. Vertrauliche Daten und Informationen dürfen ausschließlich Befugten in der zulässigen Weise zugänglich sein\dq}. 
+Da Machine Learning Anwendungen, darunter auch neuronale Netze, vertrauliche Daten zum Training als auch für eine Vorhersage nutzen, gilt es auch hier, das Schutzziel der Vertraulichkeit zu gewähren.
 Dabei können unterschiedlichste Szenarien auftreten.
-Das wohl häufigste Szenario ist es, dass ein Unternehmen bereits Daten gesammelt, beispielsweise durch die gewöhnliche Nutzung einer Anwendung. 
-Damit sollen nun Modelle trainiert werden, die die Anwendung verbessern oder als neues Produkt angeboten werden. 
+Das wohl häufigste Szenario ist es, dass ein Unternehmen bereits Daten gesammelt hat, beispielsweise durch die gewöhnliche Nutzung einer Anwendung. 
+Damit sollen nun Modelle trainiert werden, welche bestehende Anwendungen verbessern oder als neues Produkt angeboten werden. 
 In diesem Fall soll sichergestellt werden, dass Nutzer der neuen Modelle, keine vertraulichen Informationen, die für das Training des Modells genutzt wurden, unbefugt erlangen können.
+Jedoch gibt es hier eine Reihe an Angriffen, welche einem Angreifer ermöglichen, diese vertraulichen Informationen zu erhalten.
 Ein weiteres Szenario ist das Training eines Modells auf einem fremden Server. 
-Dies kann der Fall sein, wenn ein Unternehmen einen Cloud Service nutzt, oder in einer verteilten Lernumgebung.
-Die Daten wurden nicht geteilt und sollen deshalb nicht für andere Parteien einsehbar sein.
+Dies kann der Fall sein, wenn ein Unternehmen einen Cloud-Service nutzt, oder in einer verteilten Lernumgebung.
+Die Daten sollen nicht geteilt werden und dementsprechend nicht für andere Parteien einsehbar sein.
 
-Die folgende Arbeit geht auf die Frage ein, wie der Schutz der Vertraulichkeit mit der Nutzung von Daten in Neuronalen Netzen in Einklang gebracht werden kann.
-Dazu werden zuerst Angriffe beleuchtet, welche die Vertraulichkeit von Neuronalen Netzen gefährden.
+Die folgende Arbeit geht auf die Frage ein, wie der Schutz der Vertraulichkeit mit der Nutzung von Daten in neuronalen Netzen in Einklang gebracht werden kann.
+Dazu werden zuerst Angriffe beleuchtet, welche die Vertraulichkeit von neuronalen Netzen gefährden.
 Diese haben den Fokus, Daten aus bereits trainierten Modellen zu extrahieren, die eigentlich nicht extrahierbar sein sollten.
 Anschließend wird eine Reihe von Maßnahmen aufgeführt, die das Ziel haben, die vorher genannten Angriffe unwirksam zu machen.
-Diese können dabei Daten schützen, die in einem Modell gelernt wurden, als auch Daten auf Systemen dritter unlesbar machen.
-Mehrerer dieser Maßnahmen werden anschließend in einem Framework namens PrivacyFlow gebündelt.
-Dieses hat das Ziel, die Entwickeln Neuronaler Netze mit Methoden der Vetraulichkeitssicherung zu kombinieren und diese über eine einfache Konfiguration für Entwickler zu ermöglichen.
-Die Konzeption und Implementierung dieses Frameworks wird detailliert geschildert.
-Anhand einiger Beispieldatensätze wird gezeigt, wie sich verschiedene Methoden auf die Genauigkeit von Modellen und auf die Trainingsdauer auswirken.
-Diese Evaluation wird genutzt, um eine Handlungsempfehlung bezüglich der Auswahl der Methoden zu geben.
-Aktuelle Probleme, wie der Grad der Privatsphäre eines Modells im Verhältnis zur Leistung, werden zum Abschluss der Arbeit diskutiert.
-Zusätzlich wird ein Ausblick gegeben, welcher versucht, neuste Entwicklungen in der Modellarchitektur Neuronaler Netze mit den beschriebenen Methoden zu verbinden.
+Diese Maßnahmen werden anschließend in kryptografische und statistische Methoden eingegliedert und bewertet.
+Teile der Bewertung entstammt dabei Experimenten, welche im Anschluss detailliert beschrieben werden.
+Außerdem wird anhand einiger Codebeispiele gezeigt, wie verschiedene Methoden technisch eingesetzt werden können.
+Die Bewertungen und die Ergebnisse der Experimente fließen in eine Handlungsempfehlung ein.
+Diese beschreibt, nach welchen Kriterien ein neuronales Netz in Bezug auf den Schutz der Vertraulichkeit bewertet werden soll und wann welche Maßnahmen sinnvoll eingesetzt werden.
+Aktuelle Probleme, wie die Effektivität von Angriffen, werden zum Abschluss der Arbeit diskutiert.
+Der Ausblick zeigt, wie sich Angriffe weiterentwickeln und welche Risiken dadurch entstehen können.

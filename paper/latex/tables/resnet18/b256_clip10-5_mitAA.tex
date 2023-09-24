@@ -1,0 +1,26 @@
+\begin{table}[!htb]
+\centering
+\begin{tabular}{llll}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+\multicolumn{4}{|l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}CelebA ResNet-18-Modell mit Delta=$10^{-6}$, mit Augmentation,\\ physische Batch-Größe=64, virtuelle Batch-Größe=256 und Clipping bei $10^{-5}$\end{tabular}}                                                           \\ \hline
+\rowcolor[HTML]{CBCEFB} 
+\multicolumn{1}{|l|}{\cellcolor[HTML]{CBCEFB}Epsilon} & \multicolumn{1}{l|}{\cellcolor[HTML]{CBCEFB}\begin{tabular}[c]{@{}l@{}}Anzahl \\ Epochen\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{CBCEFB}vortrainiert} & \multicolumn{1}{l|}{\cellcolor[HTML]{CBCEFB}nicht vortrainiert} \\ \hline
+\multicolumn{1}{|l|}{1}                               & \multicolumn{1}{l|}{1}                                                                                 & \multicolumn{1}{l|}{81,0 \%}                            & \multicolumn{1}{l|}{80,2\%}                                   \\ \hline
+\multicolumn{1}{|l|}{1}                               & \multicolumn{1}{l|}{3}                                                                                 & \multicolumn{1}{l|}{82,0 \%}                            & \multicolumn{1}{l|}{81,8 \%}                                  \\ \hline
+\multicolumn{1}{|l|}{1}                               & \multicolumn{1}{l|}{5}                                                                                 & \multicolumn{1}{l|}{81,1 \%}                            & \multicolumn{1}{l|}{82,0\%}                                   \\ \hline
+\multicolumn{1}{|l|}{1}                               & \multicolumn{1}{l|}{10}                                                                                & \multicolumn{1}{l|}{82,2 \%}                            & \multicolumn{1}{l|}{82,1\%}                                   \\ \hline
+                                                      &                                                                                                        &                                                         &                                                               \\ \hline
+\multicolumn{1}{|l|}{5}                               & \multicolumn{1}{l|}{1}                                                                                 & \multicolumn{1}{l|}{82,7 \%}                            & \multicolumn{1}{l|}{81,3\%}                                   \\ \hline
+\multicolumn{1}{|l|}{5}                               & \multicolumn{1}{l|}{3}                                                                                 & \multicolumn{1}{l|}{84,5 \%}                            & \multicolumn{1}{l|}{83,7 \%}                                  \\ \hline
+\multicolumn{1}{|l|}{5}                               & \multicolumn{1}{l|}{5}                                                                                 & \multicolumn{1}{l|}{85,1 \%}                            & \multicolumn{1}{l|}{84,4\%}                                   \\ \hline
+\multicolumn{1}{|l|}{5}                               & \multicolumn{1}{l|}{10}                                                                                & \multicolumn{1}{l|}{85,3\%}                             & \multicolumn{1}{l|}{84,4\%}                                   \\ \hline
+                                                      &                                                                                                        &                                                         &                                                               \\ \hline
+\multicolumn{1}{|l|}{10}                              & \multicolumn{1}{l|}{1}                                                                                 & \multicolumn{1}{l|}{82,1 \%}                            & \multicolumn{1}{l|}{82,1\%}                                   \\ \hline
+\multicolumn{1}{|l|}{10}                              & \multicolumn{1}{l|}{3}                                                                                 & \multicolumn{1}{l|}{84,9 \%}                            & \multicolumn{1}{l|}{85,0 \%}                                  \\ \hline
+\multicolumn{1}{|l|}{10}                              & \multicolumn{1}{l|}{5}                                                                                 & \multicolumn{1}{l|}{85,2\%}                             & \multicolumn{1}{l|}{84,3\%}                                   \\ \hline
+\multicolumn{1}{|l|}{10}                              & \multicolumn{1}{l|}{10}                                                                                & \multicolumn{1}{l|}{85,7\%}                             & \multicolumn{1}{l|}{85,1\%}                                   \\ \hline
+\end{tabular}
+\caption{Resnet-18-Modell mit Augmentation, Batch-Größe=256 und Clipping bei $10^{-5}$}
+\label{tab:r18_exp2}
+\end{table}

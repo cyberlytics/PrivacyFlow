@@ -1,0 +1,38 @@
+\chapter{Zusammenfassung}
+
+Neuronale Netze benötigen für das Training eine große Menge an Daten.
+Ja nach Use Case, handelt es sich dabei um sensible Daten, welche geschützt werden müssen.
+Jedoch gibt es eine Vielzahl an Angriffen, welche zeigen, dass ein relevantes Risiko besteht, dass die Vertraulichkeit von Daten bei der Anwendung von neuronalen Netzen gefährdet ist.
+
+Angriffe können dabei in White-Box und Black-Box Attacken eingeteilt werden. 
+Diese unterscheiden sich dadurch, ob ein Angreifer Zugriff auf das gesamte Modell hat (White-Box) oder nur die Vorhersagen von diesem kennt (Black-Box).
+Die Angriffe ermöglichen es, Eigenschaften der Trainingsdaten zu ermitteln, einzelne Trainingsdatensätze zu rekonstruieren oder festzustellen, ob ein spezieller Datensatz im Training eines Modells genutzt wurde.
+Die Effektivität dieser Angriffe variiert dabei, je nachdem, welcher Trainingsdatenbestand und welche Modellarchitektur genutzt werden.
+Dies kann sogar so weit reichen, dass Angriffe unwirksam sind, selbst wenn ein Modell keine speziellen Techniken nutzt, um die Vertraulichkeit zu sichern.
+Da sich jedoch nicht nur neuronale Netze weiterentwickeln, sondern auch die Angriffe gegen diese, empfiehlt es sich, diese Angriffe dennoch zu evaluieren.
+Dies ist besonders wichtig, wenn die genutzten Daten als \dq\textit{streng vertraulich}\dq\ klassifiziert werden.
+
+Zur Sicherung gegen Angriffe gibt es eine Reihe an Maßnahmen, welche sich in kryptografische und statistische Methoden einteilen lassen.
+Kryptografische Methoden können Berechnungen auf verschlüsselten Daten ausführen, wodurch das Modelltraining und die Inferenz verschlüsselt möglich sind.
+Jedoch erzeugen diese Methoden einen signifikanten Mehraufwand, welche Berechnungen um ein Vielfaches verlangsamt.
+Die meisten Methoden fokussieren deshalb die Inferenz eines Modells, nicht das Training.
+Dennoch ist der Mehraufwand alleine bei der Inferenz so hoch, dass eine Vorhersage hunderte bis tausende Male länger benötigt, wie eine Vorhersage ohne die Nutzung von Kryptografie.
+Zusätzlich steigt dieser Faktor mit der Komplexität und der Anzahl an Parametern eines Modells, wodurch große Modelle wie ChatGPT nicht praktikabel betrieben werden könnte.
+
+Statistische Methoden haben weniger Mehraufwand, weshalb diese Methoden derweil bevorzugt werden. 
+Differential Privacy ist hier die populärste und wichtigste Technik.
+Diese Technik ermöglicht es, den Einfluss eines einzelnen Datensatzes auf Berechnungen mit dem ganzen Datenbestand quantitativ zu begrenzen.
+Dies geschieht in der Regel durch ein Verrauschen des ursprünglichen Ergebnisses.
+Differential Privacy ermöglicht es demnach, den Einfluss eines einzelnen Datensatzes auf ein neuronales Netz zu begrenzen, weshalb Angriffe abgeschwächt werden können.
+Der Einfluss eines Datensatzes wird durch das Privacy Budget, welches aus den Parametern $\epsilon$ und $\delta$ besteht, quantifiziert.
+Die gängigste Variante, um Differential Privacy in Kombination mit neuronalen Netzen zu nutzen, ist eine Technik namens DPSGD.
+Dabei werden die Gradienten der Gewichte eines neuronalen Netzes während des Trainings verrauscht.
+
+Um die Vertraulichkeit in einem neuronalen Netz zu schützen, sollte evaluiert werden, wie effektiv Angriffe gegen dieses Modell sind.
+Sind diese Angriffe bereits ineffektiv, so bedarf es keiner zusätzlichen Techniken.
+Sind die Angriffe jedoch sehr effektiv, so sollte Differential Privacy in Form von DPSGD genutzt werden.
+Das Privacy Budget wird dabei zunächst hoch gewählt, sodass die Nützlichkeit des Modells bestmöglich erhalten bleibt.
+Anschließend werden die Angriffe erneut evaluiert.
+Der Wert des Privacy Budgets wird dabei iterativ gesenkt, solange bis die Angriffe ineffektiv sind.
+Dies sorgt für ein optimales Gleichgewicht zwischen der Nützlichkeit des Modells und der Sicherheit der Vertraulichkeit.
+

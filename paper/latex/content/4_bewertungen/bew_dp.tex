@@ -1,7 +1,7 @@
 \section{Bewertung von Differential Privacy}\label{sec:bw_dp}
 
-Differential Privacy ist eine Methodik, welche einschränken kann, wie stark sich ein einzelner Datensatz auf eine Abfrage an des gesamten Datenmenge auswirkt.
-Dadurch kann die Privatsphäre einzelner Datenpunkte geschützt werden und dennoch die Nützlichkeit von Abfragen gewährleistet werden.
+Differential Privacy, kurz DP, ist eine Methodik, welche einschränken kann, wie stark sich ein einzelner Datensatz auf eine Abfrage mit der gesamten Datenmenge auswirkt.
+Dadurch kann die Privatsphäre einzelner Datensätze geschützt werden und dennoch die Nützlichkeit von Abfragen gewährleistet werden.
 
 \input{tables/overview_dp}
 
@@ -16,19 +16,19 @@ Differential Privacy lässt sich in jeder Entwicklungsphase eines Modells integr
 Eine Eigenschaft von Differential Privacy ist die Resistenz gegen Nachbearbeitung.
 Diese besagt, dass mit Differential Privacy geschützte Datensätze im Nachgang nicht so bearbeitet werden können, dass die Privatsphäre einzelner Datenpunkte weniger geschützt ist.
 Dies bedeutet, dass bei der Nutzung einer Differential Privacy Methode, nicht nur das Resultat dieser geschützt ist, sondern auch alles was folgt.
-Konkret bedeutet dies, dass wenn Differential Privacy in der Vorverarbeitung der Daten genutzt wird, sind die Daten geschützt, aber auch das Modell und die Vorhersage mit diesem.
+Konkret bedeutet dies, dass wenn Differential Privacy in der Vorverarbeitung der Daten genutzt wird, die Daten geschützt sind, aber auch das Modell und die Vorhersage mit diesem.
 Die Nutzung während des Trainingsprozesses sorgt nur für Schutz des Modells und der Vorhersagen. 
 Eine Veröffentlichung des Modells ohne Verletzung der Vertraulichkeit wäre damit also möglich.
-Wird hingegen nur das Ergebnis verrauscht, ist das Modell weiterhin gegen Attacken, vor allem White Box Angriffe, anfällig, wohingegen die Vorhersage geschützt ist.
+Wird hingegen nur das Ergebnis verrauscht, ist das Modell weiterhin gegen Attacken, vor allem White-Box Angriffe, anfällig, wohingegen die Vorhersage geschützt ist.
 
-Sollten Daten veröffentlicht werden, empfiehlt es sich eine synthetischen Datenmenge zu erzeugen und nur diese zu veröffentlichen.
+Sollten Daten veröffentlicht werden, empfiehlt es sich, eine synthetische Datenmenge zu erzeugen und nur diese zu veröffentlichen.
 Bei der Erstellung von dieser, kann nach verschiedenen Metriken optimiert werden, sodass die synthetische Datenmenge gleiche latente Strukturen wie der echte Datenbestand aufweist, ohne jedoch Datensätze von diesem zu offenbaren.
 Außerdem ist ebenfalls durchaus denkbar, dass ein Modell nicht nur über eine API zur Verfügung gestellt wird, sondern als ganzes Modell. 
 Dafür eignen sich demnach Differential Privacy Methoden, die bei der Vorverarbeitung oder im Training integriert werden.
 
 \subsubsection*{Komplexität der Methoden}
 
-Die Komplexität, um die verschiedenen Methoden zu nutzen variiert stark.
+Die Komplexität, um die verschiedenen Methoden zu nutzen, variiert stark.
 Tabelle \ref{tab:dp_komplex} zeigt eine Übersicht der Komplexität der Methoden.
 Im Folgenden wird der Wert der Komplexität jeder Methode, in absteigender Reihenfolge, begründen.
 Jedoch ist anzumerken, dass diese Werte je nach Use Case variieren können.
@@ -36,14 +36,14 @@ Jedoch ist anzumerken, dass diese Werte je nach Use Case variieren können.
 
 Die höchste Komplexität hat dabei die Erzeugung eines synthetischen Datensatzes.
 Je nach Methode, benötigt dieser einen ganz eigenen Modelltrainingsprozess, welcher andere Differential Privacy Methoden integriert.
-Zusätzlich wird oftmals die Generative Adversarial Network Architektur benutzt, wie z.\ B.\  beim WGAN \cite{P-92} oder DPGAN \cite{P-70}, welche sogar zwei Modelle trainiert.
+Zusätzlich wird oftmals die Generative Adversarial Network Architektur benutzt, wie \zB beim WGAN \cite{P-92} oder DPGAN \cite{P-70}, welche sogar zwei Modelle trainiert.
 Die Optimierung dieser GANs kann dabei aufwendiger sein, als der tatsächliche Use Case, welcher umgesetzt werden soll. 
 In Kapitel \ref{ch:experiments} werden Bilder von menschlichen Gesichtern mit der Auflösung von 224 mal 224 Pixeln genutzt und daraus Eigenschaften der Menschen ermittelt. 
 Das StyleGAN von NVIDIA \cite{P-108} würde eine passende, synthetische Bilderdatenmenge für den Use Case erzeugen.
 Jedoch sorgt die spezielle Architektur und die notwendigen Optimierungen dafür, dass die Synthetisierung bei weitem aufwendiger ist, als die Klassifizierung der Merkmale.
 Eine dieser Optimierungen ist es, dass verschiedene Generatoren trainiert werden, die eine ansteigende Anzahl an Pixeln im Output Bild berechnen.
 Modell für Modell wird die Anzahl der Pixel erhöht, bis die gewünschte Bildauflösung erreicht ist.
-Synthetische Datensätze erzeugen empfiehlt sich also nur, wenn diese Daten auch veröffentlicht werden sollen.
+Die Erzeugung von Synthetische Datenmengen empfiehlt sich also nur, wenn diese Daten auch veröffentlicht werden sollen.
 Ansonsten ist es sinnvoller, andere Methoden zu nutzen.
 
 Die PATE-Architektur \cite{P-57} weist ebenfalls einige Komplikationen auf.
@@ -53,27 +53,27 @@ Dies liegt daran, dass eine Vielzahl an Teacher-Modellen auf Teildatenmengen tra
 Die Übertragung des Wissens der Teacher-Modelle auf das Student-Modell ist ebenso ein Prozess, welcher Komplexität bringt.
 PATE-G, die effektivste Methode um das Student-Modell zu trainieren, nutzt zusätzlich die GAN Architektur, wobei das Student-Modell der Diskriminator dabei ist.
 Jedoch erfordert die Methodik das Training eines zusätzlichen Generators.
-Aus diesen Gründen ist die PATE Architektur keine empfohlene Methode bei der Integration von Differential Privacy.
+Aus diesen Gründen ist die PATE-Architektur keine empfohlene Methode bei der Integration von Differential Privacy.
 
 Eine Differential Privacy Methode, welche nur mittlere Komplexität aufweist, ist das Verrauschen der Trainingsdaten bevor diese in das Modell gelangen.
 Technisch ist es relativ leicht die Methode einzusetzen, da moderne Bibliotheken und Frameworks Möglichkeiten bieten, dies mit ein paar wenigen Zeilen Code zu implementieren.
 Das Problem entsteht jedoch durch die Fachlichkeit. 
-Jedes Attribut einer Datenmenge muss dabei individuell betrachtet werden und gesonderte Sensitivitäten und Privacy Budgets ermittelt werden.
+Jedes Attribut einer Datenmenge muss dabei individuell betrachtet werden, wobei jeweils eine gesonderte Sensitivität und Privacy Budget ermittelt wird.
 Hier ist Balance ganz entscheidend, denn durch unterschiedlich starke Privacy Budgets können Zusammenhänge verloren gehen, was zu schlechterer Genauigkeit der Modelle führt.
 Außerdem addiert sich das Privacy Budget jeder Spalte, was dafür sorgt, dass die Privacy Budget Werte $\epsilon$ und $\delta$ höher sein können als bei anderen Methoden.
 Dies wiederum sorgt für einen schlechteren Schutz durch diese Methode.
 Dennoch kann die Methode, bei fachlicher Kompetenz, genutzt werden.
 
-Die Kompression des Modells ist eine Möglichkeit, ein bereits trainiertes Neuronales Netz anzupassen und so die Vertraulichkeit zu schützen.
+Die Kompression des Modells ist eine Möglichkeit, ein bereits trainiertes neuronales Netz anzupassen und so die Vertraulichkeit zu schützen.
 Die Modell Quantisierung sorgt beispielsweise dafür, dass die Dezimalzahlen der Gewichte, zu Ganzzahlen umgewandelt werden, was die Berechnung der Vorhersage erleichtert.
-Diese Umwandlung kann demnach sogar angewendet werden, bei Modellen die keine vertraulichen Daten nutzen, alleine aufgrund der verbesserten Leistung.
+Diese Umwandlung kann demnach sogar angewendet werden, bei Modellen, welche keine vertraulichen Daten nutzen, alleine aufgrund der verbesserten Leistung.
 Andere Methoden, wie die Modell Destillation, kann ebenfalls dafür sorgen, dass Modell zu vereinfachen, indem das Wissen eines Teacher-Modells (es sind auch mehrere Teacher-Modelle möglich) auf ein Student-Modell übertragen wird.
 Wenn das Student-Modell weniger Parameter als das Teacher Modell hat, benötigt die Vorhersage ebenfalls weniger Ressourcen.
 Zusätzlich kann bei der Destillation explizit Rauschen hinzugefügt werden \cite{P-64}.
-Bedarf es einer Simplifizierung eines Neuronalen Netzes, empfiehlt es sich eine Methode der Kompression zur Sicherung der Vertraulichkeit zu nutzen.
+Bedarf es einer Simplifizierung eines neuronalen Netzes, empfiehlt es sich eine Methode der Kompression zur Sicherung der Vertraulichkeit zu nutzen.
 
 Eine einfache Methode ist das Verrauschen der Vorhersage.
-Anders als bei dem Verrauschen der Trainingsdaten, muss hier oftmals nur ein einzelner Wert betrachtet werden.
+Anders als bei dem Verrauschen der Trainingsdaten muss hier oftmals nur ein einzelner Wert betrachtet werden.
 Bei der Vorhersage eines kontinuierlichen Werts kann der Laplace oder Gauß-Mechanismus genutzt werden, bei einer Klassifikation der Exponential-Mechanismus oder die Report Noisy Max Methode.
 Da ein Modell oftmals in zusätzlichen Code eingebunden wird, welcher auch die API bereitstellt, ist die Integration des Rauschens ohne großen Mehraufwand realisierbar.
 Ein weiterer Vorteil, den diese Methode bietet, ist die leichte Anpassung des Privacy Budgets.
@@ -87,8 +87,27 @@ Außerdem kann diese Methode bei jedem Use Case, egal ob tabellarische Daten ode
 Kapitel \ref{ch:experiments} zeigt, wie eine moderne Implementierung dieser Methode aussieht.
 Die Flexibilität und Simplizität der Methode sorgen dafür, dass diese die bevorzugte Methode für Differential Privacy ist.
 
-\subsubsection*{Schutz vor Angriffen}
-Wahl Epsilon 
-
 \subsubsection*{Qualität der Modelle}
-Hyperparameter Tuning aus Experimenten
+Die Nutzung von DPSGD verschlechtert die Güte eines neuronalen Netzes.
+Die Konfiguration der Trainingsvariablen, auch Hyperparameter genannt, haben dabei einen signifikanten Einfluss auf die Güte eines Modells.
+In Kapitel \ref{sec:hyperparams} wird experimentell gezeigt, wie diese Parameter optimal gewählt werden.
+Die exemplarischen Modelle erreichen bei einem $\epsilon$-Wert von 1, zwischen 55 \% und 96 \% der Genauigkeit der Modelle ohne DPSGD.
+Bei einem $\epsilon$-Wert von 10 erhöht sich der Bereich. 
+Die Modelle erreichen zwischen 70 \% und 97 \% der Genauigkeit der Modelle ohne DPSGD.
+
+Wenn ein Modell mit DPSGD nur 55 \% der Genauigkeit des Modells ohne DPSGD erreicht, kann jedoch jeder Nutzen verloren gehen.
+Die Wahl des $\epsilon$-Wertes sollte deshalb experimentell erfolgen.
+Eine Möglichkeit dazu ist es, ein Modell ohne DPSGD gegen Angriffe zu testen. 
+Wenn die Effektivität eines Angriffs einen festgelegten Schwellwert überschreitet, kann DPSGD mit einem hohen $\epsilon$-Wert genutzt werden.
+Sinkt die Effektivität des Angriffs nicht unter den festgelegten Schwellwert, kann der $\epsilon$-Wert reduziert werden.
+Dies wird so lange wiederholt, bis die Effektivität des Angriffs unter dem festgelegten Schwellwert liegt.
+
+\subsubsection*{Schutz vor Angriffen}
+Differential Privacy limitiert den Einfluss, welchen ein einzelner Datensatz auf einen Mechanismus hat.
+Dabei erhält der Mechanismus den ganzen Datenbestand als Eingabe.
+
+Wird also DPSGD genutzt, wird der Einfluss eines einzelnen Datensatzes auf das Modell beschränkt.
+Einzelne Datensätze haben demnach keinen signifikanten Einfluss auf ein Modell, wodurch Angriffe wie die Membership Inference Attacke oder die Model Inversion Attacke entkräftet werden.
+Kapitel \ref{sec:exp_angriffe} zeigt jedoch, dass diese beiden Angriffe bereits gegen Modelle ohne DPSGD unwirksam sind.
+Demnach ist die Nutzung von DPSGD nur notwendig, wenn Modelle besonders gefährdet sind durch diese Angriffe. 
+Dies muss experimentell evaluiert werden.

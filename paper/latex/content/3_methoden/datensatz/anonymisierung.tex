@@ -1,117 +1,115 @@
-%\subsection{Elimination}
 \subsection{Anonymisierung}\label{sec:anonymisierung}
 
-Bei der Anonymisierung von Daten geht es darum, identifizierende Eigenschaften zu entfernen oder unkenntbar zu machen.
+Bei der Anonymisierung von Daten geht es darum, identifizierende Eigenschaften zu entfernen oder unkenntlich zu machen.
 Dabei soll dennoch ein gewisser Nutzen erhalten bleiben. 
 
-Sweeney \cite{P-23} stellt eine Methode der Anonymisierung namens \textit{k}-Anonymität (im Englischen \textit{k}-Anonymity) vor.
+Sweeney \cite{P-23} stellt eine Methode der Anonymisierung namens \textit{k}-Anonymität, im Englischen \textit{k}-Anonymity, vor.
 Die Methode wird im folgenden mittels eines Auszugs der Titanic Datenmenge \cite{D-titanic} erläutert.
 Tabelle \ref{tab:nicht_ano_titanic} zeigt einen Auszug aus dieser Datenmenge.
 Die hier ausgewählten Spalten enthalten beschreibende Merkmale einer Person, sowie Informationen über die Reise auf der Titanic. 
-Zur Verdeutlichung gehen wir davon aus, dass es sich bei dem Einstiegsort um eine private Information handelt, die den Wohnort verraten könnte.
+Zur Verdeutlichung wird angenommen, dass es sich bei dem Einstiegsort um eine private Information handelt, die den Wohnort einer Person verraten könnte.
 
 \input{tables/nicht_ano_titanic}
 
 Bei \textit{k}-Anonymität werden die Attribute in 3 separate Klassen eingeteilt: Identifikatoren, Quasi-Identifikatoren und sensible Attribute.
 Bei diesem Beispiel wäre der Name der einzige Identifikator, da über diesen eine Person eindeutig zugeordnet werden kann. 
-Quasi-Identifikatoren sind alle Variablen, welche Information über einen Datenpunkt preisgeben, aber nicht direkt auf diesen schließen lassen. 
-Um mit Quasi-Identifikatoren einen Datenpunkt zu identifizieren, braucht es in der Regel mehr Informationen, beispielsweise einen zusätzlichen Datenbestand.
+Quasi-Identifikatoren sind alle Attribute, welche Information über einen Datenpunkt preisgeben, aber nicht direkt auf diesen schließen lassen. 
+Um mit Quasi-Identifikatoren einen Datensatz zu identifizieren, braucht es in der Regel mehr Informationen, beispielsweise einen zusätzlichen Datenbestand.
 In diesem Beispiel könnte also jede Spalte ein Quasi-Identifikator sein.
-Da der Name bereits ein direkter Identifikator ist, wird dieser anders zugeordnet.
+Da der Name bereits ein direkter Identifikator ist, wird dieser dort zugeordnet.
 Die dritte Klasse sind die sensiblen Attribute, die es zu sichern gilt. 
 Hier gehen wir davon aus, dass der Einstiegsort eine schützenswerte Information ist.
-Um \textit{k}-Anonymität zu erreichen, muss jede Kombination aus Quasi-Identifikatoren mindestens k mal vorkommen, wobei k festgelegt werden kann. 
-Ein größeres k sorgt für mehr Privatsphäre.
-Um dies zu erreichen, können die Quasi-Identifikatoren gruppiert werden, so kann beispielsweise anstatt des Alters, ein Zahlenbereich als Alter dienen.
-Tabelle \ref{tab:k-ano-titanic} zeigt wie diese Gruppierung aussieht.
+Um \textit{k}-Anonymität zu erreichen, muss jede Kombination aus Quasi-Identifikatoren mindestens $k$ mal vorkommen, wobei $k$ festgelegt werden kann. 
+Ein größeres $k$ sorgt für mehr Privatsphäre.
+Um dies zu erreichen, können die Quasi-Identifikatoren gruppiert werden, so kann beispielsweise anstatt des Alters, ein Zahlenbereich als Altersgruppierung dienen.
+Tabelle \ref{tab:k-ano-titanic} zeigt, wie eine mögliche Gruppierung aussieht.
 
 \input{tables/k_ano_titanic}
 
-Es ist zu sehen, dass die Identifikatoren, hier nur der Name, entfernt wurden.
-Geschlecht und Buchungsklasse sind auch unverändert geblieben.
+In Tabelle \ref{tab:k-ano-titanic} ist zu sehen, dass die Identifikatoren, hier nur der Name, entfernt wurden.
+Geschlecht und Buchungsklasse sind unverändert geblieben.
 Die Gruppierung erfolgte anhand der Quasi-Identifikatoren, wobei das Alter durch einen Zahlenbereich ersetzt wurde.
 Hier ist anzumerken, dass die Spanne der Altersgruppen unterschiedlich groß ist. 
-Je nachdem wie diese Spannen aufgebaut sind, würden sich die Gruppierungen verändern.
-\textit{k}-Anonymität mit k = 2 ist hier erfüllt, da jede Kombination von Quasi-Identifikatoren mindestens 2 mal vorkommt.
+Je nachdem, wie diese Spannen aufgebaut sind, würden sich die Gruppierungen verändern.
+\textit{k}-Anonymität mit $k = 2$ ist hier erfüllt, da jede Kombination von Quasi-Identifikatoren mindestens 2 Mal vorkommt.
 Dabei ist es auch möglich, dass einzelne Einträge redundant vorkommen. 
 So sind in Tabelle \ref{tab:k-ano-titanic} die ersten beiden Einträge identisch, obwohl diese von 2 unterschiedlichen Personen stammen.
 
-Machanavajjhala et al. \cite{P-24} zeigen anhand von 2 Attacken, dass \textit{k}-Anonymität nicht ausreichend ist.
+Machanavajjhala \etal \cite{P-24} zeigen anhand von zwei Angriffen, dass \textit{k}-Anonymität nicht ausreichend ist.
 Bei der Homogenitätsattacke kann die Eigenschaft, dass sensible Attribute nicht einzigartig sind, ausgenutzt werden.
 Tabelle \ref{tab:homo_k_ano} zeigt abgewandelt die ersten Zeilen der Tabelle \ref{tab:k-ano-titanic}.
 Das sensible Attribut, der Einstiegsort, ist jedoch in dieser Quasi-Identifikatoren Kombination identisch.
-Sollte also eine Person männlich, zwischen 20 und 35 Jahren alt sein und in der Buchungsklasse 3 mitgefahren sein, so kennt man auch den Einstiegsort.
+Sollte also eine Person männlich, zwischen 20 und 35 Jahren alt sein und in der Buchungsklasse 3 mitgefahren sein, so kennt man ebenfalls den Einstiegsort.
 \input{tables/homogenitaet_k_ano}
 
-Ein weiteres Problem ist ein Angriff mit Hintergrundwissen, mit dem gewisse sensible Attribute ausgeschlossen werden können oder zumindest unwahrscheinlicher machen könnten.
+Ein weiteres Problem ist ein Angriff mit Hintergrundwissen, bei dem gewisse sensible Attribute ausgeschlossen werden können oder zumindest unwahrscheinlicher ausfallen.
 In diesem Beispiel könnte es also sein, dass ein Angreifer weiß, wann ein Passagier zugestiegen ist und an welchem Hafen das Schiff zu dieser Zeit war. 
 Damit können Rückschlüsse auf den Einstiegsort gemacht werden.
 
-Aufgrund dieser beiden Angriffe, schlagen Machanavajjhala et al. \cite{P-24} eine Erweiterung mit dem Namen \textit{l}-Diversität (im Englischen \textit{l}-Diversity) vor.
+Aufgrund dieser beiden Angriffe, schlagen Machanavajjhala \etal \cite{P-24} eine Erweiterung mit dem Namen \textit{l}-Diversität, im Englischen \textit{l}-Diversity, vor.
 Dabei wird \textit{k}-Anonymität auf die Daten angewendet und zusätzlich eine Bedingung eingeführt. 
-Diese kann sowohl für einen Block, eine einheitliche Kombination der Werte der Quasi-Identifikatoren, als auch für den ganzen Datensatz gelten.
-Ein Block ist dabei \textit{l}-divers, wenn die Werte des sensiblen Attributes \textit{\dq gut repräsentiert\dq} sind, wobei \textit{l} eine Zahl zugeorndet werden kann.
+Diese kann sowohl für einen Block, eine einheitliche Kombination der Werte der Quasi-Identifikatoren, als auch für die ganze Datenmenge gelten.
+Ein Block ist dabei \textit{l}-divers, wenn die Werte des sensiblen Attributes \textit{\dq gut repräsentiert\dq} sind, wobei \textit{l} einer Zahl zugeordnet werden kann.
 Ist jeder Block des Datensatzes \textit{l}-divers, dann ist auch der ganze Datensatz \textit{l}-divers.
-Dabei gibt es 3 Grundvarianten laut Machanavajjhala et al., wie \textit{\dq gut repräsentiert\dq} definiert werden kann \cite{P-24}:
+Dabei gibt es 3 Grundvarianten laut Machanavajjhala \etal, wie \textit{\dq gut repräsentiert\dq} definiert werden kann \cite{P-24}:
 \begin{compactitem}
-\item \textbf{Unterscheidbare \textit{l}-Diversität:} Bei dieser Variante, hat ein Block \textit{l} unterschiedliche Werte eines sensiblen Attributes. Ein Block ist daher immer mindestens 1-divers, da dies bedeutet, dass das sensible Attribute immer den gleichen Wert annimmt.
+\item \textbf{Unterscheidbare \textit{l}-Diversität:} Bei dieser Variante hat ein Block \textit{l} unterschiedliche Werte eines sensiblen Attributes. Ein Block ist daher immer mindestens 1-divers, da dies bedeutet, dass der Wert eines sensiblen Attributs immer den gleichen Wert annimmt.
 \item \textbf{Entropie \textit{l}-Diversität:} Hier wird die Entropie der sensiblen Attribute eines Blocks berechnet. Dabei ist ein Block \textit{l}-divers, wenn die Entropie $\ge$ log(\textit{l}) ist. Folglich ist 1-Diversität dabei immer gegeben.
-\item \textbf{Rekursive (c,\textit{l})-Diversität:} Diese Definition besagt, dass das häufigste sensible Attribut eines Blocks, seltener vorkommt, als die Anzahl der restlichen Attribute, multipliziert mit einem konstanten Wert c. Folglich darf kein sensibles Attribut zu oft vorkommen. Ein Block ist dabei (c, \textit{l})-divers, wenn $\textit{l} - 1$ verschiedene einzigartige Attribute entfernt werden können und die Bedingung immernoch erfüllt ist.
+\item \textbf{Rekursive (c,\textit{l})-Diversität:} Diese Definition besagt, dass der häufigste sensible Attributwert eines Blocks, seltener vorkommt, als die Anzahl der restlichen Attributwerte, multipliziert mit einem konstanten Wert c. Folglich darf kein sensibles Attribut zu oft vorkommen. Ein Block ist dabei (c, \textit{l})-divers, wenn $\textit{l} - 1$ verschiedene einzigartige Attribute entfernt werden können und die Bedingung immer noch erfüllt ist.
 \end{compactitem}
 
-Je nach Datensatz, kann es Sinn ergeben, einige Ausnahmen zu erlauben.
-So könnte es sein, dass ein Datensatz von einer Variable dominiert wird, die jedoch keine Verletzung der Privatsphäre darstellt. 
+Je nach Datenmenge, kann es Sinn ergeben, einige Ausnahmen zu erlauben.
+So könnte es sein, dass ein Datensatz von einem Attributwert dominiert wird, die jedoch keine Verletzung der Privatsphäre darstellt. 
 Ein Beispiel der Autoren ist, wenn eine Kardiologie preisgibt, dass die meisten Patienten eine Herzkrankheit haben.
-Auf der anderen Seite, gibt es Attribute, die besonders geschützt werden sollten.
 
 Sollte ein Datensatz mehrere sensible Attribute besitzen, so muss \textit{l}-Diversität für jede dieser Attribute gelten. 
 Für diese Überprüfung, werden jeweils alle anderen Spalten, auch die sensiblen Attribute, als Quasi-Identifikator angesehen.
 
-Li et al. \cite{P-25} zeigen, dass \textit{l}-Diversität zwei Angriffsflächen bietet.
+Li \etal \cite{P-25} zeigen, dass \textit{l}-Diversität zwei Angriffsflächen bietet.
 Die erste Angriffsfläche ergibt sich, wenn die Verteilung des sensiblen Attributs sehr stark links- oder rechtsschief ist.
-Die Autoren zeigen ein Beispiel, bei der das sensible Attribut eine Infektion mit einem bestimmten Virus ist.
-Dabei sind 99\% der Personen gesund und lediglich 1\% der Personen infiziert. 
+Die Autoren zeigen ein Beispiel, bei der das sensible Attribut eine Infektion mit einem bestimmten Virus abbildet.
+Dabei sind 99 \% der Personen gesund und lediglich 1 \% der Personen infiziert. 
 Die Verteilung des Attributs ist stark schief. 
-Hat jetzt ein Block, der durch \textit{k}-Anonymität entsteht, ein 50\% Aufteilung beider Werte, so wäre dieser Block \textit{l}-divers mit \textit{l} = 2. 
+Hat jetzt ein Block, welcher durch \textit{k}-Anonymität entsteht, eine 50 \% Aufteilung beider Werte, so wäre dieser Block \textit{l}-divers mit \textit{l} = 2. 
 Kann man jedoch eine Person diesem Block zuordnen, so wäre dies ein Informationsgewinn, da besagte Person ein überdurchschnittliches Risiko der Infektion besitzt.
 Die zweite Angriffsfläche entsteht dadurch, dass \textit{l}-Diversität nicht berücksichtigt, ob die Werte des Attributes eine ähnliche Bedeutung haben.
-Bei einem Krankheitsbeispiel könnten die Werte alle unterschiedliche Krankheiten annehmen, die jedoch das gleiche Körperteil betreffen.
+Bei einem Krankheitsbeispiel könnten die Werte alle unterschiedliche Krankheiten annehmen, die jedoch den gleichen Körperteil betreffen.
 Diese Angriffsfläche ähnelt der Homogenitätsattacke gegen \textit{k}-Anonymität, bloß dass hier zusätzlich Werte semantisch verbunden werden können.
 
-Aufgrund dieser beiden Angriffsflächen stellen Li et al. \cite{P-25} ein neues Maß an Sicherheit vor: \textit{t}-Nähe (im Englischen \textit{t}-Closseness).
+Aufgrund dieser beiden Angriffsflächen stellen Li \etal \cite{P-25} ein neues Maß an Sicherheit vor: \textit{t}-Nähe, im Englischen \textit{t}-Closseness.
 Ziel dieses Maßes ist es, zu zeigen, dass die Verteilung eines sensiblen Attributes in einem einzelnen Block ähnlich zu der Verteilung des gleichen Attributes im gesamten Datensatz ist.
 Der Unterschied zwischen den beiden Verteilungen soll kleiner als ein Grenzwert \textit{t} sein.
-Die Autoren prüfen verschiedene Verfahren der Distanzmessung der Verteilungen und favorisieren die sogenannte Earth Mover Distanz.
+Die Autoren prüfen verschiedene Verfahren der Distanzmessung der Verteilungen und favorisieren die sogenannte Earth-Mover-Distanz.
 Dabei handelt es sich um eine Metrik zweier Verteilungen, welche die minimale Arbeit berechnet, die nötig ist, um eine Verteilung zu der anderen Verteilung zu transformieren, indem Werte innerhalb der Verteilung verschoben werden. 
 Die Metrik liegt immer im Wertebereich (0,1) wodurch diese auch vergleichbar ist. 
 Ein Wert nahe 0 ist dabei besser.
-Mathematisch gesehen, handelt es sich um ein Optimierungsproblem, jedoch gehen die Autoren auf zwei unterschiedliche Arten von Attributen ein, numerische und kategoriale, um zu zeigen, wie die Earth Mover Distanz berechnet wird.
-Um die Distanz für numerische Werte berechnet zu werden, müssen diese erstmal sortiert werden. 
-Sofern es sich um eine ungleiche Anzahl an Werten handelt, können die Werte mehrfach genutzt werden.
+Mathematisch gesehen, handelt es sich um ein Optimierungsproblem, jedoch gehen die Autoren auf zwei unterschiedliche Arten von Attributen ein, numerische und kategoriale, um zu zeigen, wie die Earth-Mover-Distanz berechnet wird.
+Um die Distanz für numerische Werte berechnet zu werden, werden diese zuerst sortiert. 
+Sofern es sich um eine ungleiche Anzahl an Werten handelt, können Werte mehrfach genutzt werden.
 Anschließend wird die durchschnittliche, normalisierte Differenz zwischen den Werten an gleicher Stelle beider sortierten Verteilungen berechnet.
 Im Folgenden wird eine Beispielrechnung exerziert, welches ein sensibles Attribut, Stundenlohn in Euro, darstellt. 
 Verteilung 1 ist dabei das sortierte Gehalt eines Blockes nach \textit{k}-Anonymität und Verteilung 2 das Gehalt des gesamten Datensatzes:
 \begin{addmargin}[25pt]{0pt} Verteilung 1 = \{20, 30, 40\} \\
 Verteilung 2 = \{20, 25, 25, 30, 35, 35, 35, 40, 40\} \end{addmargin}
 Da Verteilung 2 dreimal so viele Elemente enthält wie Verteilung 1, wird jedes Element dreimal genutzt. 
-Dadurch erhält man:
+Dadurch entsteht:
 \begin{addmargin}[25pt]{0pt}Verteilung 1' = \{20, 20, 20, 30, 30, 30, 40, 40, 40\} \end{addmargin}
-Die größte Differenz ist 40 – 20 = 20, somit wird der Betrag jeder Differenz durch 20 dividiert, dass diese jeweils im Wertebereich (0,1) liegen.
+Die größte Differenz ist $40-20 = 20$, somit wird der Betrag jeder Differenz durch 20 dividiert, dass diese jeweils im Wertebereich (0,1) liegen.
 Werden jetzt die einzelnen Wertepaare verglichen, so ergibt sich folgend Distanz:
 \begin{addmargin}[25pt]{0pt}
 $ (20-20)+(20-25)+(20-25)+(30-30)+(30-35)+(30-35)+(40-35)+\\ (40-35) + (40-40) = -10$
 \end{addmargin}
-Der durchschnittliche, normalisierte Wert dieser Distanz, ist die gesuchte Earth Mover Distanz:
+Der durchschnittliche, normalisierte Wert dieser Distanz, ist die gesuchte Earth-Mover-Distanz:
 \begin{addmargin}[25pt]{0pt}
 $ 1/9 \times  |-10| \div 20 = 0,056$
 \end{addmargin}
-Damit hat dieser Block eine 0,056-Nähe, was bedeutet, wenn man einer Person diesem Block zuordnet könnte, ist dennoch kaum Informationsgewinnung möglich.
-
+Damit hat dieser Block eine 0,056-Nähe.
+Dies bedeutet, dass wenn eine Person diesem Block zugeordnet wird, dennoch kaum Informationsgewinnung möglich ist.
 
 Bei kategorialen Werten ist es schwieriger, eine Differenz zu bilden.
 Es gibt die Möglichkeit den Wert 1 zuzuweisen, wenn die beiden Kategorien unterschiedlich sind und den Wert 0, sofern beide gleich sind. 
 Dies würde jedoch bedeuten, dass semantische Ähnlichkeiten der Werte nicht berücksichtigt werden.
 Eine Alternative wäre es, alle möglichen Werte semantisch in einer Art Baumstruktur zu gliedern. 
-Bei Krankheiten wäre beispielsweise die Wurzel \textit{\dq Krankheit\dq}, die Nachfolger wären dann gewisse Systeme des Körpers wie beispielsweise \textit{\dq Herz-Kreislaufsystem\dq} und \textit{\dq Verdauungssystem\dq}.
+Bei Krankheiten wäre beispielsweise die Wurzel \dq\textit{Krankheit}\dq, die Nachfolger wären dann gewisse Systeme des Körpers wie beispielsweise \dq\textit{Herz-Kreislaufsystem}\dq\ und \dq\textit{Verdauungssystem}\dq.
 Die Distanz ist nun die Anzahl der Schritte, die benötigt wird, um die Werte zu verbinden. 
-Zwei unterschiedliche Herzkrankheiten sind über einen Schritt mittels \textit{\dq Herz-Kreislaufsystem\dq} verbunden, wohingegen eine Herzkrankheit und eine Darmkrankheit über 2 Schritte mittels der Wurzel \textit{\dq Krankheit\dq} verbunden wären.
+Zwei unterschiedliche Herzkrankheiten sind über einen Schritt mittels \dq\textit{Herz-Kreislaufsystem}\dq\ verbunden, wohingegen eine Herzkrankheit und eine Darmkrankheit über 2 Schritte mittels der Wurzel \dq\textit{Krankheit}\dq\ verbunden wären.

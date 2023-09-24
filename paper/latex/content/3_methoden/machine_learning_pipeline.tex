@@ -1,52 +1,54 @@
 \section{Übersicht der Pipeline}\label{sec:ml_pipeline}
 
 
-Abbildung \ref{fig:ml_pipeline} zeigt den Aufbau der typischen Pipeline, um ein Neuronales Netz zu trainieren. 
+Abbildung \ref{fig:ml_pipeline} zeigt den Aufbau der typischen Pipeline, um ein neuronales Netz zu trainieren. 
 Diese wird im Folgenden genauer beschrieben.
-Schritt 1 ist die Vorverarbeitung der Daten.
-Die Daten können dabei aus einer Datenbank oder einem Filesystem stammen, die im Voraus gesammelt wurden.
+Schritt 1 umfasst die Vorverarbeitung der Daten.
+Es wird angenommen, dass die Daten bereits gesammelt sind und in einer Datenbank abgelegt sind.
 Die Vorverarbeitung der Daten ist recht individuell und kann je nach Anwendungsfall variieren. 
 Typische Handlungen sind:
 \begin{compactitem}
 \item Vereinheitlichung des Datenformats
-\item Fehler und starke Ausreißer werden entfernt
+\item Entfernen von starken Ausreißer und Fehlern
 \item Normalisierung der Daten
 \item Erstellung neuer Daten durch Transformationen
-\item Kodierung von (kategorialen) Variablen und Labels
-\item Aufteilung in Trainings-, Validierungs- und Testdatensätze
+\item Kodierung von kategorialen Variablen und Labels
+\item Aufteilung in Trainings-, Validierungs- und Testdatenmengen
 \end{compactitem}
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=14cm]{figures/ml_pipeline.png}
-    \caption{Training eines Neuronalen Netzes}
+    \caption{Training eines neuronalen Netzes}
     \label{fig:ml_pipeline}
 \end{figure} 
 
-Die Abbildung \ref{fig:ml_pipeline} stellt die Vorverarbeitung in einem Schritt dar, bei dem mehrere Datenquellen verbunden werden und nur ein Dokument übrig bleibt. 
+Abbildung \ref{fig:ml_pipeline} stellt die Vorverarbeitung in einem Schritt dar, bei welchem mehrere Datenquellen verbunden werden und nur ein Dokument übrig bleibt. 
 Dieses eine Dokument soll zeigen, dass nur die wichtigen Informationen der Daten erhalten bleiben, jedoch kann es in der Praxis sein, dass die Datenmenge beim Aufbereiten der Daten größer wird. 
 Kapitel \ref{sec:training_modells} stellt verschiedene Methoden vor, die bei der Vorverarbeitung der Daten angewendet werden können, um die Vertraulichkeit zu sichern.
 
 Schritt 2 umfasst die Architektur eines Modells.
-Je nach Anwendungsfall und Komplexität der Aufgabe, werden unterschiedliche Konfigurationen der einzelnen Schichten vorgenommen.
-Dabei werden die Gewichte zufällig oder anhand einer Verteilung initialisiert.
-In der Abbildung wird dies durch ein rotes Modell angezeigt, da Gewichte des Modell zufällig (oder anhand einer Verteilung) initialisiert sind, und noch keine sinnvolle Vorhersage getroffen werden kann.
+Je nach Anwendungsfall und Komplexität der Aufgabe werden unterschiedliche Konfigurationen der einzelnen Schichten eines neuronalen Netzes vorgenommen.
+Dabei werden die Gewichte zufällig oder anhand einer definierten Verteilung initialisiert.
+In der Abbildung wird dies durch ein rotes Modell angezeigt, da die Gewichte des Modells noch nicht trainiert sind und demnach keine sinnvollen Vorhersagen getroffen werden können.
 Schritt 3 ist der tatsächliche Trainingsvorgang, bei dem das untrainierte Modell lernt.
 Grob lässt sich das Training in folgende Schritte einteilen, die mehrfach mit jedem Datenpunkt durchgeführt werden können:
 \begin{compactenum}
-\item \textbf{Feedforward: }Ein Datenpunkt oder mehrere Datenpunkte, auch Batch genannt, werden durch das Modell gegeben und die Vorhersage berechnet. 
-\item \textbf{Backpropagation: }Die Abweichung von der tatsächlichen Vorhersage zu dem Label des Datenpunktes wird mittels einer Verlustfunktion quantifiziert. Mittels des Wertes der Verlustfunktion lassen sich Gradienten für die Gewichte des Neuronalen Netzes berechnen. Diese können dazu genutzt werden, die aktuellen Gewichte anzupassen. 
+\item \textbf{Forward-Pass: }Ein Datensatz oder mehrere gebündelte Datensätze, auch Batch genannt, werden durch das Modell gegeben, wodurch eine Vorhersage berechnet wird. 
+Dies wird auch Inferenz genannt.
+\item \textbf{Backpropagation: }Die Abweichung von der tatsächlichen Vorhersage zu dem Label des Datensatzes wird mittels einer Verlustfunktion quantifiziert. Mittels dieses Wertes der Verlustfunktion lassen sich Gradienten für die Gewichte des neuronalen Netzes berechnen. Diese bestimmen die Richtung der Anpassung der aktuellen Gewichte, wohingegen die Lernrate die Intensität der Anpassung bestimmt.
 \end{compactenum}
-Ein Durchgang der obigen Schritte mit jedem Record wird dabei Epoche genannt. 
-Um den Trainingsfortschritt zu beobachten, kann eine Epoche zusätzlich auch eine Evaluierung mittels eines Validierungsdatenbestands enthalten.
-Grafisch wird das Training durch den Verbund des Dokuments und des untrainierten, roten Modells dargestellt. 
+Ein Durchgang der obigen Schritte mit jedem Datensatz der Trainingsdatenmenge wird dabei Epoche genannt. 
+Um den Trainingsfortschritt zu beobachten, kann eine Epoche zusätzlich auch eine Evaluierung mittels einer Validierungsdatenmenge enthalten.
+In der Praxis können zusätzliche Schritte in das Training einer Epoche integriert werden, wie ein erweitertes Logging oder eine zusätzliche Überwachung.
+Die optimale Anzahl an Epochen ist dabei für jedes Modell unterschiedlich.
+Grafisch wird das Training in Abbildung \ref{fig:ml_pipeline} durch den Verbund der Datenmenge und des untrainierten, roten Modells dargestellt. 
 Es entsteht ein grünes Modell, welches in der Lage ist, sinnvolle Vorhersagen zu erzeugen.
-In der Praxis gibt es hier einige Iterationen des Training, welche zusätzliche Vorgänge, wie beispielsweise eine Validierung, enthalten. 
 Kapitel \ref{sec:training_modells} widmet sich Methoden, die während des Trainings, welche aus Schritt 2 und 3 besteht, angewendet werden.
 
 Schritt 4 und 5 beschreiben das Deployment und den Betrieb des Modells. 
-Dieses soll für vorgesehene Anwender erreichbar sein. 
+Das Ziel dieser Schritte ist es, ein trainiertes neuronales Netz für die vorgesehenen Anwender zur Verfügung zu stellen.
 Je nach Anwendungsfall kann die Systemarchitektur unterschiedlich aussehen. 
 Einige Modelle werden mit Trainingscode auf öffentlichen Plattformen, wie HuggingFace\footnote{https://huggingface.co/models}, geteilt, wohingegen andere Modelle, wie ChatGPT\footnote{https://chat.openai.com/}, nur über eine spezielle Oberfläche erreichbar sind.
-In Abbildung \ref{fig:ml_pipeline} zeigt deshalb lediglich einen Anwender, der direkt einen Request an das Modell schickt.
+Abbildung \ref{fig:ml_pipeline} zeigt deshalb lediglich einen Anwender, der direkt einen Request an das Modell schickt.
 In Kapitel \ref{sec:betrieb} werden Maßnahmen besprochen, die in dieser Phase die Vertraulichkeit sichern. 
 Dabei kann es sich um Transformationen des Modells vor dem Deployment handeln, oder um Mechanismen, die Anfragen und Antworten des Modells abwandeln.
